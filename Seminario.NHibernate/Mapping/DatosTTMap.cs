@@ -7,13 +7,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Seminario.NHibernate.Mapping
-{ 
-    public class ChequeClassMapping : ClassMap<Cheque>
+{
+    public class DatosTTMap : ClassMap<DatosTT>
     {
-        public ChequeClassMapping(){
+        public DatosTTMap()
+        {
             Id(x => x.Id);
-            Map(x => x.Name);
-            Map(x => x.Amount);
+            Map(x => x.Plazo);
+            Map(x => x.TasaVigente);
+            HasOne(x => x.Producto)
+               .Cascade.All();     
         }
     }
 }

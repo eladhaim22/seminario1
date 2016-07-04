@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Seminario.Model
 {
-    public class IEntity
+    public class Provincia : IEntity
     {
-        public virtual int Id { get; set; }
+        public virtual string Nombre { get; set; }
+        public virtual float Sellado { get; set; }
     }
 }

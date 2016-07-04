@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.Data.Test", "Semi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.NHibernate", "Seminario.NHibernate\Seminario.NHibernate.csproj", "{456011CF-7D4F-435A-B5C2-94372A28DB4C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.Validationes", "Seminario.Validationes\Seminario.Validationes.csproj", "{5D8A63AF-7CCB-4083-AC72-D47A671E9CEF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{456011CF-7D4F-435A-B5C2-94372A28DB4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{456011CF-7D4F-435A-B5C2-94372A28DB4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{456011CF-7D4F-435A-B5C2-94372A28DB4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D8A63AF-7CCB-4083-AC72-D47A671E9CEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D8A63AF-7CCB-4083-AC72-D47A671E9CEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D8A63AF-7CCB-4083-AC72-D47A671E9CEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D8A63AF-7CCB-4083-AC72-D47A671E9CEF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Seminario.Model
 {
-    public class IEntity
+    public class Producto : IEntity
     {
-        public virtual int Id { get; set; }
+        public virtual string Nombre { get; set; }
     }
 }
