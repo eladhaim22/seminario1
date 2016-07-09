@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Seminario.Model
+namespace Seminario.Dto
 {
-    public interface IEntity
+    public interface IEntityDto
     {
-        int Id { get; set; }
+        int Id { get; }
     }
 }

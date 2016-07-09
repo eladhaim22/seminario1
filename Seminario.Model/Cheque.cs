@@ -5,8 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 namespace Seminario.Model
 {
-    public class Cheque : IEntity
+    public class Cheque : Entity
     {
+        private readonly float TasaIva = 0.17F;
+        private readonly float TasaIBB = 0.17F;
+
         public virtual DateTime FechaAcreditacion { get; set; }
         public virtual float Importe { get; set; }
         public virtual int Plazo { get; set; }
@@ -22,8 +25,8 @@ namespace Seminario.Model
         public virtual float IVA { get; set; }
         public virtual float GastoTotal { get; set; }
         public virtual float Spread { get; set; }
-        public virtual float CFT { get; set; }
-        public virtual float CFTMes { get; set; }
+        public virtual double CFT { get; set; }
+        public virtual double CFTMes { get; set; }
         public virtual float NetoLiquidar { get; set; }
         public virtual float ImportePonderado { get; set; }
         public virtual float TETT { get; set; }
@@ -31,6 +34,5 @@ namespace Seminario.Model
         public virtual float IIBB { get; set; }
         public virtual float Costo { get; set; }
         public virtual float Neto { get; set; }
-
     }
 }

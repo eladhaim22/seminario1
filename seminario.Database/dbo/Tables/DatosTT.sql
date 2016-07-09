@@ -6,7 +6,6 @@
 
 [tasaVigente] decimal(5,2) NULL,
 
-[nombre] varchar(30) NULL,
 
 [sellado] decimal(5,2) NULL,
 

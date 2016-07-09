@@ -1,4 +1,5 @@
-﻿using NHibernate;
+﻿using FluentValidation;
+using NHibernate;
 using NHibernate.Linq;
 using Seminario.Model;
 using System;
@@ -11,6 +12,7 @@ namespace Seminario.NHibernate
 {
     public class Repository<T> : IRepository<T> where T : IEntity
     {
+       
         private UnitOfWork _unitOfWork;
         public Repository(IUnitOfWork unitOfWork)
         {
@@ -31,6 +33,7 @@ namespace Seminario.NHibernate
 
         public void Create(T entity)
         {
+      
             Session.Save(entity);
         }
 

@@ -15,8 +15,7 @@ namespace Seminario.NHibernate.Mapping
             Id(x => x.Id);
             Map(x => x.Plazo);
             Map(x => x.TasaVigente);
-            HasOne(x => x.Producto)
-               .Cascade.All();     
+            Map(x => x.Sellado);
         }
     }
 }

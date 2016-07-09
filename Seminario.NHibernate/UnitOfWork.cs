@@ -29,7 +29,10 @@ namespace Seminario.NHibernate
                    )
                 .Mappings(m =>
                           m.FluentMappings
-                              .AddFromAssemblyOf<ChequeMap>())
+                          .AddFromAssemblyOf<ChequeMap>()
+                           .AddFromAssemblyOf<DatosTTMap>()
+                           .AddFromAssemblyOf<ProductoMap>()
+                           .AddFromAssemblyOf<ProvinciaMap>())
                 .ExposeConfiguration(cfg => new SchemaExport(cfg)
                  .Create(false, false))
                 .BuildSessionFactory();

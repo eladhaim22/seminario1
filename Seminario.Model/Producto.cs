@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Seminario.Model
 {
-    public class Producto : IEntity
+    public class Producto : Entity
     {
         public virtual string Nombre { get; set; }
     }

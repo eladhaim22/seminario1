@@ -12,9 +12,9 @@ namespace Seminario.NHibernate.Mapping
     {
         public ProvinciaMap()
         {
-            Id(x => x.Id);
-            Map(x => x.Nombre);
-            Map(x => x.Sellado);
+            Id(x => x.Id,"idProvincia");
+            Map(x => x.Nombre,"nombre");
+            Map(x => x.Sellado,"sellado");
         }
     }
 }

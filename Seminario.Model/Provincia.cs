@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Seminario.Model
 {
-    public class Provincia : IEntity
+    public class Provincia : Entity
     {
         public virtual string Nombre { get; set; }
         public virtual float Sellado { get; set; }

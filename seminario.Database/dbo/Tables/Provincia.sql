@@ -2,7 +2,7 @@
 
 [idProvincia] int identity(1,1),
 
-[nombre] varchar(30) NULL,
+[nombre] varchar(50) NULL,
 
 [sellado] decimal(5,2) NULL,
 

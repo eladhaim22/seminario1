@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Seminario.Model
+namespace Seminario.IoC
 {
-    public interface IEntity
+    public class Class1
     {
-        int Id { get; set; }
     }
 }

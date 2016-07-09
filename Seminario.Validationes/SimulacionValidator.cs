@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Seminario.Model
+namespace Seminario.Validationes
 {
-    public interface IEntity
+    class SimulacionValidator
     {
-        int Id { get; set; }
     }
 }

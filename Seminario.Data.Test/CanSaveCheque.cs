@@ -5,6 +5,7 @@ using Seminario.NHibernate;
 
 using FluentValidation;
 using FluentValidation.Results;
+using System.Collections.Generic;
 namespace Seminario.Data.Test
 {
     [TestClass]
@@ -21,7 +22,7 @@ namespace Seminario.Data.Test
         }
 
         [TestMethod]
-        public void CanAddNewCheque()
+        public void CanAddAll()
         {
             var unitOfWork = new UnitOfWork();
             var cheque = new Cheque
@@ -51,7 +52,14 @@ namespace Seminario.Data.Test
                 TETT = 10,
                 TNAA = 10
             };
+            var producto = new Repository<Producto>(unitOfWork).GetById(1);
             new Repository<Cheque>(unitOfWork).Create(cheque);
+            var datosTT = new DatosTT() { 
+                Plazo = 30,
+                Producto = producto,
+                TasaVigente = 0.2F,
+            };
+            new Repository<DatosTT>(unitOfWork).Create(datosTT);
             unitOfWork.Commit();
             //var chequeValidator = new ChequeValidator();
             //chequeValidator.ValidateAndThrow(cheque);
