@@ -12,7 +12,7 @@ namespace Seminario.NHibernate
     {
         public static ISession OpenSession()
         {
-            string connectionString = "Data Source=(local)\\SQLEXPRESS;Initial Catalog=Seminario;Integrated Security=SSPI;";
+            string connectionString = "Data Source=ELAD\\SQLEXPRESS;Initial Catalog=Seminario;Integrated Security=SSPI;";
             ISessionFactory sessionFactory = Fluently.Configure()
                 .Database(MsSqlConfiguration.MsSql2012
                   .ConnectionString(connectionString).ShowSql()
@@ -22,8 +22,8 @@ namespace Seminario.NHibernate
                               .AddFromAssemblyOf<ChequeMap>()
                               .AddFromAssemblyOf<ProvinciaMap>()
                               .AddFromAssemblyOf<DatosTTMap>()
-                              .AddFromAssemblyOf<Producto>()
-
+                              .AddFromAssemblyOf<ProductoMap>()
+                              .AddFromAssemblyOf<SimulacionMap>()
                               )
                 .ExposeConfiguration(cfg => new SchemaExport(cfg)
                  .Create(false, false))

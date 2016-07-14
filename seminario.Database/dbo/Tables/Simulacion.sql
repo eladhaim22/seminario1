@@ -8,43 +8,42 @@
 
 [fechaDescuento] datetime NULL,
 
-[importeTotal] decimal(5,2) NULL,
+[importeTotal] FLOAT(15) NULL,
 
-[interesTotal] decimal(5,2) NULL,
+[interesTotal] FLOAT(15) NULL,
 
-[comisionTotal] decimal(5,2) NULL,
+[comisionTotal] FLOAT(10) NULL,
 
-[selladoTotal] decimal(5,2) NULL,
+[selladoTotal] FLOAT(10) NULL,
 
-[ivaTotal] decimal(5,2) NULL,
+[ivaTotal] FLOAT(10) NULL,
 
-[gastoTotal] decimal(5,2) NULL,
+[gastoTotal] FLOAT(10) NULL,
 
-[TT] decimal(5,2) NULL,
+[TT] FLOAT(10) NULL,
 
-[TNAV] decimal(5,2) NULL,
+[TNAV] FLOAT(10) NULL,
 
-[netoLiquidarTotal] decimal(5,2) NULL,
+[netoLiquidarTotal] FLOAT(15) NULL,
 
-[importePonderadoTotal] decimal(5,2) NULL,
+[importePonderadoTotal] FLOAT(10) NULL,
 
-[tipoCateg] decimal(5,2) NULL,
 
 [cantidadCompra] varchar(20) NULL,
 
 [codProd] int NOT NULL,
 
-[fechaVencimientoPond] datetime NULL,
+[fechaVencimientoPond] FLOAT(10) NULL,
 
-[spreadTotal] decimal(5,2) NULL,
+[spreadTotal] FLOAT(10) NULL,
 
-[netoTotal] decimal(5,2) NULL,
+[netoTotal] FLOAT(15) NULL,
 
-[tasaIIBB] decimal(5,2) NULL,
+[tasaIIBB] FLOAT(10) NULL,
 
-[tasaIva] decimal(5,2) NULL,
+[tasaIva] FLOAT(10) NULL,
 
-[tasaSellado] decimal(5,2) NULL,
+[tasaSellado] FLOAT(10) NULL,
 
 [estado] varchar(20) NOT NULL,
 
@@ -52,7 +51,9 @@
 
 [idProvincia] int NOT NULL, 
 
-CONSTRAINT [PK__simulacion] PRIMARY KEY CLUSTERED
+[tipoCategoria] NCHAR(30) NULL, 
+    [idProducto] INT NOT NULL, 
+    CONSTRAINT [PK__simulacion] PRIMARY KEY CLUSTERED
 ([idSimulacion] ASC),
 constraint FK__simulacion__legajo__empleado foreign key (legajo) references
 

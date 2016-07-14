@@ -529,7 +529,7 @@ function fillComboProvincia() {
     var comboBox = $("#select-provincia");
     $.ajax("/api/Setting/GetAllProvincias").done(function (data) {
         $.each(data, function () {
-            comboBox.append($("<option />").val(this.id).text(this.Nombre));
+            comboBox.append($("<option />").val(this.id).text(this.Nombre)).attr("sellado",this.Sellado);
             var itemProducto = {};
         });
     });
@@ -537,7 +537,7 @@ function fillComboProvincia() {
 }
 
 $("#btn-confirmar").click(function(){
-    $.post("/api/Simulacion/PostSimulacion", _simulacionData, null, "json").done(function (data)
+    $.post("/api/Simulacion/PostSimulacion", { "Simulacion": _simulacionData, "Cheques": Object.keys(_chequeData).map(function (key) { return _chequeData[key] }) }, null, "json").done(function (data)
     {}
     );
 })

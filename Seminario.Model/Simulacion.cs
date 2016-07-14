@@ -22,7 +22,7 @@ namespace Seminario.Model
         public virtual float TNAV { get; set; }
         public virtual float NetoLiquidarTotal { get; set; }
         public virtual float ImportePonderadoTotal { get; set; }
-        public virtual float TipoCategoria { get; set; }
+        public virtual string TipoCategoria { get; set; }
         public virtual Producto Producto { get; set; }
         public virtual float FechaVencimientoPond { get; set; }
         public virtual float SpreadTotal { get; set; }

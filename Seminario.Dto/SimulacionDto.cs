@@ -23,8 +23,8 @@ namespace Seminario.Model
         public float TNAV { get; set; }
         public float NetoLiquidar { get; set; }
         public float ImportePonderadoTotal { get; set; }
-        public float TipoCateg { get; set; }
-        public int CantidadChques { get; set; }
+        public string TipoCateg { get; set; }
+        public int CantidadCheques { get; set; }
         public int CodProd { get; set; }
         public float FechaVencimientoPond { get; set; }
         public float SpreadTotal { get; set; }
@@ -34,6 +34,7 @@ namespace Seminario.Model
         public float TasaSellado { get; set; }
         public string Estado { get; set; }
         public int Legajo { get; set; }
-        public List<ChequeDto> Cheques { get; set; }
+        public int IdProvincia { get; set; }
+        public List<int> Cheques { get; set; }
     }
 }

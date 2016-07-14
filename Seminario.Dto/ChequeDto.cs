@@ -15,7 +15,7 @@ namespace Seminario.Dto
         public float Importe { get; set; }
         public int Plazo { get; set; }
         public string Documento { get; set; }
-        public string NombreEmisor { get; set; }
+        public string Nombre { get; set; }
         public string Nosis { get; set; }
         public float TEOps { get; set; }
         public float TEAdelantada { get; set; }
