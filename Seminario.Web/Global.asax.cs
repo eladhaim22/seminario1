@@ -1,13 +1,10 @@
 ﻿using Seminario.MapperProject;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using Seminario.UnityMvc;
+using Seminario.UnityApi;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using WebMatrix.WebData;
 
 namespace Seminario.Web
 {
@@ -25,9 +22,11 @@ namespace Seminario.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
-
+            UnityApi.UnityConfig.RegisterComponents();
+            UnityMvc.UnityConfig.RegisterComponents();
             AutoMapperConfig.RegisterAutoMapper();
 
         }
+
     }
 }

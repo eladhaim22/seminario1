@@ -1,86 +1,73 @@
-﻿using FluentNHibernate.Cfg;
-using FluentNHibernate.Cfg.Db;
-using NHibernate;
-using NHibernate.Tool.hbm2ddl;
-using Seminario.NHibernate.Mapping;
+﻿using NHibernate;
+using Seminario.NHibernate;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Seminario.NHibernate
+using System.Data;
+public interface IUnitOfWork : IDisposable
 {
-    public class UnitOfWork : IUnitOfWork 
+    void Commit();
+    void Rollback();
+}
+
+public class UnitOfWork : IUnitOfWork
+{
+    private ISession session;
+    private ITransaction transaction;
+    public ISession Session { get { return this.session; } }
+
+    public UnitOfWork() { }
+
+    public void OpenSession()
     {
-        private static readonly ISessionFactory _sessionFactory;
-        private static readonly string connectionString = "Data Source=ELAD\\SQLEXPRESS;Initial Catalog=Seminario;Integrated Security=SSPI;";
-        private ITransaction _transaction;
-
-        public ISession Session { get; private set; }
-
-        static UnitOfWork()
+        if (this.session == null || !this.session.IsConnected)
         {
-            // Initialise singleton instance of ISessionFactory, static constructors are only executed once during the
-            // application lifetime - the first time the UnitOfWork class is used
-            _sessionFactory = Fluently.Configure()
-                .Database(MsSqlConfiguration.MsSql2012
-                  .ConnectionString(connectionString).ShowSql()
-                   )
-                .Mappings(m =>
-                          m.FluentMappings
-                          .AddFromAssemblyOf<ChequeMap>()
-                           .AddFromAssemblyOf<DatosTTMap>()
-                           .AddFromAssemblyOf<ProductoMap>()
-                           .AddFromAssemblyOf<ProvinciaMap>())
-                .ExposeConfiguration(cfg => new SchemaExport(cfg)
-                 .Create(false, false))
-                .BuildSessionFactory();
+            if (this.session != null)
+                this.session.Dispose();
+
+            this.session = SessionFactoryBuilder.OpenSession();
+        }
+    }
+
+    public void BeginTransation(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
+    {
+        if (this.transaction == null || !this.transaction.IsActive)
+        {
+            if (this.transaction != null)
+                this.transaction.Dispose();
+
+            this.transaction = this.session.BeginTransaction(isolationLevel);
+        }
+    }
+
+    public void Commit()
+    {
+        try
+        {
+            this.transaction.Commit();
+        }
+        catch
+        {
+            this.transaction.Rollback();
+            throw;
+        }
+    }
+
+    public void Rollback()
+    {
+        this.transaction.Rollback();
+    }
+
+    public void Dispose()
+    {
+        if (this.transaction != null)
+        {
+            this.transaction.Dispose();
+            this.transaction = null;
         }
 
-        public UnitOfWork()
+        if (this.session != null)
         {
-            Session = _sessionFactory.OpenSession();
-        }
-
-        public void BeginTransaction()
-        {
-            _transaction = Session.BeginTransaction();
-        }
-
-        public void Commit()
-        {
-            try
-            {
-                // commit transaction if there is one active
-                if (_transaction != null && _transaction.IsActive)
-                    _transaction.Commit();
-            }
-            catch
-            {
-                // rollback if there was an exception
-                if (_transaction != null && _transaction.IsActive)
-                    _transaction.Rollback();
-
-                throw;
-            }
-            finally
-            {
-                Session.Dispose();
-            }
-        }
-
-        public void Rollback()
-        {
-            try
-            {
-                if (_transaction != null && _transaction.IsActive)
-                    _transaction.Rollback();
-            }
-            finally
-            {
-                Session.Dispose();
-            }
+            this.session.Dispose();
+            session = null;
         }
     }
 }

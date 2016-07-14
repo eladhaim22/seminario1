@@ -42,6 +42,7 @@
     <Compile Include="ChequeDto.cs" />
     <Compile Include="EntityDto.cs" />
     <Compile Include="IEntityDto.cs" />
+    <Compile Include="DatosTTDto.cs" />
     <Compile Include="ProductoDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProvinciaDto.cs" />

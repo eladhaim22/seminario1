@@ -9,14 +9,14 @@
 
 [sellado] decimal(5,2) NULL,
 
-[tipoProducto] int NOT NULL,
+[idProducto] int NOT NULL,
 
 CONSTRAINT [PK__datosTT] PRIMARY KEY CLUSTERED
 
 ([idDatosTT] ASC),
 
-constraint FK__datosTT__codProd__producto
+constraint FK__datosTT__idProducto
 
-foreign key (tipoProducto) references Producto(codProd)
+foreign key ([idProducto]) references Producto([idProducto])
 )
 

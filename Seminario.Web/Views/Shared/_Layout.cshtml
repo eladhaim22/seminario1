@@ -6,33 +6,35 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         @Styles.Render("~/Content/css")
+        @Styles.Render("~/Content/themes/base/css")
         @Scripts.Render("~/bundles/modernizr")
     </head>
     <body>
-        <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("your logo here", "Index", "Home")</p>
+        <div id="wrapper">
+            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#"><img src="~/Content/Images/logo.chico.jpg" alt="ICBC"></a>
                 </div>
-                <div class="float-right">
-                    <section id="login">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                    <ul class="nav navbar-top-links navbar-left">
+                        <li>@Html.ActionLink("Simulacion", "Index", "Home",new { @class="active" } )</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Cargar Parametros", "Upload", "Home")</li>
+                    </ul>
+                    }
+                    <ul class="nav navbar-top-links navbar-right">
                         @Html.Partial("_LoginPartial")
-                    </section>
-                    <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </header>
+                    </ul>
+            </nav>
+        </div>
+           
         <div id="body">
-            @RenderSection("featured", required: false)
+            @RenderBody()
+            @*RenderSection("featured", required: false)
             <section class="content-wrapper main-content clear-fix">
-                @RenderBody()
-            </section>
+             
+            </section>*@
         </div>
         <footer>
             <div class="content-wrapper">
@@ -41,8 +43,17 @@
                 </div>
             </div>
         </footer>
-
-        @Scripts.Render("~/bundles/jquery")
+ 
+        @*Scripts.Render("~/bundles/jquery")*@
+        @Scripts.Render("~/Scripts/jquery.js")
+        @Scripts.Render("~/Scripts/jquery-ui.js")
+        @*Scripts.Render("~/bundles/jqueryui")*@
+        @Scripts.Render("~/Scripts/metisMenu.min.js")
+        @Scripts.Render("~/Scripts/jquery.form-validator.min.js")
+        @Scripts.Render("~/Scripts/moment.js")
+        @Scripts.Render("~/Scripts/bootstrap-datetimepicker.min.js")
+       @Scripts.Render("~/bundles/javascriptCustom")
+        @Scripts.Render("~/Scripts/planilla.js")
         @RenderSection("scripts", required: false)
     </body>
 </html>

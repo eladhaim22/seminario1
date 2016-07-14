@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.Model", "Seminari
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.Data.Test", "Seminario.Data.Test\Seminario.Data.Test.csproj", "{8CB37E72-E069-4782-9D87-6B4B200F5DB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.NHibernate", "Seminario.NHibernate\Seminario.NHibernate.csproj", "{456011CF-7D4F-435A-B5C2-94372A28DB4C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.Validationes", "Seminario.Validationes\Seminario.Validationes.csproj", "{5D8A63AF-7CCB-4083-AC72-D47A671E9CEF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.Web", "Seminario.Web\Seminario.Web.csproj", "{54B5E68F-C914-4900-9A59-9C9B0011BB4D}"
@@ -18,6 +16,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.Dto", "Seminario.Dto\Seminario.Dto.csproj", "{3D515D5F-7643-4C32-A47E-B9C6DD02CCF2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.MapperProject", "Seminario.MapperProject\Seminario.MapperProject.csproj", "{3772EE46-7922-4788-ACC2-CAC70A242815}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.NHibernate", "Seminario.NHibernate\Seminario.NHibernate.csproj", "{456011CF-7D4F-435A-B5C2-94372A28DB4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.UnityMvc", "Seminario.UnityMvc\Seminario.UnityMvc.csproj", "{D9B21D14-774C-4CBB-9B4C-17190157593D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.UnityApi", "Seminario.UnityApi\Seminario.UnityApi.csproj", "{B0FCE68E-4028-485B-85F0-A14E2CB1866A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +43,6 @@ Global
 		{8CB37E72-E069-4782-9D87-6B4B200F5DB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CB37E72-E069-4782-9D87-6B4B200F5DB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CB37E72-E069-4782-9D87-6B4B200F5DB6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{456011CF-7D4F-435A-B5C2-94372A28DB4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{456011CF-7D4F-435A-B5C2-94372A28DB4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{456011CF-7D4F-435A-B5C2-94372A28DB4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{456011CF-7D4F-435A-B5C2-94372A28DB4C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5D8A63AF-7CCB-4083-AC72-D47A671E9CEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5D8A63AF-7CCB-4083-AC72-D47A671E9CEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D8A63AF-7CCB-4083-AC72-D47A671E9CEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -59,11 +59,23 @@ Global
 		{3772EE46-7922-4788-ACC2-CAC70A242815}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3772EE46-7922-4788-ACC2-CAC70A242815}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3772EE46-7922-4788-ACC2-CAC70A242815}.Release|Any CPU.Build.0 = Release|Any CPU
+		{456011CF-7D4F-435A-B5C2-94372A28DB4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{456011CF-7D4F-435A-B5C2-94372A28DB4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{456011CF-7D4F-435A-B5C2-94372A28DB4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{456011CF-7D4F-435A-B5C2-94372A28DB4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9B21D14-774C-4CBB-9B4C-17190157593D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9B21D14-774C-4CBB-9B4C-17190157593D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9B21D14-774C-4CBB-9B4C-17190157593D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9B21D14-774C-4CBB-9B4C-17190157593D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0FCE68E-4028-485B-85F0-A14E2CB1866A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0FCE68E-4028-485B-85F0-A14E2CB1866A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0FCE68E-4028-485B-85F0-A14E2CB1866A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0FCE68E-4028-485B-85F0-A14E2CB1866A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35;packages\Unity.2.1.505.0\lib\NET35
 	EndGlobalSection
 EndGlobal

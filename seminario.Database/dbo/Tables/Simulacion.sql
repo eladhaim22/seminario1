@@ -64,7 +64,7 @@ references Provincia(idProvincia),
 
 constraint FK__simulacion__codProd__producto foreign key (codProd) references
 
-Producto(codProd)
+Producto([idProducto])
 
 )
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Seminario.Dto
 {
-    public class ProductoDto : EntityDto
+    public class DatosTTDto : EntityDto
     {
         public string Nombre { get; set; }
     }

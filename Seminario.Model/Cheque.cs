@@ -7,9 +7,8 @@ namespace Seminario.Model
 {
     public class Cheque : Entity
     {
-        private readonly float TasaIva = 0.17F;
-        private readonly float TasaIBB = 0.17F;
-
+        public virtual int OtrosDias { get; set; }
+        public virtual string Banco { get; set; }
         public virtual DateTime FechaAcreditacion { get; set; }
         public virtual float Importe { get; set; }
         public virtual int Plazo { get; set; }
@@ -23,7 +22,6 @@ namespace Seminario.Model
         public virtual float Comision { get; set; }
         public virtual float Sellado { get; set; }
         public virtual float IVA { get; set; }
-        public virtual float GastoTotal { get; set; }
         public virtual float Spread { get; set; }
         public virtual double CFT { get; set; }
         public virtual double CFTMes { get; set; }

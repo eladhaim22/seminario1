@@ -1,50 +1,67 @@
-﻿using FluentValidation;
-using NHibernate;
-using NHibernate.Linq;
-using Seminario.Model;
+﻿using Seminario.Model;
+using Seminario.NHibernate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
+using NHibernate.Linq;
 
-namespace Seminario.NHibernate
+public class Repository<TEntity> : IRepository<TEntity>
+        where TEntity : class , IEntity
 {
-    public class Repository<T> : IRepository<T> where T : IEntity
+    readonly UnitOfWork nhUnitOfWork;
+
+    public Repository(UnitOfWork nhUnitOfWork)
     {
-       
-        private UnitOfWork _unitOfWork;
-        public Repository(IUnitOfWork unitOfWork)
-        {
-            _unitOfWork = (UnitOfWork)unitOfWork;
-        }
+        this.nhUnitOfWork = nhUnitOfWork;
+    }
 
-        protected ISession Session { get { return _unitOfWork.Session; } }
+    public void Add(TEntity entity)
+    {
+        this.nhUnitOfWork.OpenSession();
+        this.nhUnitOfWork.BeginTransation();
+        this.nhUnitOfWork.Session.Save(entity);
+    }
 
-        public IQueryable<T> GetAll()
-        {
-            return Session.Query<T>();
-        }
+    public void Remove(TEntity entity)
+    {
+        this.nhUnitOfWork.OpenSession();
+        this.nhUnitOfWork.BeginTransation();
+        this.nhUnitOfWork.Session.Delete(entity);
+    }
 
-        public T GetById(int id)
-        {
-            return Session.Get<T>(id);
-        }
+    public void Update(TEntity entity)
+    {
+        this.nhUnitOfWork.OpenSession();
+        this.nhUnitOfWork.BeginTransation();
+        this.nhUnitOfWork.Session.Update(entity);
+    }
 
-        public void Create(T entity)
-        {
-      
-            Session.Save(entity);
-        }
+    public IQueryable<TEntity> GetAll()
+    {
+        this.nhUnitOfWork.OpenSession();
+        this.nhUnitOfWork.BeginTransation();
+        return this.nhUnitOfWork.Session.Query<TEntity>().AsQueryable();
+    }
 
-        public void Update(T entity)
-        {
-            Session.Update(entity);
-        }
+    public TEntity Get(Expression<System.Func<TEntity, bool>> expression)
+    {
+        this.nhUnitOfWork.OpenSession();
+        this.nhUnitOfWork.BeginTransation();
+        return GetMany(expression).SingleOrDefault();
+    }
 
-        public void Delete(int id)
-        {
-            Session.Delete(Session.Load<T>(id));
-        }
+    public IQueryable<TEntity> GetMany(Expression<System.Func<TEntity, bool>> expression)
+    {
+        this.nhUnitOfWork.OpenSession();
+        this.nhUnitOfWork.BeginTransation();
+        return GetAll().Where(expression).AsQueryable();
+    }
+
+    public TEntity GetById(int id)
+    {
+        this.nhUnitOfWork.OpenSession();
+        this.nhUnitOfWork.BeginTransation();
+        return this.nhUnitOfWork.Session.Get<TEntity>(id);
     }
 }

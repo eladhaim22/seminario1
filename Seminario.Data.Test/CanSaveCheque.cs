@@ -11,58 +11,37 @@ namespace Seminario.Data.Test
     [TestClass]
     public class CanSaveCheque
     {
-        private Cheque NewCheque;
+        readonly IRepository<Producto> repository;
+        readonly IUnitOfWork unitOfWork;
 
         public CanSaveCheque()
         {
-            var NewCheque = new Cheque
-            {
-           
-            };
+        }        
+
+        [TestMethod]
+        public void CanSaveProducto()
+        {
+            var unitOfWork = new UnitOfWork();
+            new Repository<Producto>(unitOfWork).Add(new Producto { Nombre = "5100" });
+            unitOfWork.Commit();
         }
 
         [TestMethod]
-        public void CanAddAll()
+        public void CanSaveDatosTT()
         {
             var unitOfWork = new UnitOfWork();
-            var cheque = new Cheque
-            {
-                CFT = 10,
-                CFTMes = 10,
-                Comision = 10,
-                Costo = 10,
-                CuitEmisor = "w213123",
-                EstadoNosisEmisor = "asdasd",
-                FechaAcreditacion = DateTime.Now,
-                IIBB = 10,
-                GastoTotal = 10,
-                IVA = 10,
-                Sellado = 10,
-                Spread = 10,
-                Importe = 10,
-                ImportePonderado = 10,
-                Interes = 10,
-                Neto = 10,
-                NetoLiquidar = 10,
-                NombreEmisor = "elad",
-                Plazo = 10,
-                TE = 10,
-                TEA = 10,
-                TEATT = 10,
-                TETT = 10,
-                TNAA = 10
-            };
-            var producto = new Repository<Producto>(unitOfWork).GetById(1);
-            new Repository<Cheque>(unitOfWork).Create(cheque);
-            var datosTT = new DatosTT() { 
-                Plazo = 30,
-                Producto = producto,
-                TasaVigente = 0.2F,
-            };
-            new Repository<DatosTT>(unitOfWork).Create(datosTT);
+            var producto = new Repository<Producto>(unitOfWork).GetById(2);
+            new Repository<DatosTT>(unitOfWork).Add(new DatosTT { Plazo = 4, Producto = producto});
             unitOfWork.Commit();
-            //var chequeValidator = new ChequeValidator();
-            //chequeValidator.ValidateAndThrow(cheque);
+        }
+
+        [TestMethod]
+        public void CanUseWhereClouse()
+        {
+            var unitOfWork = new UnitOfWork();
+            var producto = new Repository<Producto>(unitOfWork).Get(x => x.Nombre == "Linea Normal");
+            unitOfWork.Commit();
+            Assert.IsNotNull(producto);
         }
     }
 }

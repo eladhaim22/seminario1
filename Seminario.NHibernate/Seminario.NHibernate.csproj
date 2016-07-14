@@ -51,8 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FluentNHibernateHelper.cs" />
-    <Compile Include="IRepository.cs" />
+    <Compile Include="IRepoistory.cs" />
+    <Compile Include="SessionFactoryBuilder.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Mapping\ChequeMap.cs" />
     <Compile Include="Mapping\DatosTTMap.cs" />

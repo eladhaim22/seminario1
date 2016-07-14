@@ -20,7 +20,6 @@ namespace Seminario.NHibernate.Mapping
             Map(x => x.CuitEmisor);
             Map(x => x.EstadoNosisEmisor);
             Map(x => x.FechaAcreditacion);
-            Map(x => x.GastoTotal);
             Map(x => x.IIBB);
             Map(x => x.Importe);
             Map(x => x.ImportePonderado);

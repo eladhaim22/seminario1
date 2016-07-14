@@ -12,8 +12,8 @@ namespace Seminario.NHibernate.Mapping
     {
         public ProductoMap()
         {
-            Id(x => x.Id,"codProd");
-            Map(x => x.Nombre); 
+            Id(x => x.Id,"idProducto");
+            Map(x => x.Nombre,"nombre"); 
         }
     }
 }

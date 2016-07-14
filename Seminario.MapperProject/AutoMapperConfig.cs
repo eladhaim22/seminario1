@@ -19,9 +19,7 @@ namespace Seminario.MapperProject
             {
                 
                 cfg.CreateMap<Simulacion, SimulacionDto>()
-                .ForMember(dto => dto.ProvinciaId, model => model.MapFrom(provincia => provincia.Id))
-                .ForMember(dto => dto.ProductoId, model => model.MapFrom(producto => producto.Id))
-                .ForMember(dto => dto.EmpleadoId, model => model.MapFrom(empleado => empleado.Id))
+                .ForMember(dto => dto.TipoCateg, model => model.MapFrom(m => m.TipoCategoria))
                 .ForMember(dto => dto.Cheques, model => model.MapFrom(s => s.Cheques.ToArray()));
                 
                 cfg.CreateMap<SimulacionDto,Simulacion>()
@@ -29,10 +27,20 @@ namespace Seminario.MapperProject
                     .ForMember(model => model.Producto, dto => dto.Ignore())
                     .ForMember(model => model.Empleado, dto => dto.Ignore())
                     .ForMember(model => model.Cheques, dto => dto.Ignore());
+
+                cfg.CreateMap<Cheque, ChequeDto>()
+                    .ForMember(dto => dto.Documento, model => model.MapFrom(m => m.CuitEmisor))
+                    .ForMember(dto => dto.Nosis, model => model.MapFrom(m =>m.EstadoNosisEmisor))
+                    .ForMember(dto => dto.TEOps, model => model.MapFrom(m => m.TE))
+                    .ForMember(dto => dto.TEAdelantada, model => model.MapFrom(m => m.TEA))
+                    .ForMember(dto => dto.Ponderado, model => model.MapFrom(m => m.ImportePonderado));
                 
-                cfg.CreateMap<Cheque, ChequeDto>();
-                
-                cfg.CreateMap<ChequeDto, Cheque>();
+                cfg.CreateMap<ChequeDto, Cheque>()
+                    .ForMember(m => m.CuitEmisor, model => model.MapFrom(dto => dto.Documento))
+                    .ForMember(m => m.EstadoNosisEmisor, model => model.MapFrom(dto => dto.Nosis))
+                    .ForMember(m => m.TE, model => model.MapFrom(dto => dto.TEOps))
+                    .ForMember(m => m.TEA, model => model.MapFrom(dto => dto.TEAdelantada))
+                    .ForMember(m => m.ImportePonderado, model => model.MapFrom(dto => dto.Ponderado));
 
                 cfg.CreateMap<Provincia, ProvinciaDto>();
 
@@ -41,6 +49,9 @@ namespace Seminario.MapperProject
                 cfg.CreateMap<Producto, ProductoDto>();
 
                 cfg.CreateMap<ProductoDto, Producto>();
+
+                cfg.CreateMap<DatosTTDto, DatosTT>();
+                cfg.CreateMap<DatosTT, DatosTTDto>();
             });
             mapper = new Mapper(config);
         }

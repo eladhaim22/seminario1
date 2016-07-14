@@ -12,10 +12,10 @@ namespace Seminario.NHibernate.Mapping
     {
         public DatosTTMap()
         {
-            Id(x => x.Id);
-            Map(x => x.Plazo);
-            Map(x => x.TasaVigente);
-            Map(x => x.Sellado);
+            Id(x => x.Id,"idDatosTT");
+            Map(x => x.Plazo,"plazo");
+            Map(x => x.TasaVigente,"tasaVigente");
+            References(x => x.Producto).Column("idProducto");
         }
     }
 }
