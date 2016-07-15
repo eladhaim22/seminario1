@@ -43,8 +43,6 @@
     <Compile Include="Empleado.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="IEntity.cs" />
-    <Compile Include="Jefe.cs" />
-    <Compile Include="Oficial.cs" />
     <Compile Include="Producto.cs" />
     <Compile Include="Provincia.cs" />
     <Compile Include="Simulacion.cs" />

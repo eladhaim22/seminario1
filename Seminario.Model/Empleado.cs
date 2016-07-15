@@ -9,7 +9,6 @@ namespace Seminario.Model
     public class Empleado : Entity
     {
         public virtual string Nombre { get; set; }
-        public virtual string Apellido { get; set; }
         public virtual string Legajo { get; set; }
     }
 }

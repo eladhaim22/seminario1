@@ -1,6 +1,7 @@
 ﻿CREATE TABLE [dbo].[UserProfile](
 	[UserId] [int] NOT NULL,
 	[UserName] [nvarchar](56) NOT NULL,
+	[Legajo] [nvarchar](20)
 PRIMARY KEY CLUSTERED 
 (
 	[UserId] ASC

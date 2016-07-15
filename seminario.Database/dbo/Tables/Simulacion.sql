@@ -31,7 +31,6 @@
 
 [cantidadCompra] varchar(20) NULL,
 
-[codProd] int NOT NULL,
 
 [fechaVencimientoPond] FLOAT(10) NULL,
 
@@ -47,7 +46,7 @@
 
 [estado] varchar(20) NOT NULL,
 
-[legajo] bigint NOT NULL,
+[legajo] INT NOT NULL,
 
 [idProvincia] int NOT NULL, 
 
@@ -57,13 +56,13 @@
 ([idSimulacion] ASC),
 constraint FK__simulacion__legajo__empleado foreign key (legajo) references
 
-Empleado(legajo),
+UserProfile(UserId),
 
 constraint FK__simulacion__idProvincia__provincia foreign key (idProvincia)
 
 references Provincia(idProvincia),
 
-constraint FK__simulacion__codProd__producto foreign key (codProd) references
+constraint FK__simulacion__idProducto__producto foreign key (idProducto) references
 
 Producto([idProducto])
 

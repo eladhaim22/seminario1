@@ -69,7 +69,6 @@
   <ItemGroup>
     <Build Include="dbo\Tables\Cheque.sql" />
     <Build Include="dbo\Tables\Simulacion.sql" />
-    <Build Include="dbo\Tables\Empleado.sql" />
     <Build Include="dbo\Tables\Provincia.sql" />
     <Build Include="dbo\Tables\DatosTT.sql" />
     <Build Include="dbo\Tables\Producto.sql" />

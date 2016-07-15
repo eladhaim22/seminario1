@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IRepoistory.cs" />
+    <Compile Include="Mapping\EmpleadoMap.cs" />
     <Compile Include="Mapping\SimulacionMap.cs" />
     <Compile Include="SessionFactoryBuilder.cs" />
     <Compile Include="IUnitOfWork.cs" />
