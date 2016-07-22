@@ -1,210 +1,67 @@
-﻿@model Seminario.Web.ViewModel.SimulacionViewModel
-       
- <div id="page-wrapper">
-            <form id="planilla-form">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <br>
-                    </div>
-                    <!-- /.col-lg-12 -->
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Fecha de Desc.</td>
-                                                        <td><input type="text" class="form-control datepicker" id="fechaDescuento"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Valor Nom.</td>
-                                                        <td><span id="valorNominal"> $ 00,00</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Cant. Cheques</td>
-                                                        <td><span id="cantidadCheques"> 0</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>TNAv (pactada)</td>
-                                                        <td>
-                                                            <input type="text" class="form-control triggerCalc" id="tnavPactada" value="20.5" data-validation="required number" data-validation-allowing="float"
-                                                                   data-validation-decimal-separator="." data-validation-error-msg="Solo valores numéricos">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Tasa IIBB</td>
-                                                        <td>
-                                                            <input type="text" class="form-control triggerCalc" id="tasaIibb" value="6.9" data-validation="required number" data-validation-allowing="float"
-                                                                   data-validation-decimal-separator="." data-validation-error-msg="Solo valores numéricos">
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="table-responsive">
-                                            <table class="table">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Comisión Admin.</td>
-                                                        <td>
-                                                            <input type="text" class="form-control triggerCalc" id="comisionAdmin" value="0.20" data-validation="required number" data-validation-allowing="float"
-                                                                   data-validation-decimal-separator="." data-validation-error-msg="Solo valores numéricos">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Sellados</td>
-                                                        <td>
-                                                            <select class="form-control triggerCalc" id="select-provincia">
-                                                                
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>IVA</td>
-                                                        <td>
-                                                            <select class="form-control triggerCalc" id="select-iva">
-                                                                <option value="0.12">Resp. Insc s&#47;Excl. AFIP</option>
-                                                                <option value="0.21">Resp. Insc c&#47;Excl. AFIP</option>
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Cod. Producto</td>
-                                                        <td>
-                                                            <select class="form-control triggerCalc" id="select-producto">
-                                                            </select>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Resumen de la operación
-                            </div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                F. Vencimiento Pon.</br>
-                                                Intereses</br>
-                                                Comision</br>
-                                                Sellados</br>
-                                                IVA</br>
-                                                Gastos Totales</br></br>
-                                                <span style="color: red;">Neto a Liquidar</span></br>    </br></br>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <span id="fechaVencimientoPonderada">@Model.Simulacion.FechaVencimientoPond</span></br>
-                                                <span id="intereses">@Model.Simulacion.Intereses</span></br>
-                                                <span id="comision">@Model.Simulacion.Comision</span></br>
-                                                <span id="sellados">@Model.Simulacion.Sellado</span></br>
-                                                <span id="iva">@Model.Simulacion.Iva</span></br>
-                                                <span id="gastosTotales">@Model.Simulacion.GastoTotal</span></br></br>
-                                                <span id="netoALiquidar" style="color: red;">@Model.Simulacion.NetoLiquidar</span></br>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Precio Relacional
-                            </div>
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <input type="text" class="form-control triggerCalc" id="cuitCliente" placeholder="CUIT"></br>
-                                                <input type="text" class="form-control triggerCalc" id="nombreCliente" placeholder="Razon Social"></br>
-                                                <input type="text" class="form-control triggerCalc" id="torCliente" placeholder="TOR YTD" readonly></br>
-                                                <button type="button" class="btn btn-danger" id="btn-consultarTOR">Consultar TOR</button></br>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.col-lg-3 -->
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <!-- /.panel-heading -->
-                            <div class="panel-body">
-                                <div class="table-responsive">
-                                    <table class="table table-striped" id="dataTables">
-                                        <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th>Fecha de Acreditación</th>
-                                                <th>Banco</th>
-                                                <th># Documento</th>
-                                                <th>Nombre</th>
-                                                <th>Importe</th>
-                                                <th>Plazo</th>
-                                                <th>Otros D.</th>
-                                                <th>Nosis</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                                <!-- /.table-responsive -->
-                            </div>
-                            <!-- /.panel-body -->
-                        </div>
-                        <!-- /.panel -->
-                    </div>
-                    <!-- /.col-lg-12 -->
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-lg-2">
-                                        <h4>Spread: <span id="spreadPromedio">@Model.Simulacion.SpreadTotal</span></h4>
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <h4>Estado: <span id="estadoSimulacion">SIMULANDO</span></h4>
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <h4>LIP Disponible: 2047</h4>
-                                    </div>
-                                    <div class="col-lg-2">
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <button type="button" id="btn-nosis" class="btn btn-danger btn-lg btn-block">Consultar NOSIS</button>
-                                    </div>
-                                    <div class="col-lg-2">
-                                        <button type="button" id="btn-confirmar" class="btn btn-danger btn-lg btn-block" disabled>Confirmar</button>
-                                    </div>
-                                    <!-- /.col-lg-8 -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.col-lg-12 -->
-                </div>
-            </form>
-        </div>
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes/base/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/javascriptCustom")
+    @Scripts.Render("~/bundles/angular")
+    @*RenderSection("scripts", required: false)*@
 
+
+</head>
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#"><img src="~/Content/Images/logo.chico.jpg" alt="ICBC"></a>
+            </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <ul class="nav navbar-top-links navbar-left">
+                    <li><a href="#" class="active" />blsdafsd</li>
+                    <li><a href="12"/>dasfsad</li>
+                    <li><a href="13"/>asdfasdf</li>
+                </ul>
+            }
+            <ul class="nav navbar-top-links navbar-right">
+                @Html.Partial("_LoginPartial")
+            </ul>
+        </nav>
+    </div>
+
+    <div ng-app="app">
+        <div ng-view></div>
+
+    </div>
+    <footer>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
+            </div>
+        </div>
+    </footer>
+
+
+    @Scripts.Render("~/Scripts/jquery.js")
+    @Scripts.Render("~/Scripts/jquery-ui.js")
+    @Scripts.Render("~/App/app.js")
+
+    <script src="~/App/Controllers/simulacionController.js"></script>
+    <script src="~/Scripts/angular-ui/ui-bootstrap.js"></script>
+    <script src="~/Scripts/angular-ui/ui-bootstrap-tpls.js"></script>
+    <script src="~/Scripts/moment.js"></script>
+    <script src="~/App/Services/simulacionService.js"></script>
+    <script src="~/Scripts/lodash.js"></script>
+            @*Scripts.Render("~/Scripts/metisMenu.min.js")
+        @Scripts.Render("~/Scripts/jquery.form-validator.min.js")
+        @Scripts.Render("~/Scripts/moment.js")
+        @Scripts.Render("~/Scripts/bootstrap-datetimepicker.min.js")
+        @Scripts.Render("~/bundles/javascriptCustom")
+        @Scripts.Render("~/Scripts/planilla.js")*@</body>
+</html>

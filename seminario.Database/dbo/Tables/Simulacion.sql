@@ -56,7 +56,7 @@
 ([idSimulacion] ASC),
 constraint FK__simulacion__legajo__empleado foreign key (legajo) references
 
-UserProfile(UserId),
+Empleado([EmpleadoId]),
 
 constraint FK__simulacion__idProvincia__provincia foreign key (idProvincia)
 

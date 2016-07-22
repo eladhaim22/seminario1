@@ -1,6 +1,7 @@
 ﻿using Seminario.Dto;
 using Seminario.Model;
 using Seminario.NHibernate;
+using Seminario.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

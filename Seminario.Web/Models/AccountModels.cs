@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Seminario.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,23 +16,16 @@ namespace Seminario.Web.Models
         {
         }
 
-        public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<Empleado> Empleado { get; set; }
     }
 
-    [Table("UserProfile")]
-    public class UserProfile
-    {
-        [Key]
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public int UserId { get; set; }
-        public string UserName { get; set; }
-    }
+   
 
     public class RegisterExternalLoginModel
     {
         [Required]
-        [Display(Name = "User name")]
-        public string UserName { get; set; }
+        [Display(Name = "Nro Legajo")]
+        public string Legajo { get; set; }
 
         public string ExternalLoginData { get; set; }
     }
@@ -58,8 +52,8 @@ namespace Seminario.Web.Models
     public class LoginModel
     {
         [Required]
-        [Display(Name = "User name")]
-        public string UserName { get; set; }
+        [Display(Name = "Nro Legajo")]
+        public string Legajo { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -73,8 +67,8 @@ namespace Seminario.Web.Models
     public class RegisterModel
     {
         [Required]
-        [Display(Name = "User name")]
-        public string UserName { get; set; }
+        [Display(Name = "Nro Legajo")]
+        public string Legajo { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

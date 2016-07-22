@@ -18,7 +18,7 @@ ALTER TABLE [dbo].[webpages_UsersInRoles] CHECK CONSTRAINT [fk_RoleId]
 GO
 
 ALTER TABLE [dbo].[webpages_UsersInRoles]  WITH CHECK ADD  CONSTRAINT [fk_UserId] FOREIGN KEY([UserId])
-REFERENCES [dbo].[UserProfile] ([UserId])
+REFERENCES [dbo].[Empleado] ([EmpleadoId])
 GO
 
 ALTER TABLE [dbo].[webpages_UsersInRoles] CHECK CONSTRAINT [fk_UserId]

@@ -24,10 +24,12 @@ namespace Seminario.NHibernate
                               .AddFromAssemblyOf<DatosTTMap>()
                               .AddFromAssemblyOf<ProductoMap>()
                               .AddFromAssemblyOf<SimulacionMap>()
+                              .AddFromAssemblyOf<Empleado>()
                               )
                 .ExposeConfiguration(cfg => new SchemaExport(cfg)
                  .Create(false, false))
                 .BuildSessionFactory();
+
             return sessionFactory.OpenSession();
         }
     }

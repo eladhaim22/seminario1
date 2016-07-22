@@ -75,7 +75,7 @@
     <Build Include="dbo\Tables\webpages_Membership.sql" />
     <Build Include="dbo\Tables\webpages_Roles.sql" />
     <Build Include="dbo\Tables\webpages_UsersInRoles.sql" />
-    <Build Include="dbo\Tables\UserProfile.sql" />
+    <Build Include="dbo\Tables\Empleado.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment1.sql" />

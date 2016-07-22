@@ -45,9 +45,9 @@ SELECT 1,GETDATE(),NULL,1,NULL,0,'ABWyhDxGJEs0fwaeM8GFP93pyAbpVGA3pPg8gz6TfGY4qU
 SELECT 2,GETDATE(),NULL,1,NULL,0,'AEd4YANdu64caW0NJytmlRbkfzuRvhfrjqUxOFQqkUctEERa6PjuhtpGHvCo+ES8og==',GETDATE(),'',NULL,NULL
 go
 
-Insert Into UserProfile 
-Select 1,'jefeProducto' Union all
-select 2,'oficial'
+Insert Into Empleado 
+Select 1,'Elad','legajoJefeProducto' Union all
+select 2,'Elad1','legajoOficial'
 
 go
  

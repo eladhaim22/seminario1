@@ -38,7 +38,7 @@ namespace Seminario.Web.Filters
                         }
                     }
 
-                    WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+                    WebSecurity.InitializeDatabaseConnection("DefaultConnection", "Empleado", "EmpleadoId", "Legajo", autoCreateTables: true);
                 }
                 catch (Exception ex)
                 {

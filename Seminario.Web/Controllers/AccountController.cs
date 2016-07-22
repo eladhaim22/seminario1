@@ -10,6 +10,7 @@ using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 using Seminario.Web.Filters;
 using Seminario.Web.Models;
+using Seminario.Model;
 
 namespace Seminario.Web.Controllers
 {
@@ -25,7 +26,7 @@ namespace Seminario.Web.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToLocal("/Home/Index");
+                return RedirectToLocal("Home/Index");
             }
             else
             {
@@ -42,7 +43,7 @@ namespace Seminario.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
-            if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+            if (ModelState.IsValid && WebSecurity.Login(model.Legajo, model.Password, persistCookie: model.RememberMe))
             {
                 return RedirectToLocal(returnUrl);
             }
@@ -86,8 +87,8 @@ namespace Seminario.Web.Controllers
                 // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
-                    WebSecurity.Login(model.UserName, model.Password);
+                    WebSecurity.CreateUserAndAccount(model.Legajo, model.Password);
+                    WebSecurity.Login(model.Legajo, model.Password);
                     return RedirectToAction("Index", "Home");
                 }
                 catch (MembershipCreateUserException e)
@@ -247,7 +248,7 @@ namespace Seminario.Web.Controllers
                 string loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
                 ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
                 ViewBag.ReturnUrl = returnUrl;
-                return View("ExternalLoginConfirmation", new RegisterExternalLoginModel { UserName = result.UserName, ExternalLoginData = loginData });
+                return View("ExternalLoginConfirmation", new RegisterExternalLoginModel { Legajo = result.UserName, ExternalLoginData = loginData });
             }
         }
 
@@ -272,15 +273,15 @@ namespace Seminario.Web.Controllers
                 // Insert a new user into the database
                 using (UsersContext db = new UsersContext())
                 {
-                    UserProfile user = db.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
+                    Empleado user = db.Empleado.FirstOrDefault(u => u.Legajo.ToLower() == model.Legajo.ToLower());
                     // Check if user already exists
                     if (user == null)
                     {
                         // Insert name into the profile table
-                        db.UserProfiles.Add(new UserProfile { UserName = model.UserName });
+                        db.Empleado.Add(new Empleado { Legajo = model.Legajo });
                         db.SaveChanges();
 
-                        OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
+                        OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.Legajo);
                         OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
 
                         return RedirectToLocal(returnUrl);

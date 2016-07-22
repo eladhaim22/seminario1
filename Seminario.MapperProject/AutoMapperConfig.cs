@@ -27,7 +27,7 @@ namespace Seminario.MapperProject
                 .ForMember(dto => dto.NetoLiquidar, model => model.MapFrom(m => m.NetoLiquidarTotal))
                 .ForMember(dto => dto.TipoCateg, model => model.MapFrom(m => m.TipoCategoria))
                 .ForMember(dto => dto.CodProd, model => model.MapFrom(m => m.Producto.Id))
-                .ForMember(dto => dto.Legajo, model => model.MapFrom(m => m.Empleado.Id))
+                .ForMember(dto => dto.Legajo, model => model.MapFrom(m => m.Empleado.EmpleadoId))
                 .ForMember(dto => dto.Cheques, model => model.MapFrom(m => m.Cheques.Select(c => c.Id)))
                 .ForMember(dto => dto.IdProvincia, model => model.MapFrom(m => m.Provincia));
                 

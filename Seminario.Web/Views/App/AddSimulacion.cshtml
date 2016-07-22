@@ -1,0 +1,205 @@
+﻿<div id="page-wrapper">
+    <form name="simulacionform">
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Datos generales de Simulacion
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-lg-6">
+                            <span>Fecha de Descuento</span>
+                            <div class="input-group">
+                                <input type="text" class="form-control" uib-datepicker-popup ng-model="simulacion.fechaDescuento" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" readonly" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="openDateTime()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <span>Comisión Administrativa</span>
+                            <input type="text" class="form-control" ng-model="simulacion.comisionAdministrativa">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-6">
+                            <span>Valor Nominal</span>
+                            <input type="text" class="form-control" ng-model="valorNominal">
+                        </div>
+                        <div class="col-lg-6">
+                            <span>Sellados</span>
+                            <select class="form-control" name="sellados" ng-model="simulacion.idProvincia">
+                                <option ng-repeat="provincia in provincias" value="provincia.id">{{provincia.Nombre + "(" + provincia.Sellado + ")"}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-6">
+                            <span>Cantidad de Cheques</span>
+                            <input type="text" class="form-control" ng-model="simulacion.cheques.length" readonly>
+                        </div>
+                        <div class="col-lg-6">
+                            <span>IVA</span>
+                            <input type="text" class="form-control" ng-model="simulacion.iva">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-6">
+                            <span>TNAv (pacatad)</span>
+                            <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+                        </div>
+                        <div class="col-lg-6">
+                            <span>Producto</span>
+                            <select class="form-control" name="productSelect" id="productSelect" ng-model="simulacion.idProvincia">
+                                <option ng-repeat="producto in productos" value="{{producto.id}}">{{producto.Nombre}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-6">
+                            <span>Tasa IIBB</span>
+                            <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">Resumen de la operación</div>
+                <div class="panel-body">
+                    <div>
+                        <div class="col-lg-9">F. Vencimiento Pon.</div>
+                        <div class="col-lg-3">value</div>
+                    </div>
+                    <div>
+                        <div class="col-lg-9">Intereses</div>
+                        <div class="col-lg-3">value</div>
+                    </div>
+                    <div>
+                        <div class="col-lg-9">Comision</div>
+                        <div class="col-lg-3">value</div>
+                    </div>
+                    <div>
+                        <div class="col-lg-9">Sellados</div>
+                        <div class="col-lg-3">value</div>
+                    </div>
+                    <div>
+                        <div class="col-lg-9">IVA</div>
+                        <div class="col-lg-3">value</div>
+                    </div>
+                    <div>
+                        <div class="col-lg-9">Gastos Totales</div>
+                        <div class="col-lg-3">value</div>
+                    </div>
+                    <div>
+                        <div class="col-lg-9" style="color: red;">Neto a Liquidar</div>
+                        <div class="col-lg-3">value</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">Precio Relacional</div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <input type="text" ng-model="simulacion.cuitCliente" class="form-control" placeholder="CUIT">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Razon Social">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" ng-model="simulacion.torCliente" class="form-control" placeholder="TOR YTD" readonly>
+                    </div>
+                    <button type="button" ng-click="consultarTor(simulacion.cuitCliente)" class="btn btn-danger">Consultar TOR</button>
+                </div>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Cheque N</th>
+                    <th>F. Acreditación</th>
+                    <th>Banco</th>
+                    <th>Documento</th>
+                    <th>Nombre</th>
+                    <th>Importe</th>
+                    <th>Plazo</th>
+                    <th>Otros D.</th>
+                    <th>Nosis</th>
+                </tr>
+            </thead>
+            <tbody>
+                <button class="btn-lg" ng-click="addCheque()">Agregar Cheque</button>
+                <tr ng-repeat="cheque in simulacion.cheques">
+                    <td class="col-lg-1">{{$index + 1}}
+                    <td class="col-lg-2">
+                        <div class="input-group">
+                            <input type="text" class="form-control" uib-datepicker-popup ng-model="simulacion.cheques[$index].fechaAcreditacion" is-open="popupArray[$index].opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" readonly ng-change="renderCheque($index)" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="open($index)"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </div>
+                    </td>
+                    <td>
+                        <select class="form-control" name="banco">
+                            <option ng-repeat="banco in bancos" value="banco.name" ng-model="cheque.banco">banco.name</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="number" class="form-control" ng-model="cheque.documento" placeholder="Documento" ng-change="setNosisInitialState($index)">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" ng-model="cheque.nombreCliente" placeholder="Nombre">
+                    </td>
+                    <td>
+                        <input type="number" class="form-control" ng-model="cheque.importe" placeholder="Importe">
+                    </td>
+                    <td>
+                        <input type="number" class="form-control" ng-model="cheque.plazo" placeholder="Plazo" readonly>
+                    </td>
+                    <td>
+                        <input type="number" class="form-control" ng-model="cheque.otrosDias" placeholder="Otros D.">
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" ng-model="cheque.nosis" placeholder="Nosis" readonly>
+                    </td>
+                    <td>
+                        <button type="button" ng-click="deleteCheque($index)" class="btn btn-danger btn-lg btn-block">borrar</button>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <h4>Spread: <span id="spreadPromedio" ng-model="simulacion.spreadTotal"></span></h4>
+                            </div>
+                            <div class="col-lg-2">
+                                <h4>Estado: <span id="estadoSimulacion" ng-model="simulacion.estado">SIMULANDO</span></h4>
+                            </div>
+                            <div class="col-lg-2">
+                                <h4>LIP Disponible: 2047</h4>
+                            </div>
+                            <div class="col-lg-2">
+                            </div>
+                            <div class="col-lg-2">
+                                <button type="button" id="btn-nosis" class="btn btn-danger btn-lg btn-block" ng-click="consultarNosis()">Consultar NOSIS</button>
+                            </div>
+                            <div class="col-lg-2">
+                                <button type="button" id="btn-confirmar" class="btn btn-danger btn-lg btn-block" disabled>Confirmar</button>
+                            </div>
+                            <!-- /.col-lg-8 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+    </form>
+</div>

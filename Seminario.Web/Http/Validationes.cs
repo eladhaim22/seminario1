@@ -16,7 +16,7 @@ namespace Seminario.Web.Http
 
     public class DatosNosis
     {
-        public IList<DataObject> rows { get; set; }
+        public IList<string> rows { get; set; }
     }
     public class DataObject{
         public int id { get; set; }
@@ -28,41 +28,66 @@ namespace Seminario.Web.Http
         [System.Web.Http.HttpPost]
         public HttpResponseMessage GetNosisState(DatosNosis data)
         {
-           
-            var regex = new Regex(@"^\d{9}$");
+            var datos = Enumerable.Range(0, data.rows.Count).Select(x => 0).ToList();
             if (data == null)
             {
                 throw new ArgumentNullException("data");
             }
             else
-                foreach(DataObject row in data.rows){
-                    if (row.documento != null && regex.IsMatch(row.documento))
-                        row.documento = "OK";
+            {
+                for(var i=0;i<data.rows.Count;i++)
+                {
+                    if (data.rows[i] == null || !ValidarCuit(data.rows[i]))
+                        datos[i] = 0;
                     else
-                        if (row.documento == null)
-                            row.documento = "";
-                        else
-                            row.documento = "Fail";
+                        datos[i] = new Random().Next(100) < 20 ? 1 : 2; 
                 }
-
-            return Request.CreateResponse(HttpStatusCode.OK,data);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK,datos);
        
         }
-       
+
+        [System.Web.Http.HttpGet]
         public HttpResponseMessage GetTorState(string id)
         {
-            var regex = new Regex(@"^\d{11}$");
             if (id == null)
             {
                 throw new ArgumentNullException("cuit");
             }
-            else 
-                if (regex.IsMatch(id)){
-                    var rand = new Random();
-                    return Request.CreateResponse(HttpStatusCode.OK, rand.NextDouble()); ;
+            try { 
+                if(ValidarCuit(id)){
+                     return Request.CreateResponse(HttpStatusCode.OK, Convert.ToInt32(new Random().NextDouble() * 100));
                 }
                 else
-                    throw new Exception("El cuit Ingresado es incorrecto");
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError,"El cuit is invalido");
+            }
+            catch (Exception)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, "El cuit is invalido");
+            }
+        }
+       
+        public bool ValidarCuit(string cuit){
+            try
+            {
+                int[] ia = cuit.ToCharArray().Select(n => Convert.ToInt32(n.ToString())).ToArray();
+                if (ia.Length == 11)
+                {
+                    var sum1 = ia[0] * 5 + ia[1] * 4 + ia[2] * 3 + ia[3] * 2 + ia[4] * 7 + ia[5] * 6 + ia[6] * 5 + ia[7] * 4 + ia[8] * 3 + ia[9] * 2;
+                    var sum2 = 11 - sum1 % 11;
+                    switch (sum2)
+                    {
+                        case 11: return ia[10] == 0 ? true : false;
+                        case 10: return ia[10] == 9 ? true : false;
+                        default: return ia[10] == sum2 ? true : false;
+                    }
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
     }

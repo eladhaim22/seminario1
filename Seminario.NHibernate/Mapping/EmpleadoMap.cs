@@ -12,10 +12,10 @@ namespace Seminario.NHibernate.Mapping
     {
         public EmpleadoMap()
         {
-            Table("UserProfiles");
-            Id(x => x.Id,"UserId");
-            Map(x => x.Legajo, "legajo");
-            Map(x => x.Nombre, "UserName");
+            Table("Empleado");
+            Id(x => x.EmpleadoId,"EmpleadoId");
+            Map(x => x.Legajo, "Legajo");
+            Map(x => x.Nombre, "Nombre");
         }
     }
 }
