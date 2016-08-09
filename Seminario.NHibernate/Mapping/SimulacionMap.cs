@@ -25,7 +25,7 @@ namespace Seminario.NHibernate.Mapping
             Map(x => x.NetoLiquidarTotal, "netoLiquidarTotal");
             Map(x => x.ImportePonderadoTotal, "importePonderadoTotal");
             Map(x => x.TipoCategoria, "tipoCategoria");
-            References(x => x.Producto, "idProducto");
+            References(x => x.Producto,"idProducto");
             Map(x => x.FechaVencimientoPond, "fechaVencimientoPond");
             Map(x => x.SpreadTotal, "spreadTotal");
             Map(x => x.NetoTotal, "netoTotal");
@@ -33,10 +33,10 @@ namespace Seminario.NHibernate.Mapping
             Map(x => x.TasaIva, "tasaIva");
             Map(x => x.TasaSellado, "tasaSellado");
             Map(x => x.Estado, "estado");
-            //References(x => x.Empleado, "legajo");
+            References(x => x.Empleado,"legajo");
             References(x => x.Provincia, "idProvincia");
-            /*HasMany(x => x.Cheques).AsArray(x=>x.Id).KeyColumn("idSimulacion")
-            .Cascade.All();*/
+            HasMany(x => x.Cheques).KeyColumn("idSimulacion")
+            .Cascade.All() ;
 
         }
     }

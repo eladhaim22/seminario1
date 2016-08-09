@@ -12,7 +12,7 @@ namespace Seminario.NHibernate.Mapping
     public class ChequeMap : ClassMap<Cheque>
     {
         public ChequeMap(){
-            Id(x => x.Id);
+            Id(x => x.Id, "idCheque");
             Map(x => x.OtrosDias, "otrosDias");
             Map(x => x.Banco, "banco");
             Map(x => x.CFT,"cft");

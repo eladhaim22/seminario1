@@ -3,20 +3,18 @@
 
 <h2>Upload File</h2>
 
-@using (Html.BeginForm("Upload", "Home", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
+@*using (Html.BeginForm("Upload", "App", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{*@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary()
 
     <div class="form-group">
-        <input type="file" id="dataFile" name="upload" />
+        <input type="file" class="form-control" file-model="myFile" />
+       
     </div>
+<button class="btn btn-danger btn-lg" ng-click="uploadFile()">upload me</button>
 
-    <div class="form-group">
-        <input type="submit" value="Upload" class="btn btn-default" />
-    </div>
-
-    if (Model != null)
+    @*if (Model != null)
     {
         <table>
             <thead>
@@ -40,4 +38,4 @@
             </tbody>
         </table>
     }
-}
+}*@

@@ -4,7 +4,7 @@
 
 [fechaAcreditacion] datetime NULL,
 
-[importe] decimal(5,2) NULL,
+[importe] FLOAT NULL,
 
 [plazo] int NULL,
 
@@ -14,40 +14,40 @@
 
 [estadoNosisEmisor] varchar(20) NULL,
 
-[TE] decimal(5,2) NULL,
+[TE] FLOAT NULL,
 
-[TEA] decimal(5,2) NULL,
+[TEA] FLOAT NULL,
 
-[TNAA] decimal(5,2) NULL,
+[TNAA] FLOAT NULL,
 
-[interes] decimal(5,2) NULL,
+[interes] FLOAT NULL,
 
-[comision] decimal(5,2) NULL,
-[sellado] decimal(5,2) NULL,
+[comision] FLOAT NULL,
+[sellado] FLOAT NULL,
 
-[iva] decimal(5,2) NULL,
+[iva] FLOAT NULL,
 
-[gastoTotal] decimal(5,2) NULL,
+[gastoTotal] FLOAT NULL,
 
-[spread] decimal(5,2) NULL,
+[spread] FLOAT NULL,
 
-[cft] decimal(5,2) NULL,
+[cft] FLOAT NULL,
 
-[cftMes] decimal(5,2) NULL,
+[cftMes] FLOAT NULL,
 
-[netoLiquidar] decimal(5,2) NULL,
+[netoLiquidar] FLOAT NULL,
 
-[importePonderado] decimal(5,2) NULL,
+[importePonderado] FLOAT NULL,
 
-[TETT] decimal(5,2) NULL,
+[TETT] FLOAT NULL,
 
-[TEATT] decimal(5,2) NULL,
+[TEATT] FLOAT NULL,
 
-[IIBB] decimal(5,2) NULL,
+[IIBB] FLOAT NULL,
 
-[costo] decimal(5,2) NULL,
+[costo] FLOAT NULL,
 
-[neto] decimal(5,2) NULL,
+[neto] FLOAT NULL,
 
 [idSimulacion] int NULL,
 

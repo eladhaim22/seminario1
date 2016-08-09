@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Cors;
-using System.Web.Mvc;
+
 
 namespace Seminario.Web.Http
 {
@@ -25,7 +25,7 @@ namespace Seminario.Web.Http
     
     public class ValidationesController : ApiController
     {
-        [System.Web.Http.HttpPost]
+        [HttpPost]
         public HttpResponseMessage GetNosisState(DatosNosis data)
         {
             var datos = Enumerable.Range(0, data.rows.Count).Select(x => 0).ToList();
@@ -40,14 +40,14 @@ namespace Seminario.Web.Http
                     if (data.rows[i] == null || !ValidarCuit(data.rows[i]))
                         datos[i] = 0;
                     else
-                        datos[i] = new Random().Next(100) < 20 ? 1 : 2; 
+                        datos[i] = new Random().Next(100) > 20 ? 1 : 2; 
                 }
             }
             return Request.CreateResponse(HttpStatusCode.OK,datos);
        
         }
 
-        [System.Web.Http.HttpGet]
+        [HttpGet]
         public HttpResponseMessage GetTorState(string id)
         {
             if (id == null)

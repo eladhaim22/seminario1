@@ -26,7 +26,7 @@ namespace Seminario.Web.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToLocal("Home/Index");
+                return RedirectToLocal("App/");
             }
             else
             {
@@ -41,6 +41,7 @@ namespace Seminario.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")] 
         public ActionResult Login(LoginModel model, string returnUrl)
         {
             if (ModelState.IsValid && WebSecurity.Login(model.Legajo, model.Password, persistCookie: model.RememberMe))
@@ -89,7 +90,7 @@ namespace Seminario.Web.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.Legajo, model.Password);
                     WebSecurity.Login(model.Legajo, model.Password);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "App");
                 }
                 catch (MembershipCreateUserException e)
                 {
@@ -337,6 +338,7 @@ namespace Seminario.Web.Controllers
         }
 
         #region Helpers
+        [OutputCache(NoStore = true, Duration = 0, VaryByParam = "None")] 
         private ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
@@ -345,7 +347,7 @@ namespace Seminario.Web.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("App", "App");
             }
         }
 

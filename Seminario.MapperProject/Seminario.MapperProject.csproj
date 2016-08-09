@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoMapperConfig.cs" />
+    <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +62,14 @@
     <ProjectReference Include="..\Seminario.Model\Seminario.Model.csproj">
       <Project>{18d4d33a-961c-43eb-92a7-341ca9668ee8}</Project>
       <Name>Seminario.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seminario.NHibernate\Seminario.NHibernate.csproj">
+      <Project>{456011cf-7d4f-435a-b5c2-94372a28db4c}</Project>
+      <Name>Seminario.NHibernate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seminario.WebServices\Seminario.WebServices.csproj">
+      <Project>{702ac730-317c-4955-a609-813b161971a5}</Project>
+      <Name>Seminario.WebServices</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

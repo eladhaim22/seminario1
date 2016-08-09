@@ -96,6 +96,10 @@
       <Project>{456011cf-7d4f-435a-b5c2-94372a28db4c}</Project>
       <Name>Seminario.NHibernate</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Seminario.WebServices\Seminario.WebServices.csproj">
+      <Project>{702ac730-317c-4955-a609-813b161971a5}</Project>
+      <Name>Seminario.WebServices</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

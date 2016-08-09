@@ -1,73 +1,211 @@
-﻿using NHibernate;
-using Seminario.NHibernate;
-using System;
-using System.Data;
-public interface IUnitOfWork : IDisposable
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using NHibernate;
+using Seminario.Model;
+namespace Seminario.NHibernate
 {
-    void Commit();
-    void Rollback();
-}
-
-public class UnitOfWork : IUnitOfWork
-{
-    private ISession session;
-    private ITransaction transaction;
-    public ISession Session { get { return this.session; } }
-
-    public UnitOfWork() { }
-
-    public void OpenSession()
+    public class UnitOfWork : IUnitOfWork
     {
-        if (this.session == null || !this.session.IsConnected)
+        private static readonly object SessionFactoryLock = new object();
+
+        private static ISessionFactory sessionFactory;
+
+        private IDictionary<Type, object> repositories;
+
+        private ISession session;
+
+        private IList<ISynchronization> synchronizations;
+
+        public UnitOfWork()
+        {
+        }
+
+        ~UnitOfWork()
+        {
+            this.Dispose(false);
+        }
+
+        internal ISession Session
+        {
+            get
+            {
+                if (this.session == null)
+                {
+                    this.session = this.SessionFactory.OpenSession();
+                    this.session.BeginTransaction();
+                }
+
+                return this.session;
+            }
+        }
+
+        private ISessionFactory SessionFactory
+        {
+            get
+            {
+                if (sessionFactory == null)
+                {
+                    lock (SessionFactoryLock)
+                    {
+                        if (sessionFactory == null)
+                        {
+                            var connectionStringSettings = ConfigurationManager.ConnectionStrings["MyContext"].ConnectionString;
+                            sessionFactory = SessionFactoryBuilder.Build(connectionStringSettings);
+                        }
+                    }
+                }
+
+                return sessionFactory;
+            }
+        }
+
+        public IRepository<T> Repository<T>() where T : class, IEntity
+        {
+            if (this.repositories == null)
+            {
+                this.repositories = new Dictionary<Type, object>();
+            }
+
+            object repository;
+            if (!this.repositories.TryGetValue(typeof(T), out repository))
+            {
+                this.repositories[typeof(T)] = repository = new Repository<T>(this);
+            }
+
+            return repository as IRepository<T>;
+        }
+
+        public IRepository Repository(Type entityType)
+        {
+            if (this.repositories == null)
+            {
+                this.repositories = new Dictionary<Type, object>();
+            }
+
+            object repository;
+            if (!this.repositories.TryGetValue(entityType, out repository))
+            {
+                var repositoryType = typeof(Repository<>).MakeGenericType(entityType);
+                this.repositories[entityType] = repository = Activator.CreateInstance(repositoryType, this);
+            }
+
+            return repository as IRepository;
+        }
+
+        public void Save()
+        {
+            try
+            {
+                this.Session.Flush();
+
+                this.InvokeBeforeCompletionSynchronizations();
+
+                this.Session.Transaction.Commit();
+
+                this.session.BeginTransaction();
+
+                this.InvokeAfterCompletionSynchronizations(true);
+            }
+            catch (Exception ex)
+            {
+                this.Reset();
+                throw;
+            }
+        }
+
+        public void Reset()
         {
             if (this.session != null)
+            {
+                if (this.session.Transaction.IsActive && !this.session.Transaction.WasRolledBack)
+                {
+                    try
+                    {
+                        this.session.Transaction.Rollback();
+                    }
+                    catch (HibernateException ex)
+                    {
+                    
+                    }
+
+                    this.InvokeAfterCompletionSynchronizations(false);
+                }
+
                 this.session.Dispose();
+                this.session = null;
+            }
 
-            this.session = SessionFactoryBuilder.OpenSession();
+            this.synchronizations = null;
         }
-    }
-
-    public void BeginTransation(IsolationLevel isolationLevel = IsolationLevel.ReadCommitted)
-    {
-        if (this.transaction == null || !this.transaction.IsActive)
+        
+        public void RegisterSynchronization(ISynchronization synchronization)
         {
-            if (this.transaction != null)
-                this.transaction.Dispose();
+            if (synchronization == null)
+            {
+                throw new ArgumentNullException("synchronization");
+            }
 
-            this.transaction = this.session.BeginTransaction(isolationLevel);
-        }
-    }
+            if (this.synchronizations == null)
+            {
+                this.synchronizations = new List<ISynchronization>();
+            }
 
-    public void Commit()
-    {
-        try
-        {
-            this.transaction.Commit();
-        }
-        catch
-        {
-            this.transaction.Rollback();
-            throw;
-        }
-    }
-
-    public void Rollback()
-    {
-        this.transaction.Rollback();
-    }
-
-    public void Dispose()
-    {
-        if (this.transaction != null)
-        {
-            this.transaction.Dispose();
-            this.transaction = null;
+            this.synchronizations.Add(synchronization);
         }
 
-        if (this.session != null)
+        public void Dispose()
         {
-            this.session.Dispose();
-            session = null;
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                this.Reset();
+            }
+        }
+
+        private void InvokeBeforeCompletionSynchronizations()
+        {
+            if (this.synchronizations != null)
+            {
+                foreach (var synchronization in this.synchronizations)
+                {
+                    try
+                    {
+                        synchronization.BeforeCompletion();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
+                }
+            }
+        }
+
+        private void InvokeAfterCompletionSynchronizations(bool committed)
+        {
+            if (this.synchronizations != null)
+            {
+                foreach (var synchronization in this.synchronizations)
+                {
+                    try
+                    {
+                        synchronization.AfterCompletion(committed);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
+                }
+
+                this.synchronizations = null;
+            }
         }
     }
 }

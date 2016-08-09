@@ -10,11 +10,10 @@ namespace Seminario.NHibernate
 {
     public static class SessionFactoryBuilder
     {
-        public static ISession OpenSession()
+        public static ISessionFactory Build(string connectionString)
         {
-            string connectionString = "Data Source=ELAD\\SQLEXPRESS;Initial Catalog=Seminario;Integrated Security=SSPI;";
             ISessionFactory sessionFactory = Fluently.Configure()
-                .Database(MsSqlConfiguration.MsSql2012
+                .Database(MsSqlConfiguration.MsSql2005
                   .ConnectionString(connectionString).ShowSql()
                    )
                 .Mappings(m =>
@@ -29,8 +28,7 @@ namespace Seminario.NHibernate
                 .ExposeConfiguration(cfg => new SchemaExport(cfg)
                  .Create(false, false))
                 .BuildSessionFactory();
-
-            return sessionFactory.OpenSession();
+            return sessionFactory;
         }
     }
 }

@@ -1,20 +1,22 @@
-﻿using Seminario.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-
-namespace Seminario.NHibernate
+﻿namespace Seminario.NHibernate
 {
-    public interface IRepository<TEntity>
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using Seminario.Model;
+
+    public interface IRepository
     {
-        IQueryable<TEntity> GetAll();
-        void Add(TEntity entity);
-        void Remove(TEntity entity);
-        void Update(TEntity entity);
-        TEntity Get(Expression<System.Func<TEntity, bool>> expression);
-        IQueryable<TEntity> GetMany(Expression<System.Func<TEntity, bool>> expression);
-        TEntity GetById(int id);
+        IEntity GetById(int identifier);
+        void Add(IEntity entity);
+        void Update(IEntity entity);
+        void Remove(IEntity entity);
+    }
+
+    public interface IRepository<T> : IQueryable<T> where T : class, IEntity
+    {
+        T GetById(int identifier);
+        void Add(T entity);
+        void Update(T entity);
+        void Remove(T entity);
     }
 }

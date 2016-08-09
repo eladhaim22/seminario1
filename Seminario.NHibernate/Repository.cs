@@ -1,67 +1,112 @@
-﻿using Seminario.Model;
-using Seminario.NHibernate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using NHibernate.Linq;
-
-public class Repository<TEntity> : IRepository<TEntity>
-        where TEntity : class , IEntity
+﻿namespace Seminario.NHibernate
 {
-    readonly UnitOfWork nhUnitOfWork;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using global::NHibernate;
+    using global::NHibernate.Linq;
+    using Seminario.Model;
 
-    public Repository(UnitOfWork nhUnitOfWork)
+    public class Repository<T> : IRepository<T>, IRepository where T : class, IEntity
     {
-        this.nhUnitOfWork = nhUnitOfWork;
-    }
+        private readonly UnitOfWork unitOfWork;
+        
+        public Repository(UnitOfWork unitOfWork)
+        {
+            this.unitOfWork = unitOfWork;
+        }
+        
+        public Type ElementType
+        {
+            get { return this.QueryableSet.ElementType; }
+        }
+        
+        public Expression Expression
+        {
+            get { return this.QueryableSet.Expression; }
+        }
 
-    public void Add(TEntity entity)
-    {
-        this.nhUnitOfWork.OpenSession();
-        this.nhUnitOfWork.BeginTransation();
-        this.nhUnitOfWork.Session.Save(entity);
-    }
+        public IQueryProvider Provider
+        {
+            get { return this.QueryableSet.Provider; }
+        }
 
-    public void Remove(TEntity entity)
-    {
-        this.nhUnitOfWork.OpenSession();
-        this.nhUnitOfWork.BeginTransation();
-        this.nhUnitOfWork.Session.Delete(entity);
-    }
+        protected ISession Session
+        {
+            get { return this.unitOfWork.Session; }
+        }
 
-    public void Update(TEntity entity)
-    {
-        this.nhUnitOfWork.OpenSession();
-        this.nhUnitOfWork.BeginTransation();
-        this.nhUnitOfWork.Session.Update(entity);
-    }
+        protected IQueryable<T> QueryableSet
+        {
+            get { return this.Session.Query<T>(); }
+        }
+        
+        public T GetById(int identifier)
+        {
+            return (T)this.Session.Get(typeof(T), identifier);
+        }
 
-    public IQueryable<TEntity> GetAll()
-    {
-        this.nhUnitOfWork.OpenSession();
-        this.nhUnitOfWork.BeginTransation();
-        return this.nhUnitOfWork.Session.Query<TEntity>().AsQueryable();
-    }
+        public void Add(T entity)
+        {
+            try
+            {
+                this.Session.Save(entity);
+            }
+            catch (Exception)
+            {
+                this.unitOfWork.Reset();
+                throw;
+            }
+        }
 
-    public TEntity Get(Expression<System.Func<TEntity, bool>> expression)
-    {
-        this.nhUnitOfWork.OpenSession();
-        this.nhUnitOfWork.BeginTransation();
-        return GetMany(expression).SingleOrDefault();
-    }
+        public void Remove(T entity)
+        {
+            this.Session.Delete(entity);
+        }
 
-    public IQueryable<TEntity> GetMany(Expression<System.Func<TEntity, bool>> expression)
-    {
-        this.nhUnitOfWork.OpenSession();
-        this.nhUnitOfWork.BeginTransation();
-        return GetAll().Where(expression).AsQueryable();
-    }
+        public void Update(T entity)
+        {
+            try
+            {
+                this.Session.SaveOrUpdate(entity);
+            }
+            catch (Exception)
+            {
+                this.unitOfWork.Reset();
+                throw;
+            }
+        }
 
-    public TEntity GetById(int id)
-    {
-        this.nhUnitOfWork.OpenSession();
-        this.nhUnitOfWork.BeginTransation();
-        return this.nhUnitOfWork.Session.Get<TEntity>(id);
+        public IEnumerator<T> GetEnumerator()
+        {
+            return ((IEnumerable<T>)this.QueryableSet).GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return ((System.Collections.IEnumerable)this.QueryableSet).GetEnumerator();
+        }
+
+        IEntity IRepository.GetById(int identifier)
+        {
+            return (IEntity)this.Session.Get(typeof(T), identifier);
+        }
+
+        public void Add(IEntity entity)
+        {
+            this.Add((T)(object)entity);
+        }
+
+        public void Update(IEntity entity)
+        {
+            this.Update((T)(object)entity);
+        }
+
+        public void Remove(IEntity entity)
+        {
+            this.Remove((T)(object)entity);
+        }
     }
 }

@@ -43,6 +43,14 @@ namespace Seminario.Data.Test
             unitOfWork.Commit();
             Assert.IsNotNull(producto);
         }
+        
+        [TestMethod]
+        public void CanRecoverProducto()
+        {
+            var unitOfWork = new UnitOfWork();
+            var producto = new Repository<Producto>(unitOfWork).Get(x => x.Nombre == "Linea Banco Central");
+            Assert.IsNotNull(producto);
+        }
     }
 }
 

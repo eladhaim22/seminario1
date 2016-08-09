@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Seminario.Model
 {
     [Table("Empleado")]
-    public class Empleado
+    public class Empleado : Entity
     {
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]

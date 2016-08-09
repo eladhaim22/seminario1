@@ -35,6 +35,6 @@ namespace Seminario.Model
         public string Estado { get; set; }
         public int Legajo { get; set; }
         public int IdProvincia { get; set; }
-        public List<int> Cheques { get; set; }
+        public List<ChequeDto> Cheques { get; set; }
     }
 }

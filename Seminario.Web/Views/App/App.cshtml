@@ -17,27 +17,28 @@
 </head>
 <body>
     <div id="wrapper">
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#"><img src="~/Content/Images/logo.chico.jpg" alt="ICBC"></a>
-            </div>
-            @if (User.Identity.IsAuthenticated)
-            {
-                <ul class="nav navbar-top-links navbar-left">
-                    <li><a href="#" class="active" />blsdafsd</li>
-                    <li><a href="12"/>dasfsad</li>
-                    <li><a href="13"/>asdfasdf</li>
+        <div ng-app="app">
+            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#"><img src="~/Content/Images/logo.chico.jpg" alt="ICBC"></a>
+                </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <ul class="nav navbar-top-links navbar-left">
+                        <li><a href="/#" class="active">Agregar Simulacion</a></li>
+                        <li><a href="/#" >Ver Simulaciones</a></li>
+                        <li><a href="/#/Upload/" >Cargar Parametricacion</a></li>
+                    </ul>
+                }
+                <ul class="nav navbar-top-links navbar-right">
+                    @Html.Partial("_LoginPartial")
                 </ul>
-            }
-            <ul class="nav navbar-top-links navbar-right">
-                @Html.Partial("_LoginPartial")
-            </ul>
-        </nav>
-    </div>
+            </nav>
 
-    <div ng-app="app">
-        <div ng-view></div>
 
+
+            <div ng-view></div>
+        </div>
     </div>
     <footer>
         <div class="content-wrapper">
@@ -58,6 +59,10 @@
     <script src="~/Scripts/moment.js"></script>
     <script src="~/App/Services/simulacionService.js"></script>
     <script src="~/Scripts/lodash.js"></script>
+    <script src="~/App/Directive/currencyDirective.js"></script>
+    <script src="~/App/Controllers/uploadParameterController.js"></script>
+    <script src="~/App/Directive/fileDirective.js"></script>
+    <script src="~/App/Services/uploadServices.js"></script>
             @*Scripts.Render("~/Scripts/metisMenu.min.js")
         @Scripts.Render("~/Scripts/jquery.form-validator.min.js")
         @Scripts.Render("~/Scripts/moment.js")

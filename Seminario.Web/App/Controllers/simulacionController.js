@@ -3,19 +3,18 @@
 app.controller('simulacionController', ['$scope', '$timeout', 'SimulacionService', function ($scope, $timeout, SimulacionService) {
     //set simulacion
     $scope.simulacion = {
-        cuitCliente: "",
-        torCliente: "",
+        cuitCliente: undefined,
+        torCliente: undefined,
         fechaDescuento: "",
-        comisionAdministrativa:0,
+        comisionAdministrativa: undefined,
         valorNominal: 0, //importeTotal
-        intereses: 0, //interesTotal
-        comision: 0, //comisionTotal
-        sellado: 0, //selladoTotal
-        iva: 0, //ivaTotal
+        intereses: undefined, //interesTotal
+        comision: undefined, //comisionTotal
+        sellado: undefined, //selladoTotal
+        iva: undefined, //ivaTotal
         gastoTotal: 0,
         TT: 0,
         TNAv: 0,
-        tipoFiscal:"",
         netoLiquidar: 0, //netoLiquidarTotal
         importePonderadoTotal: 0,
         tipoCateg: "", //condicion IVA
@@ -55,6 +54,11 @@ app.controller('simulacionController', ['$scope', '$timeout', 'SimulacionService
         $scope.simulacion.cheques[$index].nosis = nosisState[0];
     }
 
+    $scope.estadoFiscal = [
+        {id:1,nombre:"Resp. Insc s/Excl. AFIP",value:0.12},
+        {id:2,nombre:"Resp. Insc c/Excl. AFIP",value:0.21}
+    ];
+      
     $scope.consultarNosis = function () {
         SimulacionService.consularNosis(_.map($scope.simulacion.cheques, 'documento').toString().split(',')).then(function (response) {
             angular.forEach(response.data, function (value, index) {
@@ -98,11 +102,24 @@ app.controller('simulacionController', ['$scope', '$timeout', 'SimulacionService
         $scope.popupArray.push({"opened":false});
     }
 
-    $scope.bancos = [];
+    $scope.bancos = [
+                    { label: "", value: null },
+                    { label: "Banco ICBC", value: "Banco ICBC" },
+                    { label: "Banco Galicia", value: "Banco Galicia" },
+                    { label: "Banco Frances", value: "Banco Frances" },
+                    { label: "Banco Comafi", value: "Banco Comafi" },
+                    { label: "Banco Piano", value: "Banco Piano" },
+                    { label: "Banco Credicoop", value: "Banco Credicoop" },
+                    { label: "Banco Macro", value: "Banco Macro" },
+                    { label: "Banco Nacion", value: "Banco Nacion" },
+                    { label: "Banco Ciudad", value: "Banco Ciudad" },
+                    { label: "Banco Provincia", value: "Banco Provincia" },
+                    { label: "Banco HSBC", value: "Banco HSBC" }
+                    ];
 
     $scope.deleteCheque = function (index) {
         $scope.simulacion.cheques.splice(index, 1);
-        $scope.datepickers.popupArray.splice(index, 1);
+        $scope.popupArray.splice(index, 1);
     }
 
     //simulacion dateTimePicker
@@ -169,7 +186,7 @@ app.controller('simulacionController', ['$scope', '$timeout', 'SimulacionService
     $scope.$watch('simulacion.cheques.fechaAcreditacion',function(oldValue,newValue){
         if (moment($scope.simulacion.fechaDescuento).isValid()) {
             var plazoStart = moment($scope.simulacion.fechaAcreditacion);
-            var plazoEnd = moment(value.fechaDescuento);
+            var plazoEnd = moment(newValue.fechaDescuento);
             $scope.simulacion.plazo = plazoStart.diff(plazoEnd, "days");
         }
     });
@@ -189,50 +206,58 @@ app.controller('simulacionController', ['$scope', '$timeout', 'SimulacionService
         }
     }
 
-    $scope.scope.$watch("simulacionForm.$valid", function (newVal, oldVal) {
-        $scope.simulacion.valorNominal = 0;
+    $scope.$watch("simulacion", function (newVal, oldVal) {
         $scope.simulacion.intereses = 0;
         $scope.simulacion.comision = 0;
         $scope.simulacion.sellado = 0;
         $scope.simulacion.iva = 0;
-        $scope.simulacion.cantidadCheques = 0;
         $scope.simulacion.importePonderadoTotal = 0;
         $scope.simulacion.netoTotal = 0;
         $scope.simulacion.fechaVencimientoPond = 0;
-        angular.forEach($scope.simulacion.cheques, function (cheque, index) {
-            cheque.diasOps = cheque.plazo + cheque.otrosDia;
-            cheque.TEOps = ($scope.simulacion.TNAv / 100 / 365 * cheque.diasOps).toFixed(5);
-            cheque.TEAdelantada = (cheque.TEOps / 1 + cheque.TEOps).toFixed(5);
-            cheque.TNAA = (cheque.TEAdelantada * 365 / cheque.diasOps).toFixed(5);
-            cheque.intereses = (cheque.importe - (1 - cheque.TEAdelantada) * cheque.importe).toFixed(5);
-            cheque.comision = (cheque.importe * $scope.simulacion.comisionAdministrativa / 100).toFixed(2);
-            cheque.sellado = "ToDo";
-            cheque.iva = "ToDO";
-            var gastoTotal = cheque.intereses + cheque.comision + cheque.sellado + cheque.iva;
-            cheque.netoLiquidar = (cheque.importe - cheque.intereses + cheque.comision + cheque.sellado + cheque.iva).toFixed(2);
-            cheque.TT = "ToDo";
-            cheque.spread = (((cheque.intereses + cheque.comision) / cheque.importe / cheque.diasOps * 365) - cheque.TT).toFixed(5);
-            cheque.cft = (Math.pow((1 + gastoTotal / cheque.importe), (365 / cheque.diasOps)) - 1).toFixed(5);
-            cheque.cftMes = (Math.pow(1 + _chequeData[id].cft, 0.0821917808219178) - 1).toFixed(5);
-            cheque.ponderado = (cheque.importe * cheque.plazo).toFixed(5);
-            cheque.TETT = (cheque.TT / 365 * cheque.diasOps).toFixed(5);
-            cheque.TEATT = (cheque.TETT / (1 + cheque.TETT)).toFixed(5);
-            cheque.IIBB = "ToDo";
-            cheque.costo = (cheque.importe - (1 - cheque.TEATT) * cheque.importe).toFixed(5);
-            cheque.neto = (cheque.intereses + cheque.comision - cheque.IIBB - cheque.costo).toFixed(5);
-            $scope.simulacion.valorNominal += cheque.importe;
-            $scope.simulacion.intereses += cheque.intereses;
-            $scope.simulacion.comision += cheque.comision;
-            $scope.simulacion.sellado += cheque.sellado;
-            $scope.simulacion.iva += cheque.iva;
-            $scope.simulacion.importePonderadoTotal += cheque.ponderado;
-            $scope.simulacion.netoTotal += cheque.neto;
-        });
-        $scope.simulacion.gastoTotal = $scope.simulacion.intereses + $scope.simulacion.comision + $scope.simulacion.sellado + $scope.simulacion.iva;
-        $scope.simulacion.netoLiquidar = $scope.simulacion.valorNominal - $scope.simulacion.gastoTotal;
-        $scope.simulacion.fechaVencimientoPond = ($scope.simulacion.importePonderadoTotal / $scope.simulacion.valorNominal).toFixed(0);
-        $scope.simulacion.spreadTotal = $scope.simulacion.netoTotal / $scope.simulacion.valorNominal / $scope.simulacion.fechaVencimientoPond * 365;
+        $scope.gastoTotal = 0;
+        if ($scope.simulacionForm.$valid && $scope.chequesForm.$valid && $scope.simulacion.cheques.length > 0) {
+            angular.forEach($scope.simulacion.cheques, function (cheque, index) {
+                cheque.diasOps = cheque.plazo + cheque.otrosDia;
+                cheque.TEOps = $scope.simulacion.TNAv / 100 / 365 * cheque.diasOps;
+                cheque.TEAdelantada = cheque.TEOps / (1 + cheque.TEOps);
+                cheque.TNAA = cheque.TEAdelantada * 365 / cheque.diasOps;
+                cheque.intereses = cheque.importe - (1 - cheque.TEAdelantada) * cheque.importe;
+                cheque.comision = cheque.importe * $scope.simulacion.comisionAdministrativa / 100;
+                cheque.sellado = _.filter($scope.provincias,function(o){return o.Id === $scope.simulacion.idProvincia })[0].Sellado * cheque.importe / 365 * cheque.plazo;
+                cheque.iva =  (cheque.intereses + cheque.comision) * (_.filter($scope.estadoFiscal,function(o){return o.id === $scope.simulacion.tipoCateg })[0].value);
+                var gastoTotal = cheque.intereses + cheque.comision + cheque.sellado + cheque.iva;
+                cheque.netoLiquidar = cheque.importe - cheque.intereses + cheque.comision + cheque.sellado + cheque.iva;
+                cheque.TT = 0.89; //CAMBIER MOCK
+                cheque.spread = ((cheque.intereses + cheque.comision) / cheque.importe / cheque.diasOps * 365) - cheque.TT;
+                cheque.cft = (Math.pow((1 + gastoTotal / cheque.importe), (365 / cheque.diasOps)) - 1);
+                cheque.cftMes = Math.pow(1 + cheque.cft, 0.0821917808219178) - 1;
+                cheque.ponderado = cheque.importe * cheque.plazo;
+                cheque.TETT = cheque.TT / 365 * cheque.diasOps;
+                cheque.TEATT = cheque.TETT / (1 + cheque.TETT);
+                cheque.IIBB = $scope.simulacion.IIBB / 100 * (cheque.intereses + cheque.comision);
+                cheque.costo = cheque.importe - (1 - cheque.TEATT) * cheque.importe;
+                cheque.neto = cheque.intereses + cheque.comision - cheque.IIBB - cheque.costo;
+                $scope.simulacion.valorNominal += cheque.importe;
+                $scope.simulacion.intereses += cheque.intereses;
+                $scope.simulacion.comision += cheque.comision;
+                $scope.simulacion.sellado += cheque.sellado;
+                $scope.simulacion.iva += cheque.iva;
+                $scope.simulacion.importePonderadoTotal += cheque.ponderado;
+                $scope.simulacion.netoTotal += cheque.neto;
+            });
+            $scope.simulacion.gastoTotal = $scope.simulacion.intereses + $scope.simulacion.comision + $scope.simulacion.sellado + $scope.simulacion.iva;
+            $scope.simulacion.netoLiquidar = $scope.simulacion.valorNominal - $scope.simulacion.gastoTotal;
+            $scope.simulacion.fechaVencimientoPond = ($scope.simulacion.importePonderadoTotal / $scope.simulacion.valorNominal).toFixed(0);
+            $scope.simulacion.spreadTotal = $scope.simulacion.netoTotal / $scope.simulacion.valorNominal / $scope.simulacion.fechaVencimientoPond * 365;
+        }
     }, true);
+    
+    $scope.postSimulacion = function () {
+        SimulacionService.saveSimulacion($scope.simulacion).then(function (response) {
+            return response;
+        });
+    }
+
 
    /* function calculosInternos(id) {
            _chequeData[id].sellado = parseFloat((obtenerSellado($("#select-provincia").val()) * _chequeData[id].importe / 365 * _chequeData[id].plazo).toFixed(2));

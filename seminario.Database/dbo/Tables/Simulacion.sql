@@ -46,12 +46,12 @@
 
 [estado] varchar(20) NOT NULL,
 
-[legajo] INT NOT NULL,
+[legajo] INT NULL,
 
-[idProvincia] int NOT NULL, 
+[idProvincia] int NULL, 
 
 [tipoCategoria] NCHAR(30) NULL, 
-    [idProducto] INT NOT NULL, 
+    [idProducto] INT NULL, 
     CONSTRAINT [PK__simulacion] PRIMARY KEY CLUSTERED
 ([idSimulacion] ASC),
 constraint FK__simulacion__legajo__empleado foreign key (legajo) references

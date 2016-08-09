@@ -33,6 +33,6 @@ namespace Seminario.Model
         public virtual string Estado { get; set; }
         public virtual Empleado Empleado { get; set; }
         public virtual Provincia Provincia { get; set; }
-        public virtual List<Cheque> Cheques { get; set; }
+        public virtual IList<Cheque> Cheques { get; set; }
     }
 }

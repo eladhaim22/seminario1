@@ -7,14 +7,19 @@ using AutoMapper.Mappers;
 using AutoMapper;
 using Seminario.Model;
 using Seminario.Dto;
+using Seminario.WebServices;
+using Seminario.NHibernate;
 
 namespace Seminario.MapperProject
 {
     public static class AutoMapperConfig
     {
         public static IMapper mapper;
+        public static IProductoService ProductoService;
+        
         public static void RegisterAutoMapper()
         {
+
             var config = new MapperConfiguration(cfg =>
             {
 
@@ -36,7 +41,7 @@ namespace Seminario.MapperProject
                     .ForMember(model => model.Provincia, dto => dto.Ignore())
                     .ForMember(model => model.Producto, dto => dto.Ignore())
                     .ForMember(model => model.Empleado, dto => dto.Ignore())
-                    .ForMember(model => model.Cheques, dto => dto.Ignore())
+                    .ForMember(model => model.Cheques, model => model.MapFrom(dto => dto.Cheques))
                     .ForMember(m => m.ImporteTotal, model => model.MapFrom(dto => dto.ValorNominal))
                     .ForMember(m => m.InteresTotal, model => model.MapFrom(dto => dto.Intereses))
                     .ForMember(m => m.ComisionTotal, model => model.MapFrom(dto => dto.Comision))

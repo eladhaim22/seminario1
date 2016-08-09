@@ -32,7 +32,14 @@ app.factory('SimulacionService', ['$http', function ($http) {
             }).error (function (error) {
                 alert(error);
             });
-        }
-    }
+        },
 
+        saveSimulacion: function (simulacion){
+            return $http.post("/api/Simulacion/PostSimulacion/", simulacion).success(function (data) {
+                return data;
+            }).error (function (error) {
+                alert(error);
+            });
+        }
+   }
 }]);

@@ -9,5 +9,7 @@ namespace Seminario.Model
     public class Producto : Entity
     {
         public virtual string Nombre { get; set; }
+        public virtual int CodigoProducto { get; set; }
+        public virtual IList<DatosTT> DatosTT { get; set;}
     }
 }

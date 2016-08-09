@@ -1,6 +1,7 @@
 ﻿using Seminario.Dto;
 using Seminario.Model;
 using Seminario.NHibernate;
+using Seminario.WebServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,32 +16,29 @@ namespace Seminario.Web.Http
 {
     public class SettingController : ApiController
     {
+        public IProductoService ProductoService;
+        public IProvinciaService ProvinciaService;
 
-        public IUnitOfWork UnitOfWork { get; set; }
-        public IRepository<Producto> RepositoryProducto { get; set; }
-
-        public SettingController(IUnitOfWork unitOfWork, IRepository<Producto> repositoryProducto, IRepository<Provincia> repositoryProvincias)
+        public SettingController(IProductoService productoService, IProvinciaService provinciaService)
         {
-            this.RepositoryProvincias = repositoryProvincias;
-            this.UnitOfWork = unitOfWork;
-            this.RepositoryProducto = repositoryProducto;
+            this.ProductoService = productoService;
+            this.ProvinciaService = provinciaService;
         }
 
         public HttpResponseMessage GetAllProductos()
         {
-            var productos = RepositoryProducto.GetAll();
+            var productos = ProductoService.GetAll().ToList();
             var response = ControllerContext.Request.CreateResponse(HttpStatusCode.OK, productos);
             return response;
         }
 
         public HttpResponseMessage GetAllProvincias()
         {
-            var provincias = RepositoryProvincias.GetAll();
+            var provincias = ProvinciaService.GetAll().ToList();
             var response = ControllerContext.Request.CreateResponse(HttpStatusCode.OK, provincias);
             return response;
         }
-
-        public IRepository<Provincia> RepositoryProvincias { get; set; }
-    }
+    
+     }
 
 }

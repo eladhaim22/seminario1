@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.UnityMvc", "Semin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.UnityApi", "Seminario.UnityApi\Seminario.UnityApi.csproj", "{B0FCE68E-4028-485B-85F0-A14E2CB1866A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.WebServices", "Seminario.WebServices\Seminario.WebServices.csproj", "{702AC730-317C-4955-A609-813B161971A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{B0FCE68E-4028-485B-85F0-A14E2CB1866A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0FCE68E-4028-485B-85F0-A14E2CB1866A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0FCE68E-4028-485B-85F0-A14E2CB1866A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{702AC730-317C-4955-A609-813B161971A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{702AC730-317C-4955-A609-813B161971A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{702AC730-317C-4955-A609-813B161971A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{702AC730-317C-4955-A609-813B161971A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

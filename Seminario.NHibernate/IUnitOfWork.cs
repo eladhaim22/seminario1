@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Seminario.NHibernate
+﻿namespace Seminario.NHibernate
 {
-    public interface IUnitOfWork
+    using System;
+    using Seminario.Model;
+
+    /// <summary>
+    /// Unit of work interface
+    /// </summary>
+    public interface IUnitOfWork : IDisposable
     {
-        void BeginTransaction();
-        void Commit();
-        void Rollback();
+        IRepository<T> Repository<T>() where T : class, IEntity;
+        IRepository Repository(Type entityType);
+        void Save();
+        void Reset();
+        void RegisterSynchronization(ISynchronization synchronization);
     }
 }
