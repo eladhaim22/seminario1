@@ -1,36 +1,43 @@
 ﻿@model Seminario.Web.Models.RegisterModel
-@{
-    ViewBag.Title = "Register";
-}
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>Create a new account.</h2>
-</hgroup>
+<head>
+	<link rel="stylesheet" href="~/Content/bootstrap.css">
+</head>
 
-@using (Html.BeginForm()) {
+<div class="container">
+			 <div class="col-md-12" style="height:100px"></div>
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <center><img src="~/Content/Images/logo.chico.png" title="ICBC" alt="ICBC"></center>
+                    </div>
+                    <div class="panel-body">
+						<b>Registration Form</b>
+   @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
+
 
     <fieldset>
-        <legend>Registration Form</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.ConfirmPassword)
-                @Html.PasswordFor(m => m.ConfirmPassword)
-            </li>
-        </ol>
-        <input type="submit" value="Register" />
+            <div class="form-group">
+              @Html.TextBoxFor(m => m.Legajo, new { @class = "form-control", @placeholder = "Legajo", @name = "legajo", @type = "legajo" })
+            </div>
+            <div class="form-group">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Contraseña", @name = "password", @type = "password" })
+            </div>
+            <div class="form-group">
+				@Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "Confirmar Contraseña", @name = "passwordConfirm", @type = "password" })
+            </div>
+		    @Html.ValidationSummary()
+        <input type="submit" value="Register" class="btn btn-lg btn-danger btn-block" />
     </fieldset>
 }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

@@ -1,40 +1,37 @@
-﻿using Seminario.MapperProject;
-using Seminario.UnityMvc;
-using Seminario.UnityApi;
+﻿using System.Globalization;
+using System.Threading;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Newtonsoft.Json;
 using FluentValidation.Mvc;
+using Newtonsoft.Json;
+using Seminario.UnityMvc;
 
 namespace Seminario.Web
 {
-    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
-    // visit http://go.microsoft.com/?LinkId=9394801
+	// Note: For instructions on enabling IIS6 or IIS7 classic mode,
+	// visit http://go.microsoft.com/?LinkId=9394801
 
-    public class MvcApplication : System.Web.HttpApplication
-    {
-        protected void Application_Start()
-        {
-            AreaRegistration.RegisterAllAreas();
+	public class MvcApplication : System.Web.HttpApplication
+	{
+		protected void Application_Start()
+		{
+			AreaRegistration.RegisterAllAreas();
 
-            WebApiConfig.Register(GlobalConfiguration.Configuration);
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AuthConfig.RegisterAuth();
-            UnityApi.UnityConfig.RegisterComponents();
-            UnityMvc.UnityConfig.RegisterComponents();
+			WebApiConfig.Register(GlobalConfiguration.Configuration);
+			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+			RouteConfig.RegisterRoutes(RouteTable.Routes);
+			BundleConfig.RegisterBundles(BundleTable.Bundles);
+			AuthConfig.RegisterAuth();
 
-            
-            HttpConfiguration config = GlobalConfiguration.Configuration;
+			UnityMvc.UnityConfig.RegisterComponents();
 
-            config.Formatters.JsonFormatter
-                        .SerializerSettings
-                        .ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+			HttpConfiguration config = GlobalConfiguration.Configuration;
 
-        }
-
-    }
+			config.Formatters.JsonFormatter
+						.SerializerSettings
+						.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+		}
+	}
 }

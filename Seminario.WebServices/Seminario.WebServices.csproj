@@ -30,8 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FluentValidation, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -50,16 +50,13 @@
     <Compile Include="DatosTTService.cs" />
     <Compile Include="EntityService.cs" />
     <Compile Include="EmpleadoService.cs" />
+    <Compile Include="Mapping\AutoMapperConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProductoService.cs" />
     <Compile Include="SimulacionService.cs" />
     <Compile Include="ProvinciaService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Seminario.MapperProject\Seminario.MapperProject.csproj">
-      <Project>{3772ee46-7922-4788-acc2-cac70a242815}</Project>
-      <Name>Seminario.MapperProject</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Seminario.Model\Seminario.Model.csproj">
       <Project>{18d4d33a-961c-43eb-92a7-341ca9668ee8}</Project>
       <Name>Seminario.Model</Name>

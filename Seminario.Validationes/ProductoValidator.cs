@@ -1,18 +1,17 @@
-﻿using Seminario.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentValidation;
+using Seminario.Model;
 
 namespace Seminario.Validationes
 {
-    public class ProductoValidator : AbstractValidator<Producto>
-    {
-        public ProductoValidator()
-        {
-
-        }
-    }
+	public class ProductoValidator : EntityValidator<Producto>
+	{
+		public ProductoValidator()
+		{
+		}
+	}
 }

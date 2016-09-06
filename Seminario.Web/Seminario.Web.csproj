@@ -8,7 +8,7 @@
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{54B5E68F-C914-4900-9A59-9C9B0011BB4D}</ProjectGuid>
-    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Seminario.Web</RootNamespace>
@@ -1138,10 +1138,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Seminario.MapperProject\Seminario.MapperProject.csproj">
-      <Project>{3772ee46-7922-4788-acc2-cac70a242815}</Project>
-      <Name>Seminario.MapperProject</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Seminario.Model\Seminario.Model.csproj">
       <Project>{18d4d33a-961c-43eb-92a7-341ca9668ee8}</Project>
       <Name>Seminario.Model</Name>
@@ -1150,13 +1146,9 @@
       <Project>{456011cf-7d4f-435a-b5c2-94372a28db4c}</Project>
       <Name>Seminario.NHibernate</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Seminario.UnityApi\Seminario.UnityApi.csproj">
-      <Project>{b0fce68e-4028-485b-85f0-a14e2cb1866a}</Project>
-      <Name>Seminario.UnityApi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Seminario.UnityMvc\Seminario.UnityMvc.csproj">
+    <ProjectReference Include="..\Seminario.UnityMvc\Seminario.Unity.csproj">
       <Project>{d9b21d14-774c-4cbb-9b4c-17190157593d}</Project>
-      <Name>Seminario.UnityMvc</Name>
+      <Name>Seminario.Unity</Name>
     </ProjectReference>
     <ProjectReference Include="..\Seminario.WebService.Contracts\Seminario.WebService.Contracts.csproj">
       <Project>{45ed4a19-86bd-4e7b-828c-a808dc1ae6f3}</Project>
