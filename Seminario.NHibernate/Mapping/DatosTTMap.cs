@@ -15,7 +15,8 @@ namespace Seminario.NHibernate.Mapping
             Id(x => x.Id,"idDatosTT");
             Map(x => x.Plazo,"plazo");
             Map(x => x.TasaVigente,"tasaVigente");
-            References(x => x.Producto,"idProducto").Cascade.None(); 
-        }
+            
+            
+            }
     }
 }

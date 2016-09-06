@@ -10,7 +10,7 @@
                         <div class="col-lg-6">
                             <span>Fecha de Descuento</span>
                             <div class="input-group">
-                                <input type="text" class="form-control" uib-datepicker-popup ng-model="simulacion.fechaDescuento" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" name="FechaDescuento" readonly" />
+                                <input type="text" class="form-control" uib-datepicker-popup ng-model="simulacion.FechaDescuento" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" name="FechaDescuento" readonly" />
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="openDateTime()"><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
@@ -20,21 +20,20 @@
                         </div>
                         <div class="col-lg-6">
                             <span>Comisión Administrativa</span>
-                            <input type="number" class="form-control" ng-model="simulacion.comisionAdministrativa" min="0" max="1" step="0.001" name="comisionAd" required>
+                            <input type="number" class="form-control" ng-model="simulacion.ComisionAdministrativa" min="0" max="1" step="0.001" name="comisionAd" required>
                             <p style="color:red" ng-style="{'visibility': (simulacionForm.comisionAd.$invalid && !simulacionForm.comisionAd.$pristine) ? 'visible':'hidden'}">La comision debe ser entre 0-1</p>
 
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-lg-6">
-                            <span>Valor Nominal</span>
-                            <input type="number" class="form-control" ng-model="simulacion.valorNominal" name="valorNominal" min="0" max="1" step="0.001" required>
-                            <p style="color:red" ng-style="{'visibility': (simulacionForm.valorNominal.$invalid && !simulacionForm.valorNominal.$pristine) ? 'visible':'hidden'}">El valor nominal debe ser entre 0-1</p>
-
+                            <span>Tasa IIBB</span>
+                            <input type="number" class="form-control" id="tasaIIBB" ng-model="simulacion.TasaIIBB" min="0" max="1" step="0.001" required>
+                            <p style="color:red" ng-style="{'visibility': (simulacionForm.tasaIIBB.$invalid && !simulacionForm.tasaIIBB.$pristine) ? 'visible':'hidden'}">El IIBB debe ser entre 0-1</p>
                         </div>
                         <div class="col-lg-6">
                             <span>Sellados</span>
-                            <select ng-model="simulacion.idProvincia" class="form-control" name="provimciaSelect" id="provinciaSelect" ng-options="provincia.Id as provincia.Nombre for provincia in provincias" required>
+                            <select ng-model="simulacion.IdProvincia" class="form-control" name="provimciaSelect" id="provinciaSelect" ng-options="provincia.Id as provincia.Nombre for provincia in provincias" required>
                                 <option value="">-- Elige Provincia --</option>
                             </select>
                             <p style="color:red" ng-style="{'visibility': (simulacionForm.provimciaSelect.$invalid && !simulacionForm.provimciaSelect.$pristine) ? 'visible':'hidden'}">debe eligir un valor de la lista</p>
@@ -45,11 +44,11 @@
                     <div class="form-group">
                         <div class="col-lg-6">
                             <span>Cantidad de Cheques</span>
-                            <input type="text" class="form-control" ng-model="simulacion.cheques.length" readonly required>
+                            <input type="text" class="form-control" ng-model="simulacion.Cheques.length" readonly required>
                         </div>
                         <div class="col-lg-6">
                             <span>IVA</span>
-                            <select ng-model="simulacion.tipoCateg" class="form-control" name="tipoFiscalSelect" id="tipoFiscalSelect" ng-options="iva.id as iva.nombre for iva in estadoFiscal" required>
+                            <select ng-model="simulacion.TipoCateg" class="form-control" name="tipoFiscalSelect" id="tipoFiscalSelect" ng-options="iva.id as iva.nombre for iva in estadoFiscal" required>
                                 <option value="">-- Elige IVA --</option>
                             </select>
                             <p style="color:red" ng-style="{'visibility': (simulacionForm.tipoFiscalSelect.$invalid && !simulacionForm.tipoFiscalSelect.$pristine) ? 'visible':'hidden'}">debe eligir un valor de la lista</p>
@@ -60,13 +59,13 @@
                     <div class="form-group">
                         <div class="col-lg-6">
                             <span>TNAV (pacatada)</span>
-                            <input type="number" class="form-control" name="TNAV" ng-model="simulacion.TNAv" min="0" max="1" step="0.001" required>
+                            <input type="number" class="form-control" name="TNAV" ng-model="simulacion.TNAV" min="0" max="1" step="0.001" required>
                             <p style="color:red" ng-style="{'visibility': (simulacionForm.TNAV.$invalid && !simulacionForm.TNAV.$pristine) ? 'visible':'hidden'}">El TNAV debe ser entre 0-1</p>
 
                         </div>
                         <div class="col-lg-6">
                             <span>Producto</span>
-                            <select ng-model="simulacion.codProd" class="form-control" name="productSelect" ng-options="producto.Id as producto.Nombre for producto in productos" required>
+                            <select ng-model="simulacion.CodProd" class="form-control" name="productSelect" ng-options="producto.Id as producto.Nombre for producto in productos" required>
                                 <option value="">-- Elige Producto --</option>
                             </select>
                             <p style="color:red" ng-style="{'visibility': (simulacionForm.productSelect.$invalid && !simulacionForm.productSelect.$pristine) ? 'visible':'hidden'}">debe eligir un valor de la lista</p>
@@ -74,12 +73,7 @@
                        
                     </div>
                     <div class="form-group">
-                        <div class="col-lg-6">
-                            <span>Tasa IIBB</span>
-                            <input type="number" class="form-control" id="tasaIIBB" ng-model="simulacion.tasaIIBB" min="0" max="1" step="0.001" required>
-                            <p style="color:red" ng-style="{'visibility': (simulacionForm.tasaIIBB.$invalid && !simulacionForm.tasaIIBB.$pristine) ? 'visible':'hidden'}">El IIBB debe ser entre 0-1</p>
-                        </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
                             <span style="visibility:hidden">-----</span>
                             <button type="button" ng-click="addCheque()" class="btn btn-primary form-control">Agregar Cheque</button>
                         </div>
@@ -94,31 +88,35 @@
                 <div class="panel-body">
                     <div>
                         <div class="col-lg-9">F. Vencimiento Pon.</div>
-                        <div class="col-lg-3">{{simulacion.fechaVencimientoPond |number:2}}</div>
+                        <div class="col-lg-3">{{simulacion.FechaVencimientoPond |number:2}}</div>
+                    </div>
+                    <div>
+                        <div class="col-lg-9">Valor Nominal</div>
+                        <div class="col-lg-3">{{simulacion.ValorNominal | currency:"$":2}}</div>
                     </div>
                     <div>
                         <div class="col-lg-9">Intereses</div>
-                        <div class="col-lg-3">{{simulacion.intereses | number:2 | currency}}</div>
+                        <div class="col-lg-3">{{simulacion.Intereses | currency:"$":2}}</div>
                     </div> 
                     <div>
                         <div class="col-lg-9">Comision</div>
-                        <div class="col-lg-3">{{simulacion.comision | number:2 | currency}}</div>
+                        <div class="col-lg-3">{{simulacion.Comision | currency:"$":2}}</div>
                     </div>
                     <div>
                         <div class="col-lg-9">Sellados</div>
-                        <div class="col-lg-3">{{simulacion.sellado |number:2 | currency}}</div>
+                        <div class="col-lg-3">{{simulacion.Sellado | currency:"$":2}}</div>
                     </div>
                     <div>
                         <div class="col-lg-9">IVA</div>
-                        <div class="col-lg-3">{{simulacion.iva | number:2 | currency}}</div>
+                        <div class="col-lg-3">{{simulacion.Iva | currency:"$":2}}</div>
                     </div>
                     <div>
                         <div class="col-lg-9">Gastos Totales</div>
-                        <div class="col-lg-3">{{simulacion.gastoTotal | number:2 | currency}}</div>
+                        <div class="col-lg-3">{{simulacion.GastoTotal | currency:"$":2}}</div>
                     </div>
                     <div>
                         <div class="col-lg-9" style="color: red;">Neto a Liquidar</div>
-                        <div class="col-lg-3">{{simulacion.netoLiquidar | currency |number:2}}</div>
+                        <div class="col-lg-3">{{simulacion.NetoLiquidar | currency:"$":2}}</div>
                     </div>
                 </div>
             </div>
@@ -129,20 +127,20 @@
                 <div class="panel-heading">Precio Relacional</div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <input type="text" ng-model="simulacion.cuitCliente" class="form-control" placeholder="CUIT">
+                        <input type="text" ng-model="simulacion.CuitCliente" class="form-control" placeholder="CUIT">
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Razon Social">
                     </div>
                     <div class="form-group">
-                        <input type="text" ng-model="simulacion.torCliente" class="form-control" placeholder="TOR YTD" readonly>
+                        <input type="text" ng-model="simulacion.TorCliente" class="form-control" placeholder="TOR YTD" readonly>
                     </div>
-                    <button type="button" ng-click="consultarTor(simulacion.cuitCliente)" class="btn btn-primary">Consultar TOR</button>
+                    <button type="button" ng-click="consultarTor(simulacion.CuitCliente)" class="btn btn-primary">Consultar TOR</button>
                 </div>
             </div>
         </div>
         </form>
-    <form name="chequesForm" novalidate>
+    <form name="ChequesForm" novalidate>
         <table class="table">
             <thead>
                 <tr>
@@ -158,41 +156,46 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="cheque in simulacion.cheques">
+                <tr ng-repeat="cheque in simulacion.Cheques">
                     <td class="col-lg-1">{{$index + 1}}
                     <td class="col-lg-2">
                         <div class="input-group">
-                            <input type="text" class="form-control" uib-datepicker-popup ng-model="simulacion.cheques[$index].fechaAcreditacion" is-open="popupArray[$index].opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" readonly ng-change="renderCheque($index)" required />
+                            <input type="text" class="form-control" uib-datepicker-popup ng-model="simulacion.Cheques[$index].FechaAcreditacion" is-open="popupArray[$index].opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" readonly ng-change="renderCheque($index)" required />
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-default" ng-click="open($index)"><i class="glyphicon glyphicon-calendar"></i></button>
                             </span>
                         </div>
                     </td>
                     <td>
-                        <select class="form-control" name="banco" required>
-                            <option ng-repeat="banco in bancos" value="banco.value" ng-model="cheque.banco">{{banco.label}}</option>
+                        <select class="form-control" name="banco" ng-model="cheque.Banco" required>
+                            <option ng-repeat="banco in bancos" value="{{banco.value}}">{{banco.label}}</option>
                         </select>
                     </td>
                     <td>
-                        <input type="number" class="form-control" ng-model="cheque.documento" placeholder="Documento" required ng-change="setNosisInitialState($index)">
+                        <input type="text" class="form-control" ng-model="cheque.Documento" placeholder="Documento" required ng-change="setNosisInitialState($index)">
                     </td>
                     <td>
-                        <input type="text" class="form-control" ng-model="cheque.nombreCliente" placeholder="Nombre" required>
+                        <input type="text" class="form-control" ng-model="cheque.Nombre" placeholder="Nombre" required>
                     </td>
                     <td>
-                        <input class="form-control" blur-to-currency amount="cheque.importe" placeholder="Importe" required>
+                        <input class="form-control" blur-to-currency amount="cheque.Importe" placeholder="Importe" required>
                     </td>
                     <td class="col-lg-1">
-                        <input type="number" class="form-control" ng-model="cheque.plazo" placeholder="Plazo" readonly required>
+                        <input type="number" class="form-control" ng-model="cheque.Plazo" placeholder="Plazo" readonly required>
                     </td>
                     <td class="col-lg-1">
-                        <input type="number" class="form-control" ng-model="cheque.otrosDias" >
+                        <input type="number" class="form-control" ng-model="cheque.OtrosDias" >
                     </td>
                     <td>
-                        <input type="text" class="form-control" ng-model="cheque.nosis" placeholder="Nosis" readonly>
+                        <input type="text" class="form-control" ng-model="cheque.Nosis" placeholder="Nosis" readonly>
                     </td>
                     <td>
                         <button type="button" ng-click="deleteCheque($index)" class="btn btn-danger">Borrar</button>
+                    </td>
+                </tr>
+                <tr ng-if="simulacion.Cheques.length > 0">
+                    <td class="col-lg-2">
+                        <button type="button" id="btn-nosis" class="btn btn-danger btn-lg btn-block" ng-click="consultarNosis()">Consultar NOSIS</button>
                     </td>
                 </tr>
             </tbody>
@@ -205,22 +208,33 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-2">
-                                <h4>Spread: <span id="spreadPromedio" ng-model="simulacion.spreadTotal"></span></h4>
+                                <h4>Spread: <span id="spreadPromedio">{{simulacion.SpreadTotal | number:2}}</span></h4>
                             </div>
                             <div class="col-lg-2">
-                                <h4>Estado: <span id="estadoSimulacion" ng-model="simulacion.estado">SIMULANDO</span></h4>
+                                <h4>Estado: <span id="estadoSimulacion" >{{simulacion.Estado}}</span></h4>
                             </div>
                             <div class="col-lg-2">
                                 <h4>LIP Disponible: 2047</h4>
                             </div>
-                            <div class="col-lg-2">
-                            </div>
-                            <div class="col-lg-2">
-                                <button type="button" id="btn-nosis" class="btn btn-danger btn-lg btn-block" ng-click="consultarNosis()">Consultar NOSIS</button>
-                            </div>
-                            <div class="col-lg-2">
+
+                            <div ng-if="!editable || role !== 'Jefe'" class="col-lg-2">
                                 <button type="button" id="btn-confirmar" class="btn btn-danger btn-lg btn-block"
-                                         ng-click="postSimulacion()">Confirmar</button>
+                                        ng-click="createSimulacion()">
+                                    Crear Simulacion
+                                </button>
+                            </div>
+                            <div ng-if="editable && role=== 'Jefe'" class="col-lg-2">
+                                <button type="button" id="btn-confirmar" class="btn btn-primary btn-lg btn-block"
+                                        ng-click="updateSimulacion()">
+                                    Aceptar Simulacion
+                                </button>
+                            </div>
+
+                            <div ng-if="editable && role=== 'Jefe'" class="col-lg-2">
+                                <button type="button" id="btn-confirmar" class="btn btn-danger btn-lg btn-block"
+                                        ng-click="updateSimulacion()">
+                                    Rechazar Simulacion
+                                </button>
                             </div>
                             <!-- /.col-lg-8 -->
                         </div>

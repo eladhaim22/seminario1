@@ -1,11 +1,11 @@
 ﻿using LumenWorks.Framework.IO.Csv;
-using Seminario.Dto;
 using Seminario.MapperProject;
 using Seminario.Model;
 using Seminario.NHibernate;
 using Seminario.Web.Models;
 using Seminario.Web.ViewModel;
 using Seminario.WebServices;
+using Seminario.WebServices.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Data;

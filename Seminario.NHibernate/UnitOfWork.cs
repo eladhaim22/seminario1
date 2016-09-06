@@ -21,6 +21,7 @@ namespace Seminario.NHibernate
 
         public UnitOfWork()
         {
+
         }
 
         ~UnitOfWork()

@@ -34,10 +34,34 @@ app.factory('SimulacionService', ['$http', function ($http) {
             });
         },
 
-        saveSimulacion: function (simulacion){
-            return $http.post("/api/Simulacion/PostSimulacion/", simulacion).success(function (data) {
+        createSimulacion: function (simulacion) {
+            return $http.post("/api/Simulacion/CreateSimulacion/", simulacion).success(function (data) {
                 return data;
             }).error (function (error) {
+                alert(error);
+            });
+        },
+
+        updateSimulacion: function (simulacion) {
+            return $http.post("/api/Simulacion/UpdateSimulacion/", simulacion).success(function (data) {
+                return data;
+            }).error(function (error) {
+                alert(error);
+            });
+        },
+        
+        getSimulacionById: function (simulacionId) {
+            return $http.get("/api/Simulacion/GetSimulacionById/" + simulacionId).success(function (data) {
+                return data;
+            }).error(function (error) {
+                alert(error);
+            });
+        },
+
+        getAllSimulacion: function (simulacion) {
+            return $http.get("/api/Simulacion/GetAllSimulacion").success(function (data) {
+                return data;
+            }).error (function (error){
                 alert(error);
             });
         }

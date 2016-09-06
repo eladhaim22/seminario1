@@ -1,37 +1,76 @@
 ﻿var app = angular.module('app');
 
-app.controller('simulacionController', ['$scope', '$timeout', 'SimulacionService', function ($scope, $timeout, SimulacionService) {
-    //set simulacion
-    $scope.simulacion = {
-        cuitCliente: undefined,
-        torCliente: undefined,
-        fechaDescuento: "",
-        comisionAdministrativa: undefined,
-        valorNominal: 0, //importeTotal
-        intereses: undefined, //interesTotal
-        comision: undefined, //comisionTotal
-        sellado: undefined, //selladoTotal
-        iva: undefined, //ivaTotal
-        gastoTotal: 0,
-        TT: 0,
-        TNAv: 0,
-        netoLiquidar: 0, //netoLiquidarTotal
-        importePonderadoTotal: 0,
-        tipoCateg: "", //condicion IVA
-        cantidadCheques: 0, //cantidad a comprar
-        codProd: "",
-        fechaVencimientoPond: 0,
-        spreadTotal: 0,
-        netoTotal: 0,
-        tasaIIBB: 0,
-        tasaIva: 0,
-        tasaSellado: 0,
-        estado: "",
-        legajo: "",
-        idProvincia: "",
-        cheques : []
-    };
+app.controller('simulacionController', ['$scope', '$timeout', 'SimulacionService', '$routeParams', '$rootScope',
+function ($scope, $timeout, SimulacionService, $routeParams, $rootScope) {
 
+        var nosisState = ["Sin Verficar", "Aceptado", "Rechazado"];
+
+        $scope.editable = false;
+        $scope.role = $rootScope.role;
+        $scope.bancos = [
+                { label: "", value: null },
+                { label: "Banco ICBC", value: "Banco ICBC" },
+                { label: "Banco Galicia", value: "Banco Galicia" },
+                { label: "Banco Frances", value: "Banco Frances" },
+                { label: "Banco Comafi", value: "Banco Comafi" },
+                { label: "Banco Piano", value: "Banco Piano" },
+                { label: "Banco Credicoop", value: "Banco Credicoop" },
+                { label: "Banco Macro", value: "Banco Macro" },
+                { label: "Banco Nacion", value: "Banco Nacion" },
+                { label: "Banco Ciudad", value: "Banco Ciudad" },
+                { label: "Banco Provincia", value: "Banco Provincia" },
+                { label: "Banco HSBC", value: "Banco HSBC" }
+        ];
+
+        $scope.estadoFiscal = [
+            { id: 1, nombre: "Resp. Insc s/Excl. AFIP", value: 0.12 },
+            { id: 2, nombre: "Resp. Insc c/Excl. AFIP", value: 0.21 }
+        ];
+
+        if ($routeParams.id) {
+            SimulacionService.getSimulacionById($routeParams.id).then(function (response) {
+                response.data.FechaDescuento = new Date(response.data.FechaDescuento);
+                angular.forEach(response.data.Cheques, function (value) {
+                    value.FechaAcreditacion = new Date(value.FechaAcreditacion);
+                }); 
+                $scope.simulacion = response.data;
+                $scope.editable = true;
+                activeWatch();
+            });
+        }
+        else {
+            //set simulacion
+            $scope.simulacion = {
+                CuitCliente: "",
+                TorCliente: undefined,
+                FechaDescuento: "",
+                ComisionAdministrativa: undefined,
+                ValorNominal: 0, //ImporteTotal
+                Intereses: 0, //interesTotal
+                Comision: 0, //ComisionTotal
+                Sellado: 0, //SelladoTotal
+                Iva: 0, //IvaTotal
+                GastoTotal: 0,
+                TT: 0,
+                TNAV: 0,
+                NetoLiquidar: 0, //NetoLiquidarTotal
+                ImportePonderadoTotal: 0,
+                TipoCateg: "", //condicion Iva
+                CantidadCheques: 0, //cantidad a comprar
+                CodProd: "",
+                FechaVencimientoPond: 0,
+                SpreadTotal: 0,
+                NetoTotal: 0,
+                TasaIIBB: 0,
+                TasaIva: 0,
+                TasaSellado: 0,
+                Estado: "Simulando",
+                Legajo: $rootScope.legajo,
+                IdProvincia: "",
+                Cheques: []
+            };
+            activeWatch();
+        }
 
     $scope.productos = [];
     $scope.provincias = [];
@@ -46,79 +85,58 @@ app.controller('simulacionController', ['$scope', '$timeout', 'SimulacionService
 
     $scope.consultarTor = function (cuit) {
         SimulacionService.consultarTor(cuit).then(function (response) {
-            $scope.simulacion.torCliente = response.data + "%";
+            $scope.simulacion.TorCliente = response.data + "%";
         });
     }
-    var nosisState = ["Sin Verficar", "Aceptado", "Rechazado"];
-    $scope.setNosisInitialState = function ($index) {
-        $scope.simulacion.cheques[$index].nosis = nosisState[0];
+     $scope.setNosisInitialState = function ($index) {
+        $scope.simulacion.Cheques[$index].nosis = nosisState[0];
     }
-
-    $scope.estadoFiscal = [
-        {id:1,nombre:"Resp. Insc s/Excl. AFIP",value:0.12},
-        {id:2,nombre:"Resp. Insc c/Excl. AFIP",value:0.21}
-    ];
       
     $scope.consultarNosis = function () {
-        SimulacionService.consularNosis(_.map($scope.simulacion.cheques, 'documento').toString().split(',')).then(function (response) {
+        SimulacionService.consularNosis(_.map($scope.simulacion.Cheques, 'Documento').toString().split(',')).then(function (response) {
             angular.forEach(response.data, function (value, index) {
-                $scope.simulacion.cheques[index].nosis = nosisState[value];
+                $scope.simulacion.Cheques[index].Nosis = nosisState[value];
             });
         });
     }
 
     $scope.addCheque = function () {
         var cheque = {
-            fechaAcreditacion: "", 
-            banco: "", 
-            documento: "", 
-            nombre: "", 
-            importe:null, 
-            plazo:null, 
-            otrosDia:null, 
-            nosis:"Sin Verificar",
+            FechaAcreditacion: "", 
+            Banco: "", 
+            Documento: "", 
+            Nombre: "", 
+            Importe:0, 
+            Plazo:0, 
+            OtrosDias:null, 
+            Nosis:"Sin Verificar",
             //variables internas para cálculos
-            diasOps: 0,
+            DiasOps: 0,
             TEOps: 0, //TE
             TEAdelantada: 0, //TEA
             TNAA: 0,
-            intereses: 0,
-            comision: 0,
-            sellado: 0,
-            iva: 0,
+            Intereses: 0,
+            Comision: 0,
+            Sellado: 0,
+            Iva: 0,
             TT: 0, //no se guarda en el cheque, se guarda en la simulacion
-            spread: 0,
-            cft: 0,
-            cftMes: 0,
-            netoLiquidar: 0,
-            ponderado: 0,
+            Spread: 0,
+            Cft: 0,
+            CftMes: 0,
+            NetoLiquidar: 0,
+            Ponderado: 0,
             TETT: 0,
             TEATT: 0,
             IIBB: 0,
-            costo: 0,
-            neto: 0
+            Costo: 0,
+            Neto: 0
         };
-        $scope.simulacion.cheques.push(cheque);
+        $scope.simulacion.Cheques.push(cheque);
         $scope.popupArray.push({"opened":false});
     }
 
-    $scope.bancos = [
-                    { label: "", value: null },
-                    { label: "Banco ICBC", value: "Banco ICBC" },
-                    { label: "Banco Galicia", value: "Banco Galicia" },
-                    { label: "Banco Frances", value: "Banco Frances" },
-                    { label: "Banco Comafi", value: "Banco Comafi" },
-                    { label: "Banco Piano", value: "Banco Piano" },
-                    { label: "Banco Credicoop", value: "Banco Credicoop" },
-                    { label: "Banco Macro", value: "Banco Macro" },
-                    { label: "Banco Nacion", value: "Banco Nacion" },
-                    { label: "Banco Ciudad", value: "Banco Ciudad" },
-                    { label: "Banco Provincia", value: "Banco Provincia" },
-                    { label: "Banco HSBC", value: "Banco HSBC" }
-                    ];
-
     $scope.deleteCheque = function (index) {
-        $scope.simulacion.cheques.splice(index, 1);
+        $scope.simulacion.Cheques.splice(index, 1);
         $scope.popupArray.splice(index, 1);
     }
 
@@ -175,103 +193,85 @@ app.controller('simulacionController', ['$scope', '$timeout', 'SimulacionService
     $scope.popupArray = [];
 
     $scope.renderCheque = function (index) {
-        if (moment($scope.simulacion.cheques[index].fechaAcreditacion).isValid() &&
-            moment($scope.simulacion.fechaDescuento).isValid()) {
-            var fechaStart = moment($scope.simulacion.cheques[index].fechaAcreditacion);
-            var fechaEnd = moment($scope.simulacion.fechaDescuento);
-            $scope.simulacion.cheques[index].plazo = parseInt(fechaStart.diff(fechaEnd, "days"));
+        if (moment($scope.simulacion.Cheques[index].FechaAcreditacion).isValid() &&
+            moment($scope.simulacion.FechaDescuento).isValid()) {
+            var fechaStart = moment($scope.simulacion.Cheques[index].FechaAcreditacion);
+            var fechaEnd = moment($scope.simulacion.FechaDescuento);
+            $scope.simulacion.Cheques[index].Plazo = parseInt(fechaStart.diff(fechaEnd, "days"));
         }
     }
 
-    $scope.$watch('simulacion.cheques.fechaAcreditacion',function(oldValue,newValue){
-        if (moment($scope.simulacion.fechaDescuento).isValid()) {
-            var plazoStart = moment($scope.simulacion.fechaAcreditacion);
-            var plazoEnd = moment(newValue.fechaDescuento);
-            $scope.simulacion.plazo = plazoStart.diff(plazoEnd, "days");
-        }
-    });
 
-    $scope.$watch('simulacion.fechaDescuento', function (oldValue,newValue) {
-        angular.forEach($scope.simulacion.cheques, function (value, key) {
-            $scope.renderCheque(key);
-        });
-    });
-    
-    function renderCheque(cheque) {
-        if (cheque.plazo) {
-            cheque.diasOps = cheque.plazo ? cheque.plazo + cheque.otrosDia : 0;
-            cheque.TEOps = parseFloat((parseFloat($("#tnavPactada").val()) / 100 / 365 * (cheque.diasOps)).toFixed(5));
-            cheque.TEAdelantada = parseFloat((cheque.TEOps / (1 + cheque.TEOps)).toFixed(5));
-            cheque.TNAA = parseFloat((cheque.TEAdelantada * 365 / cheque.diasOps).toFixed(5));
-        }
+
+    function activeWatch() {
+        $scope.flag = false;
+        $scope.$watch('simulacion', function (newVal, oldVal) {
+            $scope.flag = !$scope.flag;
+            if ($scope.flag && newVal!=oldVal) {
+                $scope.simulacion.Intereses = 0;
+                $scope.simulacion.Comision = 0;
+                $scope.simulacion.Sellado = 0;
+                $scope.simulacion.Iva = 0;
+                $scope.simulacion.ImportePonderadoTotal = 0;
+                $scope.simulacion.NetoTotal = 0;
+                $scope.simulacion.FechaVencimientoPond = 0;
+                $scope.simulacion.ValorNominal = 0;
+                $scope.GastoTotal = 0;
+                $scope.simulacion.NetoLiquidar = 0;
+                $scope.SpreadTotal = 0;
+                $scope.simulacion.Estado = "Simulando";
+                if ($scope.simulacionForm.$valid && $scope.ChequesForm.$valid && $scope.simulacion.Cheques.length > 0) {
+                    angular.forEach($scope.simulacion.Cheques, function (cheque, index) {
+                        cheque.DiasOps = cheque.OtrosDias ? cheque.Plazo + cheque.OtrosDias : cheque.Plazo;
+                        cheque.TEOps = $scope.simulacion.TNAV / 365 * cheque.DiasOps;
+                        cheque.TEAdelantada = cheque.TEOps / (1 + cheque.TEOps);
+                        cheque.TNAA = cheque.TEAdelantada * 365 / cheque.DiasOps;
+                        cheque.Intereses = cheque.Importe - (1 - cheque.TEAdelantada) * cheque.Importe;
+                        cheque.Comision = cheque.Importe * $scope.simulacion.ComisionAdministrativa;
+                        cheque.Sellado = _.filter($scope.provincias, function (o) { return o.Id === $scope.simulacion.IdProvincia })[0].Sellado * cheque.Importe / 365 * cheque.Plazo;
+                        cheque.Iva = (cheque.Intereses + cheque.Comision) * (_.filter($scope.estadoFiscal, function (o) { return o.id === $scope.simulacion.TipoCateg })[0].value);
+                        var GastoTotal = cheque.Intereses + cheque.Comision + cheque.Sellado + cheque.Iva;
+                        cheque.NetoLiquidar = cheque.Importe - cheque.Intereses + cheque.Comision + cheque.Sellado + cheque.Iva;
+                        cheque.TT = 0.89; //CAMBIER MOCK
+                        cheque.Spread = ((cheque.Intereses + cheque.Comision) / cheque.Importe / cheque.DiasOps * 365) - cheque.TT;
+                        cheque.Cft = (Math.pow((1 + GastoTotal / cheque.Importe), (365 / cheque.DiasOps)) - 1);
+                        cheque.CftMes = Math.pow(1 + cheque.Cft, 0.0821917808219178) - 1;
+                        cheque.Ponderado = cheque.Importe * cheque.Plazo;
+                        cheque.TETT = cheque.TT / 365 * cheque.DiasOps;
+                        cheque.TEATT = cheque.TETT / (1 + cheque.TETT);
+                        cheque.IIBB = $scope.simulacion.TasaIIBB * (cheque.Intereses + cheque.Comision);
+                        cheque.Costo = cheque.Importe - (1 - cheque.TEATT) * cheque.Importe;
+                        cheque.Neto = cheque.Intereses + cheque.Comision - cheque.IIBB - cheque.Costo;
+                        $scope.simulacion.ValorNominal += parseInt(cheque.Importe);
+                        $scope.simulacion.Intereses += cheque.Intereses;
+                        $scope.simulacion.Comision += cheque.Comision;
+                        $scope.simulacion.Sellado += cheque.Sellado;
+                        $scope.simulacion.Iva += cheque.Iva;
+                        $scope.simulacion.ImportePonderadoTotal += cheque.Ponderado;
+                        $scope.simulacion.NetoTotal += cheque.Neto;
+                    });
+                    $scope.simulacion.GastoTotal = $scope.simulacion.Intereses + $scope.simulacion.Comision + $scope.simulacion.Sellado + $scope.simulacion.Iva;
+                    $scope.simulacion.NetoLiquidar = $scope.simulacion.ValorNominal - $scope.simulacion.GastoTotal;
+                    $scope.simulacion.FechaVencimientoPond = ($scope.simulacion.ImportePonderadoTotal / $scope.simulacion.ValorNominal).toFixed(0);
+                    $scope.simulacion.SpreadTotal = $scope.simulacion.NetoTotal / $scope.simulacion.ValorNominal / $scope.simulacion.FechaVencimientoPond * 365;
+                    if ($scope.simulacion.SpreadTotal > 3)
+                        $scope.simulacion.Estado = "Aceptado";
+                    else
+                        $scope.simulacion.Estado = "A Revisar";
+                }
+            }
+        }, true);
     }
-
-    $scope.$watch("simulacion", function (newVal, oldVal) {
-        $scope.simulacion.intereses = 0;
-        $scope.simulacion.comision = 0;
-        $scope.simulacion.sellado = 0;
-        $scope.simulacion.iva = 0;
-        $scope.simulacion.importePonderadoTotal = 0;
-        $scope.simulacion.netoTotal = 0;
-        $scope.simulacion.fechaVencimientoPond = 0;
-        $scope.gastoTotal = 0;
-        if ($scope.simulacionForm.$valid && $scope.chequesForm.$valid && $scope.simulacion.cheques.length > 0) {
-            angular.forEach($scope.simulacion.cheques, function (cheque, index) {
-                cheque.diasOps = cheque.plazo + cheque.otrosDia;
-                cheque.TEOps = $scope.simulacion.TNAv / 100 / 365 * cheque.diasOps;
-                cheque.TEAdelantada = cheque.TEOps / (1 + cheque.TEOps);
-                cheque.TNAA = cheque.TEAdelantada * 365 / cheque.diasOps;
-                cheque.intereses = cheque.importe - (1 - cheque.TEAdelantada) * cheque.importe;
-                cheque.comision = cheque.importe * $scope.simulacion.comisionAdministrativa / 100;
-                cheque.sellado = _.filter($scope.provincias,function(o){return o.Id === $scope.simulacion.idProvincia })[0].Sellado * cheque.importe / 365 * cheque.plazo;
-                cheque.iva =  (cheque.intereses + cheque.comision) * (_.filter($scope.estadoFiscal,function(o){return o.id === $scope.simulacion.tipoCateg })[0].value);
-                var gastoTotal = cheque.intereses + cheque.comision + cheque.sellado + cheque.iva;
-                cheque.netoLiquidar = cheque.importe - cheque.intereses + cheque.comision + cheque.sellado + cheque.iva;
-                cheque.TT = 0.89; //CAMBIER MOCK
-                cheque.spread = ((cheque.intereses + cheque.comision) / cheque.importe / cheque.diasOps * 365) - cheque.TT;
-                cheque.cft = (Math.pow((1 + gastoTotal / cheque.importe), (365 / cheque.diasOps)) - 1);
-                cheque.cftMes = Math.pow(1 + cheque.cft, 0.0821917808219178) - 1;
-                cheque.ponderado = cheque.importe * cheque.plazo;
-                cheque.TETT = cheque.TT / 365 * cheque.diasOps;
-                cheque.TEATT = cheque.TETT / (1 + cheque.TETT);
-                cheque.IIBB = $scope.simulacion.IIBB / 100 * (cheque.intereses + cheque.comision);
-                cheque.costo = cheque.importe - (1 - cheque.TEATT) * cheque.importe;
-                cheque.neto = cheque.intereses + cheque.comision - cheque.IIBB - cheque.costo;
-                $scope.simulacion.valorNominal += cheque.importe;
-                $scope.simulacion.intereses += cheque.intereses;
-                $scope.simulacion.comision += cheque.comision;
-                $scope.simulacion.sellado += cheque.sellado;
-                $scope.simulacion.iva += cheque.iva;
-                $scope.simulacion.importePonderadoTotal += cheque.ponderado;
-                $scope.simulacion.netoTotal += cheque.neto;
-            });
-            $scope.simulacion.gastoTotal = $scope.simulacion.intereses + $scope.simulacion.comision + $scope.simulacion.sellado + $scope.simulacion.iva;
-            $scope.simulacion.netoLiquidar = $scope.simulacion.valorNominal - $scope.simulacion.gastoTotal;
-            $scope.simulacion.fechaVencimientoPond = ($scope.simulacion.importePonderadoTotal / $scope.simulacion.valorNominal).toFixed(0);
-            $scope.simulacion.spreadTotal = $scope.simulacion.netoTotal / $scope.simulacion.valorNominal / $scope.simulacion.fechaVencimientoPond * 365;
-        }
-    }, true);
     
-    $scope.postSimulacion = function () {
-        SimulacionService.saveSimulacion($scope.simulacion).then(function (response) {
+    $scope.createSimulacion = function () {
+        SimulacionService.createSimulacion($scope.simulacion).then(function (response) {
             return response;
         });
     }
 
-
-   /* function calculosInternos(id) {
-           _chequeData[id].sellado = parseFloat((obtenerSellado($("#select-provincia").val()) * _chequeData[id].importe / 365 * _chequeData[id].plazo).toFixed(2));
-
-            //iva
-            _chequeData[id].iva = parseFloat(((_chequeData[id].intereses + _chequeData[id].comision) * parseFloat($("#select-iva").val())).toFixed(2));
-
-            //TT
-            _chequeData[id].TT = obtenerTT($("#select-producto").val(), _chequeData[id].diasOps);
-
-            //IIBB
-            _chequeData[id].IIBB = parseFloat(((parseFloat($("#tasaIibb").val()) / 100) * (_chequeData[id].intereses + _chequeData[id].comision)).toFixed(5)); //ojo que en la planilla parseFloat($("#tasaIibb").val()) es 0.069
-        }
+    $scope.updateSimulacion = function () {
+        SimulacionService.updateSimulacion($scope.simulacion).then(function (response) {
+            return response;
+        });
     }
-    */
-    
 }]);

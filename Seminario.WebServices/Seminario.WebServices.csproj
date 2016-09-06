@@ -30,6 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentValidation, Version=6.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.6.2.1.0\lib\Net45\FluentValidation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,13 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatosTTService.cs" />
-    <Compile Include="IDatosTTService.cs" />
-    <Compile Include="IEntityService.cs" />
     <Compile Include="EntityService.cs" />
-    <Compile Include="IEmpleadoService.cs" />
-    <Compile Include="IProductoService.cs" />
-    <Compile Include="IProvinciaService.cs" />
-    <Compile Include="ISimulacionService.cs" />
     <Compile Include="EmpleadoService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProductoService.cs" />
@@ -54,6 +56,10 @@
     <Compile Include="ProvinciaService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Seminario.MapperProject\Seminario.MapperProject.csproj">
+      <Project>{3772ee46-7922-4788-acc2-cac70a242815}</Project>
+      <Name>Seminario.MapperProject</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Seminario.Model\Seminario.Model.csproj">
       <Project>{18d4d33a-961c-43eb-92a7-341ca9668ee8}</Project>
       <Name>Seminario.Model</Name>
@@ -62,6 +68,20 @@
       <Project>{456011cf-7d4f-435a-b5c2-94372a28db4c}</Project>
       <Name>Seminario.NHibernate</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Seminario.Validationes\Seminario.Validationes.csproj">
+      <Project>{5d8a63af-7ccb-4083-ac72-d47a671e9cef}</Project>
+      <Name>Seminario.Validationes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seminario.WebService.Contracts\Seminario.WebService.Contracts.csproj">
+      <Project>{45ed4a19-86bd-4e7b-828c-a808dc1ae6f3}</Project>
+      <Name>Seminario.WebService.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

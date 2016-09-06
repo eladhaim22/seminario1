@@ -27,7 +27,6 @@
 
 [iva] FLOAT NULL,
 
-[gastoTotal] FLOAT NULL,
 
 [spread] FLOAT NULL,
 

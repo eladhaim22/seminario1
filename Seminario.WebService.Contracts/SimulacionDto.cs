@@ -1,11 +1,10 @@
-﻿using Seminario.Dto;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Seminario.Model
+namespace Seminario.WebServices.Contracts
 {
     
     public class SimulacionDto : EntityDto
@@ -15,7 +14,7 @@ namespace Seminario.Model
         public DateTime FechaDescuento { get; set; }
         public float ValorNominal { get; set; }
         public float Intereses { get; set; }
-        public float Comision { get; set; }
+        public float ComisionAdministrativa { get; set; }
         public float Sellado { get; set; }
         public float Iva { get; set; }
         public float GastoTotal { get; set; }
@@ -33,7 +32,7 @@ namespace Seminario.Model
         public float TasaIva { get; set; }
         public float TasaSellado { get; set; }
         public string Estado { get; set; }
-        public int Legajo { get; set; }
+        public string Legajo { get; set; }
         public int IdProvincia { get; set; }
         public List<ChequeDto> Cheques { get; set; }
     }

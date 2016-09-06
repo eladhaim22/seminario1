@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Seminario.Dto
+namespace Seminario.WebServices.Contracts
 {
     public class EntityDto
     {

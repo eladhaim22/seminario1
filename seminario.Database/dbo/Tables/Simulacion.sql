@@ -29,7 +29,6 @@
 [importePonderadoTotal] FLOAT(10) NULL,
 
 
-[cantidadCompra] varchar(20) NULL,
 
 
 [fechaVencimientoPond] FLOAT(10) NULL,

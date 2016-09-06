@@ -12,6 +12,7 @@ namespace Seminario.NHibernate.Mapping
     {
         public SimulacionMap(){
             Id(x => x.Id,"idSimulacion");
+            Map(x => x.CuitCliente, "cuitCliente");
             Map(x => x.TorCliente, "torCliente");
             Map(x => x.FechaDescuento, "fechaDescuento");
             Map(x => x.ImporteTotal, "importeTotal");

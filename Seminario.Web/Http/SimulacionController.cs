@@ -1,6 +1,6 @@
-﻿using Seminario.Dto;
-using Seminario.Model;
+﻿using Seminario.Model;
 using Seminario.WebServices;
+using Seminario.WebServices.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,33 +14,53 @@ namespace Seminario.Web.Http
     public class SimulacionController : ApiController
     {
         public ISimulacionService SimulacionService;
-        public IProvinciaService ProvinciaService;
-        public IProductoService ProductoService;
-        public IEmpleadoService EmpleadoService;
 
-        public SimulacionController(ISimulacionService simulacionService, IProvinciaService provinciaService,
-            IProductoService productoService, IEmpleadoService empleadoService)
+        public SimulacionController(ISimulacionService simulacionService)
         {
             this.SimulacionService = simulacionService;
-            this.ProductoService = productoService;
-            this.ProvinciaService = provinciaService;
-            this.EmpleadoService = empleadoService;
         }
 
 
         [HttpPost]
-        public HttpResponseMessage PostSimulacion(SimulacionDto data)
+        public HttpResponseMessage CreateSimulacion(SimulacionDto data)
         {
-            var simulacion = MapperProject.AutoMapperConfig.mapper.Map<SimulacionDto, Simulacion>(data);
-            simulacion.Provincia = ProvinciaService.GetById(data.IdProvincia);
-            simulacion.Producto = ProductoService.GetById(data.CodProd);
-            simulacion.Empleado = EmpleadoService.Get(empleado => empleado.Legajo == User.Identity.Name);
-            ProductoService.Create(simulacion.Producto);
-            SimulacionService.Create(simulacion);
+            SimulacionService.Create(data);
             var response = ControllerContext.Request.CreateResponse(HttpStatusCode.OK, data);
             return response;
         }
 
-        
+        [HttpPost]
+        public HttpResponseMessage UpadateSimulacion(SimulacionDto data)
+        {
+            SimulacionService.Update(data);
+            var response = ControllerContext.Request.CreateResponse(HttpStatusCode.OK, data);
+            return response;
+        }
+
+        [HttpGet]
+        public HttpResponseMessage GetSimulacionById(string id)
+        {
+            HttpResponseMessage response;
+            if (id == null){
+                throw new NullReferenceException("simulacionId");
+            }
+                var simulacion = SimulacionService.GetById(Convert.ToInt32(id));
+                if (simulacion != null)
+                    response = ControllerContext.Request.CreateResponse(HttpStatusCode.OK, simulacion);
+                else
+                    response = ControllerContext.Request.CreateResponse(HttpStatusCode.InternalServerError,"simulacion no existe");
+           return response;        
+        }
+        [HttpGet]
+        public HttpResponseMessage GetAllSimulacion()
+        {
+            var simulaciones = new List<SimulacionDto>();
+            if (User.IsInRole("Jefe"))
+                simulaciones = SimulacionService.GetAll().ToList();
+            else
+                simulaciones = SimulacionService.GetMany(s => s.Empleado.Legajo == User.Identity.Name).ToList();
+            var response = ControllerContext.Request.CreateResponse(HttpStatusCode.OK, simulaciones);
+            return response;
+        }        
     }
 }

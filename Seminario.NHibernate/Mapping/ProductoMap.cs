@@ -15,7 +15,7 @@ namespace Seminario.NHibernate.Mapping
             Id(x => x.Id,"idProducto");
             Map(x => x.Nombre,"nombre");
             Map(x => x.CodigoProducto, "codigo");
-            HasMany(x => x.DatosTT).KeyColumn("idProducto").Inverse().Cascade.AllDeleteOrphan(); 
+            HasMany(x => x.DatosTT).KeyColumn("idProducto").Cascade.All(); 
         }
     }
 }

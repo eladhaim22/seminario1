@@ -6,6 +6,7 @@ using Seminario.Model;
 using Seminario.NHibernate.Mapping;
 using NHibernate.Linq;
 using FluentNHibernate.Utils;
+using NHibernate.Cfg;
 namespace Seminario.NHibernate
 {
     public static class SessionFactoryBuilder

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Newtonsoft.Json;
+using FluentValidation.Mvc;
 
 namespace Seminario.Web
 {
@@ -26,12 +27,13 @@ namespace Seminario.Web
             UnityApi.UnityConfig.RegisterComponents();
             UnityMvc.UnityConfig.RegisterComponents();
 
-            AutoMapperConfig.RegisterAutoMapper();
+            
             HttpConfiguration config = GlobalConfiguration.Configuration;
 
             config.Formatters.JsonFormatter
                         .SerializerSettings
-                        .ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore; 
+                        .ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+
         }
 
     }

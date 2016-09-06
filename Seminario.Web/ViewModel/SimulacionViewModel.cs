@@ -1,4 +1,5 @@
 ﻿using Seminario.Model;
+using Seminario.WebServices.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;

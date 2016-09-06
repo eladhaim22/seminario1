@@ -8,6 +8,7 @@
     using global::NHibernate;
     using global::NHibernate.Linq;
     using Seminario.Model;
+    using Seminario.Validationes;
 
     public class Repository<T> : IRepository<T>, IRepository where T : class, IEntity
     {
@@ -70,7 +71,7 @@
         {
             try
             {
-                this.Session.SaveOrUpdate(entity);
+                this.Session.Merge(entity);
             }
             catch (Exception)
             {

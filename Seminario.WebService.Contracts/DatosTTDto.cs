@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Seminario.Dto
+namespace Seminario.WebServices.Contracts
 {
-    public class ProductoDto : EntityDto
+    public class DatosTTDto : EntityDto
     {
         public int Plazo { get; set; }
-        public float TasaVigente { get; set; }
-        public ProductoDto Producto { get; set; }
+        public decimal TasaVigente { get; set; }
+        
     }
 }

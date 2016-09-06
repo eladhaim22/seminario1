@@ -6,13 +6,12 @@
 
 [tasaVigente] decimal(5,2) NULL,
 
-
-
-
-[idProducto] INT NOT NULL, 
+[idProducto] INT NULL, 
     CONSTRAINT [PK__datosTT] PRIMARY KEY CLUSTERED
 
-([idDatosTT] ASC), 
-    CONSTRAINT [FK_DatosTT_Producto] FOREIGN KEY ([idProducto]) REFERENCES [Producto]([idProducto])
+([idDatosTT] ASC),
+constraint FK__datosTT__idProducto__Producto foreign key (idProducto)
+
+references Producto(idProducto)
 )
 

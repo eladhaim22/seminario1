@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Seminario.WebServices
+namespace Seminario.WebServices.Contracts
 {
-    public interface IEmpleadoService : IEntityService<Empleado>
+    public interface IProductoService : IEntityService<Producto,ProductoDto>
     {
     }
 }

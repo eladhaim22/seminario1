@@ -1,6 +1,7 @@
 ﻿using LumenWorks.Framework.IO.Csv;
 using Seminario.Model;
 using Seminario.WebServices;
+using Seminario.WebServices.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -55,12 +56,12 @@ namespace Seminario.Web.Http
                                 Convert.ToInt32(csvTable.AsEnumerable().First()[0].ToString().Split(';')[0]));
 
                             producto.DatosTT.Clear();
-
+                            
                             foreach (var rw in csvTable.AsEnumerable())
                             {
-                                producto.DatosTT.Add(new DatosTT()
+                                producto.DatosTT.Add(new DatosTTDto()
                                 {
-                                    Producto = producto,
+                                    //Producto = producto,
                                     Plazo = Convert.ToInt32(rw[0].ToString().Split(';').GetValue(1)),
                                     TasaVigente = Convert.ToDecimal(rw[0].ToString().Split(';').GetValue(2))
                                 });

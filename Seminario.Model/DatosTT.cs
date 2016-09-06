@@ -10,6 +10,5 @@ namespace Seminario.Model
     {
         public virtual int Plazo { get; set; }
         public virtual decimal TasaVigente { get; set; }
-        public virtual Producto Producto { get; set; }
     }
 }

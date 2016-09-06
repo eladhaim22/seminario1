@@ -30,8 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=5.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.5.0.2\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NuGet.VisualStudio, Version=3.3.0.167, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -48,17 +48,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoMapperConfig.cs" />
-    <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Seminario.Dto\Seminario.Dto.csproj">
-      <Project>{3d515d5f-7643-4c32-a47e-b9c6dd02ccf2}</Project>
-      <Name>Seminario.Dto</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Seminario.Model\Seminario.Model.csproj">
       <Project>{18d4d33a-961c-43eb-92a7-341ca9668ee8}</Project>
       <Name>Seminario.Model</Name>
@@ -67,9 +62,9 @@
       <Project>{456011cf-7d4f-435a-b5c2-94372a28db4c}</Project>
       <Name>Seminario.NHibernate</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Seminario.WebServices\Seminario.WebServices.csproj">
-      <Project>{702ac730-317c-4955-a609-813b161971a5}</Project>
-      <Name>Seminario.WebServices</Name>
+    <ProjectReference Include="..\Seminario.WebService.Contracts\Seminario.WebService.Contracts.csproj">
+      <Project>{45ed4a19-86bd-4e7b-828c-a808dc1ae6f3}</Project>
+      <Name>Seminario.WebService.Contracts</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

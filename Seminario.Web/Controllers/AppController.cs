@@ -1,6 +1,7 @@
 ﻿using LumenWorks.Framework.IO.Csv;
 using Seminario.Model;
 using Seminario.WebServices;
+using Seminario.WebServices.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -33,7 +34,13 @@ namespace Seminario.Web.Controllers
             return View();
         }
 
+
         public ActionResult Upload()
+        {
+            return View();
+        }
+
+        public ActionResult ViewSimulacion()
         {
             return View();
         }
