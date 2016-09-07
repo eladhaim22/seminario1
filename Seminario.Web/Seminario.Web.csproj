@@ -247,6 +247,7 @@
     <Content Include="App\Controllers\viewSimulacionController.js" />
     <Content Include="App\Directive\currencyDirective.js" />
     <Content Include="App\Directive\fileDirective.js" />
+    <Content Include="App\Directive\percentajeFilter.js" />
     <Content Include="App\Services\simulacionService.js" />
     <Content Include="App\Services\uploadServices.js" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -1148,7 +1149,7 @@
     </ProjectReference>
     <ProjectReference Include="..\Seminario.Ioc\Seminario.Ioc.csproj">
       <Project>{d9b21d14-774c-4cbb-9b4c-17190157593d}</Project>
-      <Name>Seminario.Ioc</Name>
+      <Name>Seminario.Unity</Name>
     </ProjectReference>
     <ProjectReference Include="..\Seminario.WebService.Contracts\Seminario.WebService.Contracts.csproj">
       <Project>{45ed4a19-86bd-4e7b-828c-a808dc1ae6f3}</Project>

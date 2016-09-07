@@ -47,7 +47,7 @@ namespace Seminario.Validationes
 
 			foreach (ValidationFailure item in this.FluentValidator.Validate(entity).Errors)
 			{
-				result.ErrorMessages.Add(item.ErrorMessage);
+				result.Errors.Add(new ValidationError { PropertyKey = item.PropertyName, Message = item.ErrorMessage });
 			}
 			return result;
 		}

@@ -38,21 +38,31 @@ namespace Seminario.WebServices
 				throw new ArgumentNullException("entity");
 			}
 			var entityModel = _mapper.Map<TDto, T>(entity);
-			ValidationResult result = this._entityValidator.Validate(entityModel);
+			ValidationResult result = new ValidationResult();
+			result = this._entityValidator.Validate(entityModel);
 			if (result.IsValid)
 			{
 				_unitOfWork.Repository<T>().Add(entityModel);
 				_unitOfWork.Save();
 			}
 			else
-				throw new Exception(result.ErrorMessages.FirstOrDefault());
+				throw new ValidationException(result);
 		}
 
 		public virtual void Update(TDto entity)
 		{
-			if (entity == null) throw new ArgumentNullException("entity");
-			_unitOfWork.Repository<T>().Update(_mapper.Map<TDto, T>(entity));
-			_unitOfWork.Save();
+			if (entity == null)
+				throw new ArgumentNullException("entity");
+			var entityModel = _mapper.Map<TDto, T>(entity);
+			ValidationResult result = new ValidationResult();
+			result = this._entityValidator.Validate(entityModel);
+			if (result.IsValid)
+			{
+				_unitOfWork.Repository<T>().Update(entityModel);
+				_unitOfWork.Save();
+			}
+			else
+				throw new ValidationException(result);
 		}
 
 		public virtual void Delete(TDto entity)
