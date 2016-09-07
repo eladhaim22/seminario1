@@ -7,8 +7,8 @@
     <ProjectGuid>{D9B21D14-774C-4CBB-9B4C-17190157593D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Seminario.Unity</RootNamespace>
-    <AssemblyName>Seminario.Unity</AssemblyName>
+    <RootNamespace>Seminario.Ioc</RootNamespace>
+    <AssemblyName>Seminario.Ioc</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -109,7 +109,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\UnityConfig.cs" />
+    <Compile Include="UnityConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

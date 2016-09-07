@@ -1146,9 +1146,9 @@
       <Project>{456011cf-7d4f-435a-b5c2-94372a28db4c}</Project>
       <Name>Seminario.NHibernate</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Seminario.UnityMvc\Seminario.Unity.csproj">
+    <ProjectReference Include="..\Seminario.Ioc\Seminario.Ioc.csproj">
       <Project>{d9b21d14-774c-4cbb-9b4c-17190157593d}</Project>
-      <Name>Seminario.Unity</Name>
+      <Name>Seminario.Ioc</Name>
     </ProjectReference>
     <ProjectReference Include="..\Seminario.WebService.Contracts\Seminario.WebService.Contracts.csproj">
       <Project>{45ed4a19-86bd-4e7b-828c-a808dc1ae6f3}</Project>

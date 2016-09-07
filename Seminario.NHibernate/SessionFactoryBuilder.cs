@@ -4,9 +4,11 @@ using NHibernate;
 using NHibernate.Tool.hbm2ddl;
 using Seminario.Model;
 using Seminario.NHibernate.Mapping;
+using System.Reflection;
 using NHibernate.Linq;
 using FluentNHibernate.Utils;
 using NHibernate.Cfg;
+using System.Collections.Generic;
 namespace Seminario.NHibernate
 {
     public static class SessionFactoryBuilder
@@ -15,19 +17,19 @@ namespace Seminario.NHibernate
         {
             ISessionFactory sessionFactory = Fluently.Configure()
                 .Database(MsSqlConfiguration.MsSql2005
-                  .ConnectionString(connectionString).ShowSql()
-                   )
+                .ConnectionString(connectionString).ShowSql())
                 .Mappings(m =>
-                          m.FluentMappings
-                              .AddFromAssemblyOf<ChequeMap>()
-                              .AddFromAssemblyOf<ProvinciaMap>()
-                              .AddFromAssemblyOf<DatosTTMap>()
-                              .AddFromAssemblyOf<ProductoMap>()
-                              .AddFromAssemblyOf<SimulacionMap>()
-                              .AddFromAssemblyOf<Empleado>()
-                              )
-                .ExposeConfiguration(cfg => new SchemaExport(cfg)
-                 .Create(false, false))
+                {
+                    foreach (var classToMap in Assembly.GetExecutingAssembly().DefinedTypes)
+                    {
+                        if (classToMap.Name.EndsWith("Map"))
+                        {
+                            m.FluentMappings.Add(classToMap);
+                        }
+                    }
+                })
+                .ExposeConfiguration(l => new SchemaExport(l)
+                .Create(false, false))
                 .BuildSessionFactory();
             return sessionFactory;
         }

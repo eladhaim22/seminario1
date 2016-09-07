@@ -12,9 +12,7 @@ namespace Seminario.WebServices
 {
 	public class DatosTTService : EntityService<DatosTT, DatosTTDto>, IDatosTTService
 	{
-		public IUnitOfWork UnitOfWork { get; set; }
-
-		public IValidator<DatosTT> Validator { get; set; }
+        public IUnitOfWork UnitOfWork { get; set; }
 
 		public DatosTTService(IUnitOfWork unitOfWork)
 			: base(unitOfWork)

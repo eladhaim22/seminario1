@@ -6,7 +6,7 @@ using Seminario.Validationes;
 using Seminario.WebServices;
 using Seminario.WebServices.Contracts;
 
-namespace Seminario.Unity
+namespace Seminario.Ioc
 {
 	public static class UnityConfig
 	{
@@ -26,7 +26,6 @@ namespace Seminario.Unity
 			container.RegisterType<IEmpleadoService, EmpleadoService>();
 			container.RegisterType<IDatosTTService, DatosTTService>();
 			System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver = new Unity.WebApi.UnityDependencyResolver(container);
-			//RegisterValidators(container);
 			System.Web.Mvc.DependencyResolver.SetResolver(new Unity.Mvc5.UnityDependencyResolver(container));
 		}
 	}

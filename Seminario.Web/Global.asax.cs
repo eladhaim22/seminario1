@@ -6,7 +6,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using FluentValidation.Mvc;
 using Newtonsoft.Json;
-using Seminario.UnityMvc;
+using Seminario.Ioc;
 
 namespace Seminario.Web
 {
@@ -25,7 +25,7 @@ namespace Seminario.Web
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
 			AuthConfig.RegisterAuth();
 
-			UnityMvc.UnityConfig.RegisterComponents();
+			Ioc.UnityConfig.RegisterComponents();
 
 			HttpConfiguration config = GlobalConfiguration.Configuration;
 

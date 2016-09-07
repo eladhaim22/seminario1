@@ -14,8 +14,6 @@ namespace Seminario.WebServices
 	{
 		public IUnitOfWork UnitOfWork { get; set; }
 
-		public IValidator<Provincia> Validator { get; set; }
-
 		public ProvinciaService(IUnitOfWork unitOfWork)
 			: base(unitOfWork)
 		{

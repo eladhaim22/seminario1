@@ -13,7 +13,6 @@ namespace Seminario.WebServices
 	public class SimulacionService : EntityService<Simulacion, SimulacionDto>, ISimulacionService
 	{
 		public IUnitOfWork UnitOfWork { get; set; }
-		public IValidator<Simulacion> Validator { get; set; }
 
 		public SimulacionService(IUnitOfWork unitOfWork)
 			: base(unitOfWork)

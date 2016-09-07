@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "seminario.Database", "seminario.Database\Seminario.Database.sqlproj", "{10199F33-180F-4598-8662-D7BE49B1445E}"
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Seminario.Database", "seminario.Database\Seminario.Database.sqlproj", "{10199F33-180F-4598-8662-D7BE49B1445E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.Model", "Seminario.Model\Seminario.Model.csproj", "{18D4D33A-961C-43EB-92A7-341CA9668EE8}"
 EndProject
@@ -13,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.Web", "Seminario.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.NHibernate", "Seminario.NHibernate\Seminario.NHibernate.csproj", "{456011CF-7D4F-435A-B5C2-94372A28DB4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.Unity", "Seminario.Unity\Seminario.Unity.csproj", "{D9B21D14-774C-4CBB-9B4C-17190157593D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.Ioc", "Seminario.Ioc\Seminario.Ioc.csproj", "{D9B21D14-774C-4CBB-9B4C-17190157593D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seminario.WebServices", "Seminario.WebServices\Seminario.WebServices.csproj", "{702AC730-317C-4955-A609-813B161971A5}"
 EndProject

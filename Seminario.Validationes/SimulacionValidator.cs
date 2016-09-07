@@ -12,7 +12,7 @@ namespace Seminario.Validationes
 	{
 		public SimulacionValidator()
 		{
-			RuleFor(x => x.SpreadTotal).GreaterThan(3).WithLocalizedMessage(() => "Exito");
+			
 		}
 	}
 }

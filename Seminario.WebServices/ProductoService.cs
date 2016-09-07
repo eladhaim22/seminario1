@@ -14,8 +14,6 @@ namespace Seminario.WebServices
 	{
 		public IUnitOfWork UnitOfWork { get; set; }
 
-		public IValidator<Producto> Validator { get; set; }
-
 		public ProductoService(IUnitOfWork unitOfWork)
 			: base(unitOfWork)
 		{
