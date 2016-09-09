@@ -234,6 +234,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Http\EmpleadoController.cs" />
     <Compile Include="Http\SimulacionController.cs" />
     <Compile Include="Http\SettingController.cs" />
     <Compile Include="Http\UploadController.cs" />

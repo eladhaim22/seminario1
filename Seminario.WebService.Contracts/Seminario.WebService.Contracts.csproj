@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChequeDto.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="DatosTTDto.cs" />
     <Compile Include="EmpleadoDto.cs" />
     <Compile Include="EntityDto.cs" />

@@ -1,5 +1,5 @@
 ﻿ <div id="page-wrapper" style="margin-top:20px">
-    <form name="simulacionForm" novalidate">
+	 <ng-form name="simulacionForm" novalidate">
         <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -78,7 +78,7 @@
                 </div>
             </div>
         </div>
-    </form>
+    </ng-form>
         <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">Resumen de la operación</div>
@@ -191,8 +191,8 @@
                     </td>
                 </tr>
                 <tr ng-if="simulacion.Cheques.length > 0">
-                    <td class="col-lg-2">
-                        <button type="button" id="btn-nosis" class="btn btn-danger btn-lg btn-block" ng-click="consultarNosis()">Consultar NOSIS</button>
+                    <td colspan="10">
+                        <button type="button" id="btn-nosis" class="btn btn-danger btn-lg btn-block pull-right" style="width:20%" ng-click="consultarNosis()">Consultar NOSIS</button>
                     </td>
                 </tr>
             </tbody>
@@ -208,28 +208,37 @@
                                 <h4>Spread: <span id="spreadPromedio">{{simulacion.SpreadTotal | number:2}}</span></h4>
                             </div>
                             <div class="col-lg-2">
-                                <h4>Estado: <span id="estadoSimulacion" >{{simulacion.Estado}}</span></h4>
+                                <h4>Estado: <span id="estadoSimulacion" >{{GetSimulacionEstado(simulacion.Estado)}}</span></h4>
                             </div>
                             <div class="col-lg-2">
                                 <h4>LIP Disponible: 2047</h4>
                             </div>
 
                             <div ng-if="!editable || role !== 'Jefe'" class="col-lg-2">
-                                <button type="button" id="btn-confirmar" class="btn btn-danger btn-lg btn-block"
+                                <button type="button" id="btn-confirmar" class="btn btn-success btn-lg btn-block"
                                         ng-click="createSimulacion()">
                                     Crear Simulacion
                                 </button>
                             </div>
+
                             <div ng-if="editable && role=== 'Jefe'" class="col-lg-2">
-                                <button type="button" id="btn-confirmar" class="btn btn-primary btn-lg btn-block"
-                                        ng-click="updateSimulacion()">
+                                <button type="button" id="btn-confirmar" class="btn btn-success btn-lg btn-block"
+                                        ng-click="updateSimulacion(0)">
                                     Aceptar Simulacion
                                 </button>
                             </div>
 
+							<div ng-if="editable && role=== 'Jefe'" class="col-lg-2">
+                                <button type="button" id="btn-confirmar" class="btn btn-success btn-lg btn-block"
+                                        ng-click="updateSimulacion(2)">
+                                    Save Simulacion
+                                </button>
+                            </div>
+
+
                             <div ng-if="editable && role=== 'Jefe'" class="col-lg-2">
                                 <button type="button" id="btn-confirmar" class="btn btn-danger btn-lg btn-block"
-                                        ng-click="updateSimulacion()">
+                                        ng-click="updateSimulacion(3)">
                                     Rechazar Simulacion
                                 </button>
                             </div>
@@ -242,6 +251,9 @@
 					<li class="list-group-item list-group-item-danger">No se pudo ejecutar la accion debido a los siguentes errors:</li>
 					<li class="list-group-item" ng-repeat="error in errorMsg">{{error}}</li>
 				</ul>
+				<div class="well" style="background-color:#5cb85c;color:white" ng-if="successMsg">
+					<span>{{successMsg}}</span>
+				</div>
             </div>
             <!-- /.col-lg-12 -->
         </div>

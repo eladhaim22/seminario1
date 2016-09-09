@@ -1,79 +1,84 @@
 ﻿var app = angular.module('app');
 
-app.controller('simulacionController', ['$scope', '$timeout', 'SimulacionService', '$routeParams', '$rootScope',
-function ($scope, $timeout, SimulacionService, $routeParams, $rootScope) {
-	var nosisState = ["Sin Verficar", "Aceptado", "Rechazado"];
+app.controller('simulacionController', ['$scope', '$timeout', 'SimulacionService', '$routeParams', '$rootScope', '$location',
+function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $location) {
+	var nosisState;
+	var estado = ["Aceptado", "Rechazado", "A Revisar"];
+	$scope.setup = function () {
+		$timeout(function () {
+			$scope.torCliente.$setPristine();
+			$scope.ChequesForm.$setPristine();
+			$scope.simulacionForm.$setPristine();
+		})
 
-	$scope.editable = false;
-	$scope.role = $rootScope.role;
-	$scope.bancos = [
-			{ label: "", value: null },
-			{ label: "Banco ICBC", value: "Banco ICBC" },
-			{ label: "Banco Galicia", value: "Banco Galicia" },
-			{ label: "Banco Frances", value: "Banco Frances" },
-			{ label: "Banco Comafi", value: "Banco Comafi" },
-			{ label: "Banco Piano", value: "Banco Piano" },
-			{ label: "Banco Credicoop", value: "Banco Credicoop" },
-			{ label: "Banco Macro", value: "Banco Macro" },
-			{ label: "Banco Nacion", value: "Banco Nacion" },
-			{ label: "Banco Ciudad", value: "Banco Ciudad" },
-			{ label: "Banco Provincia", value: "Banco Provincia" },
-			{ label: "Banco HSBC", value: "Banco HSBC" }
-	];
+		nosisState = ["Sin Verficar", "Aceptado", "Rechazado"];
 
-	$scope.estadoFiscal = [
-		{ id: 1, nombre: "Resp. Insc s/Excl. AFIP", value: 0.12 },
-		{ id: 2, nombre: "Resp. Insc c/Excl. AFIP", value: 0.21 }
-	];
+		$scope.editable = false;
+		$scope.role = $rootScope.role;
+		$scope.bancos = [
+				{ label: "", value: null },
+				{ label: "Banco ICBC", value: "Banco ICBC" },
+				{ label: "Banco Galicia", value: "Banco Galicia" },
+				{ label: "Banco Frances", value: "Banco Frances" },
+				{ label: "Banco Comafi", value: "Banco Comafi" },
+				{ label: "Banco Piano", value: "Banco Piano" },
+				{ label: "Banco Credicoop", value: "Banco Credicoop" },
+				{ label: "Banco Macro", value: "Banco Macro" },
+				{ label: "Banco Nacion", value: "Banco Nacion" },
+				{ label: "Banco Ciudad", value: "Banco Ciudad" },
+				{ label: "Banco Provincia", value: "Banco Provincia" },
+				{ label: "Banco HSBC", value: "Banco HSBC" }
+		];
 
-	if ($routeParams.id) {
-		SimulacionService.getSimulacionById($routeParams.id).then(function (response) {
-			response.data.FechaDescuento = new Date(response.data.FechaDescuento);
-			angular.forEach(response.data.Cheques, function (value) {
-				value.FechaAcreditacion = new Date(value.FechaAcreditacion);
+		$scope.estadoFiscal = [
+			{ id: 1, nombre: "Resp. Insc s/Excl. AFIP", value: 0.12 },
+			{ id: 2, nombre: "Resp. Insc c/Excl. AFIP", value: 0.21 }
+		];
+
+		if ($routeParams.id) {
+			SimulacionService.getSimulacionById($routeParams.id).then(function (response) {
+				$scope.simulacion = response.data;
+				$scope.editable = true;
+				activeWatch();
 			});
-			$scope.simulacion = response.data;
-			$scope.editable = true;
+		}
+		else {
+			//set simulacion
+			$scope.simulacion = {
+				CuitCliente: "",
+				TorCliente: undefined,
+				FechaDescuento: "",
+				ComisionAdministrativa: undefined,
+				ValorNominal: 0, //ImporteTotal
+				Intereses: 0, //interesTotal
+				Comision: 0, //ComisionTotal
+				Sellado: 0, //SelladoTotal
+				Iva: 0, //IvaTotal
+				GastoTotal: 0,
+				TT: 0,
+				TNAV: undefined,
+				NetoLiquidar: 0, //NetoLiquidarTotal
+				ImportePonderadoTotal: 0,
+				TipoCateg: "", //condicion Iva
+				CantidadCheques: 0, //cantidad a comprar
+				CodProd: "",
+				FechaVencimientoPond: 0,
+				SpreadTotal: 0,
+				NetoTotal: 0,
+				TasaIIBB: undefined,
+				TasaIva: 0,
+				TasaSellado: 0,
+				Estado: 0,
+				Legajo: $rootScope.legajo,
+				IdProvincia: "",
+				Cheques: []
+			};
 			activeWatch();
-		});
-	}
-	else {
-		//set simulacion
-		$scope.simulacion = {
-			CuitCliente: "",
-			TorCliente: undefined,
-			FechaDescuento: "",
-			ComisionAdministrativa: undefined,
-			ValorNominal: 0, //ImporteTotal
-			Intereses: 0, //interesTotal
-			Comision: 0, //ComisionTotal
-			Sellado: 0, //SelladoTotal
-			Iva: 0, //IvaTotal
-			GastoTotal: 0,
-			TT: 0,
-			TNAV: 0,
-			NetoLiquidar: 0, //NetoLiquidarTotal
-			ImportePonderadoTotal: 0,
-			TipoCateg: "", //condicion Iva
-			CantidadCheques: 0, //cantidad a comprar
-			CodProd: "",
-			FechaVencimientoPond: 0,
-			SpreadTotal: 0,
-			NetoTotal: 0,
-			TasaIIBB: 0,
-			TasaIva: 0,
-			TasaSellado: 0,
-			Estado: "Simulando",
-			Legajo: $rootScope.legajo,
-			IdProvincia: "",
-			Cheques: []
-		};
-		activeWatch();
-	}
+		}
 
-	$scope.productos = [];
-	$scope.provincias = [];
-
+		$scope.productos = [];
+		$scope.provincias = [];
+	}
 	SimulacionService.fillComboProducto().then(function (response) {
 		$scope.productos = response.data;
 	});
@@ -99,13 +104,17 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope) {
 		});
 	}
 
+	$scope.GetSimulacionEstado = function (estadoId) {
+		return estado[estadoId];
+	}
+
 	$scope.addCheque = function () {
 		var cheque = {
 			FechaAcreditacion: "",
 			Banco: "",
 			Documento: "",
 			Nombre: "",
-			Importe: 0,
+			Importe: undefined,
 			Plazo: 0,
 			OtrosDias: null,
 			Nosis: "Sin Verificar",
@@ -192,23 +201,23 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope) {
 	$scope.popupArray = [];
 
 	$scope.renderCheque = function (index) {
-	    if (index == null) {
-	        angular.forEach($scope.simulacion.Cheques, function(value, index) {
-	            if (moment(value.FechaAcreditacion).isValid() && moment($scope.simulacion.FechaDescuento).isValid()) {
-	                var fechaStart = moment(value.FechaAcreditacion);
-	                var fechaEnd = moment($scope.simulacion.FechaDescuento);
-	                $scope.simulacion.Cheques[index].Plazo = parseInt(fechaStart.diff(fechaEnd, "days"));
-	            }
-	        });
-	    }
-	    else {
-	        if (moment($scope.simulacion.Cheques[index].FechaAcreditacion).isValid() &&
+		if (index == null) {
+			angular.forEach($scope.simulacion.Cheques, function (value, index) {
+				if (moment(value.FechaAcreditacion).isValid() && moment($scope.simulacion.FechaDescuento).isValid()) {
+					var fechaStart = moment(value.FechaAcreditacion);
+					var fechaEnd = moment($scope.simulacion.FechaDescuento);
+					$scope.simulacion.Cheques[index].Plazo = parseInt(fechaStart.diff(fechaEnd, "days"));
+				}
+			});
+		}
+		else {
+			if (moment($scope.simulacion.Cheques[index].FechaAcreditacion).isValid() &&
              moment($scope.simulacion.FechaDescuento).isValid()) {
-	            var fechaStart = moment($scope.simulacion.Cheques[index].FechaAcreditacion);
-	            var fechaEnd = moment($scope.simulacion.FechaDescuento);
-	            $scope.simulacion.Cheques[index].Plazo = parseInt(fechaStart.diff(fechaEnd, "days"));
-	        }
-	    }
+				var fechaStart = moment($scope.simulacion.Cheques[index].FechaAcreditacion);
+				var fechaEnd = moment($scope.simulacion.FechaDescuento);
+				$scope.simulacion.Cheques[index].Plazo = parseInt(fechaStart.diff(fechaEnd, "days"));
+			}
+		}
 	}
 
 	function activeWatch() {
@@ -263,26 +272,35 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope) {
 					$scope.simulacion.FechaVencimientoPond = ($scope.simulacion.ImportePonderadoTotal / $scope.simulacion.ValorNominal).toFixed(0);
 					$scope.simulacion.SpreadTotal = $scope.simulacion.NetoTotal / $scope.simulacion.ValorNominal / $scope.simulacion.FechaVencimientoPond * 365;
 					if ($scope.simulacion.SpreadTotal > 3)
-						$scope.simulacion.Estado = "Aceptado";
+						$scope.simulacion.Estado = 0;
 					else
-						$scope.simulacion.Estado = "A Revisar";
+						$scope.simulacion.Estado = 3;
 				}
 			}
 		}, true);
 	}
+	$scope.setup();
 
 	$scope.createSimulacion = function () {
-	    $scope.errorMsg = {};
-	    SimulacionService.createSimulacion($scope.simulacion).success(function (response) {
-			return response;
+		SimulacionService.createSimulacion($scope.simulacion).success(function (response) {
+			$rootScope.errorMsg = undefined;
+			$rootScope.successMsg = "la simulacion ha sida salvada exitosamente";
+			$timeout(function () { $rootScope.successMsg = undefined; }, 5000);
+			$scope.setup();
+			//return response;
 		}).error(function (error) {
-			$scope.errorMsg = _.uniq(error.ExceptionMessage.split("\n"));
+			$rootScope.errorMsg = _.uniq(error.ExceptionMessage.split("\n"));
 		});
 	}
 
-	$scope.updateSimulacion = function () {
-		SimulacionService.updateSimulacion($scope.simulacion).then(function (response) {
-			return response;
+	$scope.updateSimulacion = function (status) {
+		SimulacionService.updateSimulacion({ "simulacion": $scope.simulacion, "state": status }).success(function (response) {
+			$rootScope.errorMsg = undefined;
+			$rootScope.successMsg = "la simulacion ha sida salvada exitosamente";
+			$location.path('/ViewSimulacion')
+			$timeout(function () { $rootScope.successMsg = undefined; }, 5000);
+		}).error(function (error) {
+			$rootScope.errorMsg = _.uniq(error.ExceptionMessage.split("\n"));
 		});
 	}
 }]);

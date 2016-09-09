@@ -34,6 +34,8 @@ namespace Seminario.Validationes
 			RuleFor(x => x.Producto).NotNull().NotEmpty().WithLocalizedMessage(() => "Debe elejir producto");
 			RuleFor(x => x.TipoCategoria).NotNull().NotEmpty().WithLocalizedMessage(() => "Debe opcion de iva");
 			RuleFor(x => x.Cheques.Count).GreaterThan(0).WithLocalizedMessage(() => "Debe haber al menos un cheque");
+			RuleFor(x => x.Provincia.Id).NotEqual(0).WithLocalizedMessage(() => "Debe elejir una provincia de la lista");
+			RuleFor(x => x.Producto.Id).NotEqual(0).WithLocalizedMessage(() => "Debe elejir un producto de la lista");
 		}
 	}
 }

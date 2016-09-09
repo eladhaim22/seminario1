@@ -12,6 +12,8 @@ namespace Seminario.Validationes
 	{
 		public ProvinciaValidator()
 		{
+			RuleFor(x => x.Nombre).NotEmpty().NotNull().WithLocalizedMessage(() => "El datoTT debe tener nombre");
+			RuleFor(x => x.Sellado).NotEmpty().NotNull().GreaterThanOrEqualTo(0).LessThanOrEqualTo(100).WithLocalizedMessage(() => "El sellado debe ser entre 0-100");
 		}
 	}
 }

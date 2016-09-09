@@ -761,3 +761,25 @@ tr.pager td {
     height:80%;
     padding-top:0px !important;
 }
+
+
+.embebed-button {
+	height: 90%;
+	width: 100%;
+	padding-top: 2px !important;
+	padding-bottom: 2px !important;
+}
+
+.heightcien {
+	height: 100px;
+}
+
+.center {
+	text-align:center;
+}
+
+.success-msg {
+	background-color:#5cb85c !important;
+	color:white !important;
+	margin-top:20px;
+}

@@ -43,7 +43,7 @@
 
 [tasaSellado] FLOAT(10) NULL,
 
-[estado] varchar(20) NOT NULL,
+[estado] INT NOT NULL,
 
 [legajo] INT NULL,
 
@@ -51,6 +51,8 @@
 
 [tipoCategoria] NCHAR(30) NULL, 
     [idProducto] INT NULL, 
+    [fechaCreacion] DATETIME NOT NULL, 
+    [fechaUltimaModificacion] DATETIME NOT NULL, 
     CONSTRAINT [PK__simulacion] PRIMARY KEY CLUSTERED
 ([idSimulacion] ASC),
 constraint FK__simulacion__legajo__empleado foreign key (legajo) references

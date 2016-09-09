@@ -64,7 +64,7 @@
     <Folder Include="dbo\Tables\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="PublishDataBase.publish.xml" />
+    <None Include="Seminario.Database.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Cheque.sql" />

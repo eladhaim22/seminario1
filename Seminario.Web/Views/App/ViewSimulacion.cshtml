@@ -1,5 +1,16 @@
 ﻿</hr>
-<div class="col-lg-offset-2 col-lg-8">
-    <div id="grid1" ui-grid="gridOptions" class="grid"></div>
-</div>
+	
+	<div class="col-lg-12 heightcien">
+		 <div class="center"><h2>Lista de Simulaciones</h2></div>
+	</div>
+
+	<div class="col-lg-offset-1 col-lg-10">
+		<div id="grid1" ui-grid="gridOptions" class="grid"></div>
+		<div class="success-msg well" ng-if="successMsg">
+			<span>{{successMsg}}</span>
+		</div>	
+	</div>
+
+	<div class="col-lg-12 heightcien"></div>
+
 </hr>

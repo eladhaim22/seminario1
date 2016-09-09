@@ -12,6 +12,8 @@ namespace Seminario.Validationes
 	{
 		public ProductoValidator()
 		{
+			RuleFor(x => x.CodigoProducto).NotEmpty().NotNull().WithLocalizedMessage(() => "Debe indicar el codigo de producto");
+			RuleFor(x => x.Nombre).NotEmpty().NotNull().WithLocalizedMessage(() => "El producto debe tener nombre");
 		}
 	}
 }
