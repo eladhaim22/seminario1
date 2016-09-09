@@ -40,25 +40,28 @@ namespace Seminario.MapperProject
 				cfg.CreateMap<SimulacionDto, Simulacion>()
 					.ForMember(model => model.Provincia, dto => dto.ResolveUsing(src =>
 					{
-						var temp = new Provincia();
-						temp = _unitOfWork.Repository<Provincia>().GetById(src.IdProvincia);
-						return temp;
+                        var temp = new Provincia(); 
+                        temp = _unitOfWork.Repository<Provincia>().GetById(src.IdProvincia);
+                        return temp != null ? temp : new Provincia() ;
 					}))
 
 					.ForMember(model => model.Empleado, dto => dto.ResolveUsing(src =>
 					{
 						var temp = new Empleado();
 						temp = _unitOfWork.Repository<Empleado>().Where(s => s.Legajo == src.Legajo).FirstOrDefault();
-						return temp;
+                        return temp != null ? temp : new Empleado();
+					    
 					}))
 
 					.ForMember(model => model.Producto, dto => dto.ResolveUsing(src =>
 					{
 						var temp = new Producto();
 						temp = _unitOfWork.Repository<Producto>().GetById(src.CodProd);
-						return temp;
-					}))
-					.ForMember(m => m.ImporteTotal, model => model.MapFrom(dto => dto.ValorNominal))
+					    return temp != null ? temp : new Producto();
+					
+                    }))
+					
+                    .ForMember(m => m.ImporteTotal, model => model.MapFrom(dto => dto.ValorNominal))
 					.ForMember(m => m.InteresTotal, model => model.MapFrom(dto => dto.Intereses))
 					.ForMember(m => m.ComisionTotal, model => model.MapFrom(dto => dto.ComisionAdministrativa))
 					.ForMember(m => m.SelladoTotal, model => model.MapFrom(dto => dto.Sellado))

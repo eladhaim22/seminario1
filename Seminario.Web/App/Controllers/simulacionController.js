@@ -192,12 +192,23 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope) {
 	$scope.popupArray = [];
 
 	$scope.renderCheque = function (index) {
-		if (moment($scope.simulacion.Cheques[index].FechaAcreditacion).isValid() &&
-            moment($scope.simulacion.FechaDescuento).isValid()) {
-			var fechaStart = moment($scope.simulacion.Cheques[index].FechaAcreditacion);
-			var fechaEnd = moment($scope.simulacion.FechaDescuento);
-			$scope.simulacion.Cheques[index].Plazo = parseInt(fechaStart.diff(fechaEnd, "days"));
-		}
+	    if (index == null) {
+	        angular.forEach($scope.simulacion.Cheques, function(value, index) {
+	            if (moment(value.FechaAcreditacion).isValid() && moment($scope.simulacion.FechaDescuento).isValid()) {
+	                var fechaStart = moment(value.FechaAcreditacion);
+	                var fechaEnd = moment($scope.simulacion.FechaDescuento);
+	                $scope.simulacion.Cheques[index].Plazo = parseInt(fechaStart.diff(fechaEnd, "days"));
+	            }
+	        });
+	    }
+	    else {
+	        if (moment($scope.simulacion.Cheques[index].FechaAcreditacion).isValid() &&
+             moment($scope.simulacion.FechaDescuento).isValid()) {
+	            var fechaStart = moment($scope.simulacion.Cheques[index].FechaAcreditacion);
+	            var fechaEnd = moment($scope.simulacion.FechaDescuento);
+	            $scope.simulacion.Cheques[index].Plazo = parseInt(fechaStart.diff(fechaEnd, "days"));
+	        }
+	    }
 	}
 
 	function activeWatch() {
@@ -261,7 +272,8 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope) {
 	}
 
 	$scope.createSimulacion = function () {
-		SimulacionService.createSimulacion($scope.simulacion).success(function (response) {
+	    $scope.errorMsg = {};
+	    SimulacionService.createSimulacion($scope.simulacion).success(function (response) {
 			return response;
 		}).error(function (error) {
 			$scope.errorMsg = _.uniq(error.ExceptionMessage.split("\n"));

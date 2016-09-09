@@ -10,7 +10,7 @@
                         <div class="col-lg-6">
                             <span>Fecha de Descuento</span>
                             <div class="input-group">
-                                <input type="text" class="form-control" uib-datepicker-popup ng-model="simulacion.FechaDescuento" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" name="FechaDescuento" readonly" />
+                                <input type="text" class="form-control" uib-datepicker-popup ng-model="simulacion.FechaDescuento" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" name="FechaDescuento" readonly ng-change="renderCheque()" />
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="openDateTime()"><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
