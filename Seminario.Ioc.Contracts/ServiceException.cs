@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
-namespace Seminario.Ioc
+namespace Seminario.Ioc.Contracts
 {
 	[Serializable]
 	public class ServiceException : Exception

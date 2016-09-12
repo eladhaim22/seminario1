@@ -1,8 +1,6 @@
 ﻿@model Seminario.Web.Models.LoginModel
 
 
-
-
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -25,7 +23,8 @@
                         <center><img src="~/Content/Images/logo.chico.png" title="ICBC" alt="ICBC"></center>
                     </div>
                     <div class="panel-body">
-                        @using (Html.BeginForm(@Html.ActionLink("App", "AddSimulacion")))
+                        @using (Html.BeginForm())
+						
 {
                             @Html.AntiForgeryToken()
                             <fieldset>

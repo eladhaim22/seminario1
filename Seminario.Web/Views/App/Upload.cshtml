@@ -3,39 +3,18 @@
 
 <h2>Upload File</h2>
 
-@*using (Html.BeginForm("Upload", "App", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
-{*@
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary()
+<div class="form-group">
+    <input type="file" class="form-control" file-model="myFile" />
 
-    <div class="form-group">
-        <input type="file" class="form-control" file-model="myFile" />
+</div>
 
-    </div>
 <button class="btn btn-danger btn-lg" ng-click="uploadFile()">upload me</button>
 
-    @*if (Model != null)
-    {
-        <table>
-            <thead>
-                <tr>
-                    @foreach (DataColumn col in Model.Columns)
-                    {
-                        <th>@col.ColumnName</th>
-                    }
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (DataRow row in Model.Rows)
-                {
-                    <tr>
-                        @foreach (DataColumn col in Model.Columns)
-                        {
-                            <td>@row[col.ColumnName]</td>
-                        }
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-}*@
+<div class="well" style="background-color:#5cb85c;color:white" ng-if="successMessage">
+	<span>{{successMessage}}</span>
+</div>
+
+<div class="well" style="background-color:#d9534f;color:white" ng-if="errorMessage">
+	<span>{{errorMessage}}</span>
+</div>
+

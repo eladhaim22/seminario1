@@ -2,9 +2,9 @@
 (
 [idDatosTT] int identity(1,1),
 
-[plazo] int NOT NULL,
+[plazo] int NULL,
 
-[tasaVigente] decimal(5,2) NULL,
+[tasaVigente] FLOAT NULL,
 
 [idProducto] INT NULL, 
     CONSTRAINT [PK__datosTT] PRIMARY KEY CLUSTERED

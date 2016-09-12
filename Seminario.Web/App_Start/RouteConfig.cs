@@ -7,17 +7,19 @@ using System.Web.Routing;
 
 namespace Seminario.Web
 {
-    public class RouteConfig
-    {
-        public static void RegisterRoutes(RouteCollection routes)
-        {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional }
-            );
-            
-        }
-    }
+	public class RouteConfig
+	{
+		public static void RegisterRoutes(RouteCollection routes)
+		{
+			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+
+			routes.MapRoute("App", "{action}", new { controller = "App", action = "App", id = UrlParameter.Optional });
+
+			routes.MapRoute(
+				name: "Default",
+				url: "{controller}/{action}/{id}",
+				defaults: new { controller = "Account", action = "Login", id = UrlParameter.Optional }
+			);
+		}
+	}
 }

@@ -12,8 +12,7 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 		})
 
 		nosisState = ["Sin Verficar", "Aceptado", "Rechazado"];
-
-		$scope.editable = false;
+		$scope.editable = true;
 		$scope.role = $rootScope.role;
 		$scope.bancos = [
 				{ label: "", value: null },
@@ -38,7 +37,8 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 		if ($routeParams.id) {
 			SimulacionService.getSimulacionById($routeParams.id).then(function (response) {
 				$scope.simulacion = response.data;
-				$scope.editable = true;
+				$scope.editable = false;
+				$scope.finalState = $scope.simulacion.Estado !== 0 && $scope.simulacion.estado !== 1 ? false : true;
 				activeWatch();
 			});
 		}
@@ -78,14 +78,15 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 
 		$scope.productos = [];
 		$scope.provincias = [];
-	}
-	SimulacionService.fillComboProducto().then(function (response) {
-		$scope.productos = response.data;
-	});
 
-	SimulacionService.fillComboProvincia().then(function (response) {
-		$scope.provincias = response.data;
-	})
+		SimulacionService.fillComboProducto().then(function (response) {
+			$scope.productos = response.data;
+		});
+
+		SimulacionService.fillComboProvincia().then(function (response) {
+			$scope.provincias = response.data;
+		})
+	}
 
 	$scope.consultarTor = function (cuit) {
 		SimulacionService.consultarTor(cuit).then(function (response) {
@@ -271,10 +272,12 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 					$scope.simulacion.NetoLiquidar = $scope.simulacion.ValorNominal - $scope.simulacion.GastoTotal;
 					$scope.simulacion.FechaVencimientoPond = ($scope.simulacion.ImportePonderadoTotal / $scope.simulacion.ValorNominal).toFixed(0);
 					$scope.simulacion.SpreadTotal = $scope.simulacion.NetoTotal / $scope.simulacion.ValorNominal / $scope.simulacion.FechaVencimientoPond * 365;
-					if ($scope.simulacion.SpreadTotal > 3)
-						$scope.simulacion.Estado = 0;
-					else
-						$scope.simulacion.Estado = 3;
+					if ($routeParams != undefined) {
+						if ($scope.simulacion.SpreadTotal > 3)
+							$scope.simulacion.Estado = 0;
+						else
+							$scope.simulacion.Estado = 3;
+					}
 				}
 			}
 		}, true);

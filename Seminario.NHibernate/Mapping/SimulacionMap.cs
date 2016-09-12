@@ -34,7 +34,7 @@ namespace Seminario.NHibernate.Mapping
 			Map(x => x.TasaIIBB, "tasaIIBB");
 			Map(x => x.TasaIva, "tasaIva");
 			Map(x => x.TasaSellado, "tasaSellado");
-			Map(x => x.Estado, "estado");
+			Map(x => x.Estado, "estado").CustomType<int>();
 			Map(x => x.FechaCreacion, "fechaCreacion");
 			Map(x => x.FechaUltimaModificacion, "fechaUltimaModificacion");
 			References(x => x.Empleado, "legajo");

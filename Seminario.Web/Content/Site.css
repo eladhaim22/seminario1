@@ -2,6 +2,7 @@
     background-color: #e2e2e2;
     margin: 0;
     padding: 0;
+	height:100%;
 }
 
 body {
@@ -12,6 +13,7 @@ body {
     font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
     margin: 0;
     padding: 0;
+	height:100%;
 }
 
 a {
@@ -98,6 +100,10 @@ h5, h6 {
     max-width: 960px;
 }
 
+#wrapper {
+	height:90%;
+}
+
 #body {
     background-color: #efeeef;
     clear: both;
@@ -121,8 +127,9 @@ header .content-wrapper {
 footer {
     clear: both;
     background-color: #e2e2e2;
+	bottom:0px;
     font-size: .8em;
-    height: 100px;
+    height: 10%;
 }
 
 

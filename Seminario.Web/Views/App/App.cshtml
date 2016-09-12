@@ -23,8 +23,8 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <ul class="nav navbar-top-links navbar-left">
-                        <li><a href="/#" class="active">Agregar Simulacion</a></li>
-                        <li><a href="/#/ViewSimulacion/" >Ver Simulaciones</a></li>
+                        <li><a href="/#/Simulacion" class="active">Agregar Simulacion</a></li>
+                        <li><a href="/#/ViewSimulaciones/" >Ver Simulaciones</a></li>
                         <li><a href="/#/Upload/" >Cargar Parametricacion</a></li>
                     </ul>
                 }
@@ -39,10 +39,8 @@
         </div>
     </div>
     <footer>
-        <div class="content-wrapper">
-            <div class="float-left">
-                <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
-            </div>
+        <div class="content-wrapper"> 
+             <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
         </div>
     </footer>
 
@@ -55,5 +53,5 @@
     @Scripts.Render("~/App/app.js")
 
     @Scripts.Render("~/bundles/angular")
-    </body>
+</body>
 </html>

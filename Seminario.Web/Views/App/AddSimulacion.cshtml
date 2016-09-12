@@ -1,6 +1,6 @@
 ﻿ <div id="page-wrapper" style="margin-top:20px">
-	 <ng-form name="simulacionForm" novalidate">
-        <div class="col-lg-6">
+	 <form name="simulacionForm" novalidate">
+		 <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Datos generales de Simulacion
@@ -9,10 +9,10 @@
                     <div class="form-group">
                         <div class="col-lg-6">
                             <span>Fecha de Descuento</span>
-                            <div class="input-group">
-                                <input type="text" class="form-control" uib-datepicker-popup ng-model="simulacion.FechaDescuento" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" name="FechaDescuento" readonly ng-change="renderCheque()" />
+                            <div class="input-group" readonly="!editable">
+                                <input type="text" class="form-control" uib-datepicker-popup ng-model="simulacion.FechaDescuento" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" name="FechaDescuento" readonly="!editable" ng-change="renderCheque()" />
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="openDateTime()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    <button type="button" class="btn btn-default" ng-disabled="!editable" ng-click="openDateTime()" ><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
                             </div>
                             <p style="color:red" ng-style="{'visibility': (simulacionForm.FechaDescuento.$invalid && !simulacionForm.FechaDescuento.$pristine) ? 'visible':'hidden'}">La fecha debe ser valida</p>
@@ -20,19 +20,19 @@
                         </div>
                         <div class="col-lg-6">
                             <span>Comisión Administrativa</span>
-                            <input type="text" class="form-control" ng-model="simulacion.ComisionAdministrativa" name="comisionAd" percent required>
+                            <input type="text" class="form-control" ng-model="simulacion.ComisionAdministrativa" name="comisionAd" percent ng-disabled="!editable" required>
                             <p style="color:red" ng-style="{'visibility': (simulacionForm.comisionAd.$invalid && !simulacionForm.comisionAd.$pristine) ? 'visible':'hidden'}">La comision debe ser entre 0-100</p>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-lg-6">
                             <span>Tasa IIBB</span>
-                            <input type="text" class="form-control" id="tasaIIBB" ng-model="simulacion.TasaIIBB" percent required>
+                            <input type="text" class="form-control" id="tasaIIBB" ng-model="simulacion.TasaIIBB" ng-disabled="!editable" percent required>
                             <p style="color:red" ng-style="{'visibility': (simulacionForm.tasaIIBB.$invalid && !simulacionForm.tasaIIBB.$pristine) ? 'visible':'hidden'}">El IIBB debe ser entre 0-100</p>
 						</div>
                         <div class="col-lg-6">
                             <span>Sellados</span>
-                            <select ng-model="simulacion.IdProvincia" class="form-control" name="provimciaSelect" id="provinciaSelect" ng-options="provincia.Id as provincia.Nombre for provincia in provincias" required>
+                            <select ng-model="simulacion.IdProvincia" class="form-control" name="provimciaSelect" id="provinciaSelect" ng-options="provincia.Id as provincia.Nombre for provincia in provincias" required ng-disabled="!editable">
                                 <option value="">-- Elige Provincia --</option>
                             </select>
                             <p style="color:red" ng-style="{'visibility': (simulacionForm.provimciaSelect.$invalid && !simulacionForm.provimciaSelect.$pristine) ? 'visible':'hidden'}">debe eligir un valor de la lista</p>
@@ -47,7 +47,7 @@
                         </div>
                         <div class="col-lg-6">
                             <span>IVA</span>
-                            <select ng-model="simulacion.TipoCateg" class="form-control" name="tipoFiscalSelect" id="tipoFiscalSelect" ng-options="iva.id as iva.nombre for iva in estadoFiscal" required>
+                            <select ng-model="simulacion.TipoCateg" class="form-control" name="tipoFiscalSelect" id="tipoFiscalSelect" ng-options="iva.id as iva.nombre for iva in estadoFiscal" required ng-disabled="!editable">
                                 <option value="">-- Elige IVA --</option>
                             </select>
                             <p style="color:red" ng-style="{'visibility': (simulacionForm.tipoFiscalSelect.$invalid && !simulacionForm.tipoFiscalSelect.$pristine) ? 'visible':'hidden'}">debe eligir un valor de la lista</p>
@@ -57,28 +57,25 @@
                     <div class="form-group">
                         <div class="col-lg-6">
                             <span>TNAV (pacatada)</span>
-                            <input type="text" class="form-control" name="TNAV" ng-model="simulacion.TNAV" percent required>
+                            <input type="text" class="form-control" name="TNAV" ng-model="simulacion.TNAV" percent required ng-disabled="!editable">
                             <p style="color:red" ng-style="{'visibility': (simulacionForm.TNAV.$invalid && !simulacionForm.TNAV.$pristine) ? 'visible':'hidden'}">El TNAV debe ser entre 0-100</p>
 
                         </div>
                         <div class="col-lg-6">
                             <span>Producto</span>
-                            <select ng-model="simulacion.CodProd" class="form-control" name="productSelect" ng-options="producto.Id as producto.Nombre for producto in productos" required>
+                            <select ng-model="simulacion.CodProd" class="form-control" name="productSelect" ng-options="producto.Id as producto.Nombre for producto in productos" required ng-disabled="!editable">
                                 <option value="">-- Elige Producto --</option>
                             </select>
                             <p style="color:red" ng-style="{'visibility': (simulacionForm.productSelect.$invalid && !simulacionForm.productSelect.$pristine) ? 'visible':'hidden'}">debe eligir un valor de la lista</p>
                          </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-lg-12">
-                            <span style="visibility:hidden">-----</span>
-                            <button type="button" ng-click="addCheque()" class="btn btn-primary form-control">Agregar Cheque</button>
-                        </div>
-                        </div>
-                </div>
+                    <div class="col-lg-12">
+                        <button type="button" ng-click="addCheque()" class="btn btn-primary" ng-disabled="!editable" style="width:100%">Agregar Cheque</button>
+                    </div>
+                    </div>
             </div>
         </div>
-    </ng-form>
+    </form>
         <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">Resumen de la operación</div>
@@ -124,15 +121,15 @@
                 <div class="panel-heading">Precio Relacional</div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <input type="text" ng-model="simulacion.CuitCliente" class="form-control" placeholder="CUIT">
+                        <input type="text" ng-model="simulacion.CuitCliente" class="form-control" placeholder="CUIT" ng-disabled="!editable">
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Razon Social">
+                        <input type="text" class="form-control" placeholder="Razon Social" ng-disabled="!editable">
                     </div>
                     <div class="form-group">
                         <input type="text" ng-model="simulacion.TorCliente" class="form-control" placeholder="TOR YTD" readonly>
                     </div>
-                    <button type="button" ng-click="consultarTor(simulacion.CuitCliente)" class="btn btn-primary">Consultar TOR</button>
+                    <button type="button" ng-click="consultarTor(simulacion.CuitCliente)" class="btn btn-primary" ng-disabled="!editable">Consultar TOR</button>
                 </div>
             </div>
         </div>
@@ -154,45 +151,46 @@
             </thead>
             <tbody>
                 <tr ng-repeat="cheque in simulacion.Cheques">
-                    <td class="col-lg-1">{{$index + 1}}
+                    <td class="col-lg-1">{{$index + 1}}</td>
+						 
                     <td class="col-lg-2">
                         <div class="input-group">
-                            <input type="text" class="form-control" uib-datepicker-popup ng-model="simulacion.Cheques[$index].FechaAcreditacion" is-open="popupArray[$index].opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" readonly ng-change="renderCheque($index)" required />
+                            <input type="text" class="form-control" uib-datepicker-popup ng-model="simulacion.Cheques[$index].FechaAcreditacion" is-open="popupArray[$index].opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" readonly ng-change="renderCheque($index)" required  ng-disabled="!editable"/>
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-default" ng-click="open($index)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                <button type="button" class="btn btn-default" ng-click="open($index)" ng-disabled="!editable"><i class="glyphicon glyphicon-calendar"></i></button>
                             </span>
                         </div>
                     </td>
                     <td>
-                        <select class="form-control" name="banco" ng-model="cheque.Banco" required>
+                        <select class="form-control" name="banco" ng-model="cheque.Banco" required ng-disabled="!editable">
                             <option ng-repeat="banco in bancos" value="{{banco.value}}">{{banco.label}}</option>
                         </select>
                     </td>
                     <td>
-                        <input type="text" class="form-control" ng-model="cheque.Documento" placeholder="Documento" required ng-change="setNosisInitialState($index)">
+                        <input type="text" class="form-control" ng-model="cheque.Documento" placeholder="Documento" required ng-change="setNosisInitialState($index)" ng-disabled="!editable">
                     </td>
                     <td>
-                        <input type="text" class="form-control" ng-model="cheque.Nombre" placeholder="Nombre" required>
+                        <input type="text" class="form-control" ng-model="cheque.Nombre" placeholder="Nombre" ng-disabled="!editable" required>
                     </td>
                     <td>
-                        <input class="form-control" blur-to-currency amount="cheque.Importe" placeholder="Importe" required>
+                        <input class="form-control" blur-to-currency amount="cheque.Importe" placeholder="Importe" ng-disabled="!editable" required>
                     </td>
                     <td class="col-lg-1">
-                        <input type="number" class="form-control" ng-model="cheque.Plazo" placeholder="Plazo" readonly required>
+                        <input type="number" class="form-control" ng-model="cheque.Plazo" placeholder="Plazo" ng-disabled="!editable" readonly required>
                     </td>
                     <td class="col-lg-1">
-                        <input type="number" class="form-control" ng-model="cheque.OtrosDias" >
+                        <input type="number" class="form-control" ng-model="cheque.OtrosDias" ng-disabled="!editable" >
                     </td>
                     <td>
-                        <input type="text" class="form-control" ng-model="cheque.Nosis" placeholder="Nosis" readonly>
+                        <input type="text" class="form-control" ng-model="cheque.Nosis" placeholder="Nosis" readonly ng-disabled="!editable">
                     </td>
                     <td>
-                        <button type="button" ng-click="deleteCheque($index)" class="btn btn-danger">Borrar</button>
+                        <button type="button" ng-click="deleteCheque($index)" class="btn btn-danger" ng-disabled="!editable">Borrar</button>
                     </td>
-                </tr>
+	            </tr>
                 <tr ng-if="simulacion.Cheques.length > 0">
                     <td colspan="10">
-                        <button type="button" id="btn-nosis" class="btn btn-danger btn-lg btn-block pull-right" style="width:20%" ng-click="consultarNosis()">Consultar NOSIS</button>
+                        <button type="button" id="btn-nosis" class="btn btn-danger btn-lg btn-block pull-right" style="width:20%" ng-click="consultarNosis()" ng-disabled="!editable">Consultar NOSIS</button>
                     </td>
                 </tr>
             </tbody>
@@ -214,31 +212,31 @@
                                 <h4>LIP Disponible: 2047</h4>
                             </div>
 
-                            <div ng-if="!editable || role !== 'Jefe'" class="col-lg-2">
-                                <button type="button" id="btn-confirmar" class="btn btn-success btn-lg btn-block"
+                            <div ng-if="editable || role !== 'Jefe'" class="col-lg-2">
+                                <button type="button" class="btn btn-success btn-lg btn-block"
                                         ng-click="createSimulacion()">
                                     Crear Simulacion
                                 </button>
                             </div>
 
-                            <div ng-if="editable && role=== 'Jefe'" class="col-lg-2">
-                                <button type="button" id="btn-confirmar" class="btn btn-success btn-lg btn-block"
+                            <div ng-if="!editable && role=== 'Jefe' && !finalState" class="col-lg-2">
+                                <button type="button" class="btn btn-success btn-lg btn-block"
                                         ng-click="updateSimulacion(0)">
                                     Aceptar Simulacion
                                 </button>
                             </div>
 
-							<div ng-if="editable && role=== 'Jefe'" class="col-lg-2">
-                                <button type="button" id="btn-confirmar" class="btn btn-success btn-lg btn-block"
-                                        ng-click="updateSimulacion(2)">
+							<div ng-if="!editable && role=== 'Jefe'" class="col-lg-2">
+                                <button type="button" class="btn btn-success btn-lg btn-block"
+                                        ng-click="updateSimulacion(1)">
                                     Save Simulacion
                                 </button>
                             </div>
 
 
-                            <div ng-if="editable && role=== 'Jefe'" class="col-lg-2">
-                                <button type="button" id="btn-confirmar" class="btn btn-danger btn-lg btn-block"
-                                        ng-click="updateSimulacion(3)">
+                            <div ng-if="!editable && role=== 'Jefe' && !finalState" class="col-lg-2">
+                                <button type="button" class="btn btn-danger btn-lg btn-block"
+                                        ng-click="updateSimulacion(2)">
                                     Rechazar Simulacion
                                 </button>
                             </div>

@@ -117,9 +117,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExceptionInterceptor.cs" />
-    <Compile Include="ServiceValidationException.cs" />
-    <Compile Include="ServiceException.cs" />
     <Compile Include="UnityConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -128,6 +125,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Seminario.Ioc.Contracts\Seminario.Ioc.Contracts.csproj">
+      <Project>{0636837a-b0be-48e8-9e90-b1e29f9c98a8}</Project>
+      <Name>Seminario.Ioc.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Seminario.Model\Seminario.Model.csproj">
       <Project>{18d4d33a-961c-43eb-92a7-341ca9668ee8}</Project>
       <Name>Seminario.Model</Name>

@@ -2,14 +2,13 @@
 
 app.directive("percent", function ($filter) {
 	var p = function (viewValue) {
-		console.log(viewValue);
 		var m = viewValue.match(/^(\d+)/);
 		if (m !== null)
 			return $filter('number')(parseFloat(viewValue) / 100);
 	};
 
 	var f = function (modelValue) {
-		return $filter('number')(parseFloat(modelValue) * 100);
+		return $filter('number')(parseFloat(modelValue) * 100) != 0 ? $filter('number')(parseFloat(modelValue) * 100) + '%' : $filter('number')(parseFloat(modelValue) * 100);
 	};
 
 	return {
@@ -19,7 +18,8 @@ app.directive("percent", function ($filter) {
 			ctrl.$formatters.unshift(f);
 
 			ele.bind('blur', function () {
-				ele.val(ele.val() + '%');
+				if (!isNaN(ele.val()) && ele.val() != "")
+					ele.val(ele.val() + '%');
 			});
 
 			ele.bind('focus', function () {

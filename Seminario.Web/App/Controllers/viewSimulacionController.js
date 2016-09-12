@@ -27,7 +27,7 @@ app.controller('viewSimulacionController', ['$scope', '$location', 'SimulacionSe
     	}
 
     	$scope.directTo = function (id) {
-    		$location.path(id);
+    		$location.path("Simulacion/" + id);
     		$rootScope.errorMsg = undefined;
     		$rootScope.successMsg = undefined;
     	}

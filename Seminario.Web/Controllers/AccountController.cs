@@ -26,7 +26,7 @@ namespace Seminario.Web.Controllers
 		{
 			if (User.Identity.IsAuthenticated)
 			{
-				return RedirectToLocal("App/");
+				return RedirectToLocal("/");
 			}
 			else
 			{

@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 using System.Security.Permissions;
 using Seminario.Validationes;
 
-namespace Seminario.Ioc
+namespace Seminario.Ioc.Contracts
 {
 	[Serializable]
 	public class ServiceValidationException : ServiceException

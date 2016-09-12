@@ -6,9 +6,9 @@ using System.Security;
 using Microsoft.Practices.Unity.InterceptionExtension;
 using Seminario.Validationes;
 
-namespace Seminario.Ioc
+namespace Seminario.Ioc.Contracts
 {
-	internal class ExceptionInterceptor : IInterceptionBehavior
+	public class ExceptionInterceptor : IInterceptionBehavior
 	{
 		public IMethodReturn Invoke(IMethodInvocation input, GetNextInterceptionBehaviorDelegate getNext)
 		{

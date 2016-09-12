@@ -3,6 +3,7 @@ using System.Reflection;
 using FluentValidation;
 using Microsoft.Practices.Unity;
 using Microsoft.Practices.Unity.InterceptionExtension;
+using Seminario.Ioc.Contracts;
 using Seminario.Model;
 using Seminario.NHibernate;
 using Seminario.Validationes;
