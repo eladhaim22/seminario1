@@ -1,36 +1,33 @@
 ﻿Insert Into Producto (nombre,codigo)
-Select 'Linea Banco Central',510 Union all
-select 'Linea Normal',530
+Select 'Linea Banco Central',530 Union all
+select 'Linea Normal',510
 go
 
 Insert Into dbo.Provincia (nombre,sellado)
-SELECT 'Capital Federal',0.05 UNION ALL
-SELECT 'Buenos Aires',0.05	UNION ALL
-SELECT 'Catamarca',0.05 UNION ALL
-SELECT 'Córdoba',0.05 UNION ALL
-SELECT 'Corrientes',0.05 UNION ALL
-SELECT 'Chaco',0.05 UNION ALL
-SELECT 'Chubut',0.05 UNION ALL
-SELECT 'Entre Ríos',0.05 UNION ALL
-SELECT 'Formosa',0.05 UNION ALL
-SELECT 'Jujuy',0.05 UNION ALL
-SELECT 'La Pampa',0.05 UNION ALL
-SELECT 'Santa Rosa',0.05 UNION ALL
-SELECT 'La Rioja',0.05 UNION ALL
-SELECT 'Mendoza',0.05 UNION ALL
-SELECT 'Misiones',0.05 UNION ALL
-SELECT 'Neuquén',0.05 UNION ALL
-SELECT 'Río Negro',0.05 UNION ALL
-SELECT 'Salta',0.05 UNION ALL
-SELECT 'San Juan',0.05 UNION ALL
-SELECT 'San Luis',0.05 UNION ALL
-SELECT 'Santa Cruz',0.05 UNION ALL
-SELECT 'Santa Fe',0.05 UNION ALL
-SELECT 'Santiago del Estero',0.05 UNION ALL
-SELECT 'Tierra del Fuego,',0.05 UNION ALL
-SELECT 'Antártida e Islas del Atlántico Sur',0.05 UNION ALL
-SELECT 'Ushuaia',0.05 UNION ALL
-SELECT 'Tucumán',0.05 
+SELECT 'Capital Federal',0.01 UNION ALL
+SELECT 'Buenos Aires',0.01	UNION ALL
+SELECT 'Catamarca',0 UNION ALL
+SELECT 'Córdoba',0.01 UNION ALL
+SELECT 'Corrientes',0.02 UNION ALL
+SELECT 'Chaco',0.005 UNION ALL
+SELECT 'Chubut',0.0012 UNION ALL
+SELECT 'Entre Ríos',0.06 UNION ALL
+SELECT 'Formosa',0 UNION ALL
+SELECT 'Jujuy',0.02 UNION ALL
+SELECT 'La Pampa',0.02 UNION ALL
+SELECT 'La Rioja',0 UNION ALL
+SELECT 'Mendoza',0.015 UNION ALL
+SELECT 'Misiones',0 UNION ALL
+SELECT 'Neuquén',0 UNION ALL
+SELECT 'Río Negro',0 UNION ALL
+SELECT 'Salta',0 UNION ALL
+SELECT 'San Juan',0.0035 UNION ALL
+SELECT 'San Luis',0.0003 UNION ALL
+SELECT 'Santa Cruz',0.1 UNION ALL
+SELECT 'Santa Fe',0.005 UNION ALL
+SELECT 'Santiago del Estero',0.01 UNION ALL
+SELECT 'Tierra del Fuego,',0 UNION ALL
+SELECT 'Tucumán',0.0001 
 go
 
 

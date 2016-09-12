@@ -31,7 +31,9 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 
 		$scope.estadoFiscal = [
 			{ id: 1, nombre: "Resp. Insc s/Excl. AFIP", value: 0.12 },
-			{ id: 2, nombre: "Resp. Insc c/Excl. AFIP", value: 0.21 }
+			{ id: 2, nombre: "Resp. Insc c/Excl. AFIP", value: 0.21 },
+		    { id: 3, nombre: "IVA Cons. Final", value: 0.21 },
+            { id: 4, nombre: "IVA No Categorizado", value: 0.337 }
 		];
 
 		if ($routeParams.id) {
@@ -250,7 +252,7 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 						cheque.Iva = (cheque.Intereses + cheque.Comision) * (_.filter($scope.estadoFiscal, function (o) { return o.id === $scope.simulacion.TipoCateg })[0].value);
 						var GastoTotal = cheque.Intereses + cheque.Comision + cheque.Sellado + cheque.Iva;
 						cheque.NetoLiquidar = cheque.Importe - cheque.Intereses + cheque.Comision + cheque.Sellado + cheque.Iva;
-						cheque.TT = 0.89; //CAMBIER MOCK
+						cheque.TT = 0.37; //CAMBIER MOCK
 						cheque.Spread = ((cheque.Intereses + cheque.Comision) / cheque.Importe / cheque.DiasOps * 365) - cheque.TT;
 						cheque.Cft = (Math.pow((1 + GastoTotal / cheque.Importe), (365 / cheque.DiasOps)) - 1);
 						cheque.CftMes = Math.pow(1 + cheque.Cft, 0.0821917808219178) - 1;
