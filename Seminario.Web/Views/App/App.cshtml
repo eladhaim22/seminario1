@@ -25,7 +25,9 @@
                     <ul class="nav navbar-top-links navbar-left">
                         <li><a href="/#/Simulacion" class="active">Agregar Simulacion</a></li>
                         <li><a href="/#/ViewSimulaciones/" >Ver Simulaciones</a></li>
-                        <li><a href="/#/Upload/" >Cargar Parametricacion</a></li>
+						@if (User.IsInRole("Jefe")) { 
+						 <li><a href="/#/Upload/" >Cargar Parametricacion</a></li>
+						}
                     </ul>
                 }
                 <ul class="nav navbar-top-links navbar-right">

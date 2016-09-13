@@ -11,7 +11,7 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 			$scope.simulacionForm.$setPristine();
 		})
 
-		nosisState = ["Sin Verficar", "Aceptado", "Rechazado"];
+		nosisState = ["No existe", "Valido", "Invalido"];
 		$scope.editable = true;
 		$scope.role = $rootScope.role;
 		$scope.bancos = [
@@ -38,18 +38,20 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 
 		if ($routeParams.id) {
 			SimulacionService.getSimulacionById($routeParams.id).then(function (response) {
+				$scope.ready = true;
 				$scope.simulacion = response.data;
 				$scope.editable = false;
-				$scope.finalState = $scope.simulacion.Estado !== 0 && $scope.simulacion.estado !== 1 ? false : true;
+				$scope.finalState = $scope.simulacion.Estado === 0 || $scope.simulacion.Estado === 1 ? true : false;
 				activeWatch();
 			});
 		}
 		else {
+			$scope.ready = true;
 			//set simulacion
 			$scope.simulacion = {
 				CuitCliente: "",
 				TorCliente: undefined,
-				FechaDescuento: "",
+				FechaDescuento: new Date(),
 				ComisionAdministrativa: undefined,
 				ValorNominal: 0, //ImporteTotal
 				Intereses: 0, //interesTotal
@@ -88,6 +90,10 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 		SimulacionService.fillComboProvincia().then(function (response) {
 			$scope.provincias = response.data;
 		})
+
+		SimulacionService.fillLip().then(function (response) {
+			$scope.lip = response.data;
+		})
 	}
 
 	$scope.consultarTor = function (cuit) {
@@ -117,7 +123,7 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 			Banco: "",
 			Documento: "",
 			Nombre: "",
-			Importe: undefined,
+			Importe: null,
 			Plazo: 0,
 			OtrosDias: null,
 			Nosis: "Sin Verificar",
@@ -226,62 +232,71 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 	function activeWatch() {
 		$scope.flag = false;
 		$scope.$watch('simulacion', function (newVal, oldVal) {
-			$scope.flag = !$scope.flag;
-			if ($scope.flag && newVal != oldVal) {
-				$scope.simulacion.Intereses = 0;
-				$scope.simulacion.Comision = 0;
-				$scope.simulacion.Sellado = 0;
-				$scope.simulacion.Iva = 0;
-				$scope.simulacion.ImportePonderadoTotal = 0;
-				$scope.simulacion.NetoTotal = 0;
-				$scope.simulacion.FechaVencimientoPond = 0;
-				$scope.simulacion.ValorNominal = 0;
-				$scope.GastoTotal = 0;
-				$scope.simulacion.NetoLiquidar = 0;
-				$scope.SpreadTotal = 0;
-				$scope.simulacion.Estado = "Simulando";
-				if ($scope.simulacionForm.$valid && $scope.ChequesForm.$valid && $scope.simulacion.Cheques.length > 0) {
-					angular.forEach($scope.simulacion.Cheques, function (cheque, index) {
-						cheque.DiasOps = cheque.OtrosDias ? cheque.Plazo + cheque.OtrosDias : cheque.Plazo;
-						cheque.TEOps = $scope.simulacion.TNAV / 365 * cheque.DiasOps;
-						cheque.TEAdelantada = cheque.TEOps / (1 + cheque.TEOps);
-						cheque.TNAA = cheque.TEAdelantada * 365 / cheque.DiasOps;
-						cheque.Intereses = cheque.Importe - (1 - cheque.TEAdelantada) * cheque.Importe;
-						cheque.Comision = cheque.Importe * $scope.simulacion.ComisionAdministrativa;
-						cheque.Sellado = _.filter($scope.provincias, function (o) { return o.Id === $scope.simulacion.IdProvincia })[0].Sellado * cheque.Importe / 365 * cheque.Plazo;
-						cheque.Iva = (cheque.Intereses + cheque.Comision) * (_.filter($scope.estadoFiscal, function (o) { return o.id === $scope.simulacion.TipoCateg })[0].value);
-						var GastoTotal = cheque.Intereses + cheque.Comision + cheque.Sellado + cheque.Iva;
-						cheque.NetoLiquidar = cheque.Importe - cheque.Intereses + cheque.Comision + cheque.Sellado + cheque.Iva;
-						cheque.TT = 0.37; //CAMBIER MOCK
-						cheque.Spread = ((cheque.Intereses + cheque.Comision) / cheque.Importe / cheque.DiasOps * 365) - cheque.TT;
-						cheque.Cft = (Math.pow((1 + GastoTotal / cheque.Importe), (365 / cheque.DiasOps)) - 1);
-						cheque.CftMes = Math.pow(1 + cheque.Cft, 0.0821917808219178) - 1;
-						cheque.Ponderado = cheque.Importe * cheque.Plazo;
-						cheque.TETT = cheque.TT / 365 * cheque.DiasOps;
-						cheque.TEATT = cheque.TETT / (1 + cheque.TETT);
-						cheque.IIBB = $scope.simulacion.TasaIIBB * (cheque.Intereses + cheque.Comision);
-						cheque.Costo = cheque.Importe - (1 - cheque.TEATT) * cheque.Importe;
-						cheque.Neto = cheque.Intereses + cheque.Comision - cheque.IIBB - cheque.Costo;
-						$scope.simulacion.ValorNominal += parseInt(cheque.Importe);
-						$scope.simulacion.Intereses += cheque.Intereses;
-						$scope.simulacion.Comision += cheque.Comision;
-						$scope.simulacion.Sellado += cheque.Sellado;
-						$scope.simulacion.Iva += cheque.Iva;
-						$scope.simulacion.ImportePonderadoTotal += cheque.Ponderado;
-						$scope.simulacion.NetoTotal += cheque.Neto;
-					});
-					$scope.simulacion.GastoTotal = $scope.simulacion.Intereses + $scope.simulacion.Comision + $scope.simulacion.Sellado + $scope.simulacion.Iva;
-					$scope.simulacion.NetoLiquidar = $scope.simulacion.ValorNominal - $scope.simulacion.GastoTotal;
-					$scope.simulacion.FechaVencimientoPond = ($scope.simulacion.ImportePonderadoTotal / $scope.simulacion.ValorNominal).toFixed(0);
-					$scope.simulacion.SpreadTotal = $scope.simulacion.NetoTotal / $scope.simulacion.ValorNominal / $scope.simulacion.FechaVencimientoPond * 365;
-					if ($routeParams != undefined) {
-						if ($scope.simulacion.SpreadTotal > 3)
-							$scope.simulacion.Estado = 0;
-						else
-							$scope.simulacion.Estado = 3;
+			$timeout(function () {
+				$scope.flag = !$scope.flag;
+				if (newVal != oldVal) {
+					$scope.simulacion.Intereses = 0;
+					$scope.simulacion.Comision = 0;
+					$scope.simulacion.Sellado = 0;
+					$scope.simulacion.Iva = 0;
+					$scope.simulacion.ImportePonderadoTotal = 0;
+					$scope.simulacion.NetoTotal = 0;
+					$scope.simulacion.FechaVencimientoPond = 0;
+					$scope.simulacion.ValorNominal = 0;
+					$scope.simulacion.GastoTotal = 0;
+					$scope.simulacion.NetoLiquidar = 0;
+					$scope.SpreadTotal = 0;
+					$scope.simulacion.Estado = "Simulando";
+
+					if ($scope.simulacionForm.$valid && $scope.ChequesForm.$valid && !$scope.ChequesForm.$pristine && $scope.simulacion.Cheques.length > 0) {
+						angular.forEach($scope.simulacion.Cheques, function (cheque, index) {
+							$scope.simulacion.ValorNominal += parseInt(cheque.Importe);
+							cheque.Ponderado = cheque.Importe * cheque.Plazo;
+							$scope.simulacion.ImportePonderadoTotal += cheque.Ponderado;
+						});
+						$scope.simulacion.FechaVencimientoPond = ($scope.simulacion.ImportePonderadoTotal / $scope.simulacion.ValorNominal).toFixed(0);
+						var TTtemporal = _.filter(_.filter($scope.productos, function (producto) { return producto.Id == $scope.simulacion.CodProd })[0].DatosTT, function (datoTT) {
+							return datoTT.plazo == $scope.simulacion.FechaVencimientoPond
+						})[0]
+						var TT = TTtemporal ? TTtemporal.TasaVigente : _.last(_.filter($scope.productos, function (producto) { return producto.Id == $scope.simulacion.CodProd })[0].DatosTT).TasaVigente;
+						angular.forEach($scope.simulacion.Cheques, function (cheque, index) {
+							cheque.DiasOps = cheque.OtrosDias ? cheque.Plazo + cheque.OtrosDias : cheque.Plazo;
+							cheque.TEOps = $scope.simulacion.TNAV / 365 * cheque.DiasOps;
+							cheque.TEAdelantada = cheque.TEOps / (1 + cheque.TEOps);
+							cheque.TNAA = cheque.TEAdelantada * 365 / cheque.DiasOps;
+							cheque.Intereses = cheque.Importe - (1 - cheque.TEAdelantada) * cheque.Importe;
+							cheque.Comision = cheque.Importe * $scope.simulacion.ComisionAdministrativa;
+							cheque.Sellado = _.filter($scope.provincias, function (o) { return o.Id === $scope.simulacion.IdProvincia })[0].Sellado * cheque.Importe / 365 * cheque.Plazo;
+							cheque.Iva = (cheque.Intereses + cheque.Comision) * (_.filter($scope.estadoFiscal, function (o) { return o.id === $scope.simulacion.TipoCateg })[0].value);
+							var GastoTotal = cheque.Intereses + cheque.Comision + cheque.Sellado + cheque.Iva;
+							cheque.NetoLiquidar = cheque.Importe - cheque.Intereses + cheque.Comision + cheque.Sellado + cheque.Iva;
+							cheque.TT = TT;
+							cheque.Spread = ((cheque.Intereses + cheque.Comision) / cheque.Importe / cheque.DiasOps * 365) - cheque.TT;
+							cheque.Cft = (Math.pow((1 + GastoTotal / cheque.Importe), (365 / cheque.DiasOps)) - 1);
+							cheque.CftMes = Math.pow(1 + cheque.Cft, 0.0821917808219178) - 1;
+							cheque.TETT = cheque.TT / 365 * cheque.DiasOps;
+							cheque.TEATT = cheque.TETT / (1 + cheque.TETT);
+							cheque.IIBB = $scope.simulacion.TasaIIBB * (cheque.Intereses + cheque.Comision);
+							cheque.Costo = cheque.Importe - (1 - cheque.TEATT) * cheque.Importe;
+							cheque.Neto = cheque.Intereses + cheque.Comision - cheque.IIBB - cheque.Costo;
+							$scope.simulacion.Intereses += cheque.Intereses;
+							$scope.simulacion.Comision += cheque.Comision;
+							$scope.simulacion.Sellado += cheque.Sellado;
+							$scope.simulacion.Iva += cheque.Iva;
+							$scope.simulacion.NetoTotal += cheque.Neto;
+						});
+						$scope.simulacion.GastoTotal = $scope.simulacion.Intereses + $scope.simulacion.Comision + $scope.simulacion.Sellado + $scope.simulacion.Iva;
+						$scope.simulacion.NetoLiquidar = $scope.simulacion.ValorNominal - $scope.simulacion.GastoTotal;
+						$scope.simulacion.SpreadTotal = $scope.simulacion.NetoTotal / $scope.simulacion.ValorNominal / $scope.simulacion.FechaVencimientoPond * 365;
+						if ($routeParams != undefined) {
+							if ($scope.simulacion.SpreadTotal > 3 || $rootScope.role === "Jefe")
+								$scope.simulacion.Estado = 0;
+							else
+								$scope.simulacion.Estado = 2;
+						}
 					}
 				}
-			}
+			});
 		}, true);
 	}
 	$scope.setup();
@@ -302,7 +317,7 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 		SimulacionService.updateSimulacion({ "simulacion": $scope.simulacion, "state": status }).success(function (response) {
 			$rootScope.errorMsg = undefined;
 			$rootScope.successMsg = "la simulacion ha sida salvada exitosamente";
-			$location.path('/ViewSimulacion')
+			$location.path('/ViewSimulaciones')
 			$timeout(function () { $rootScope.successMsg = undefined; }, 5000);
 		}).error(function (error) {
 			$rootScope.errorMsg = _.uniq(error.ExceptionMessage.split("\n"));

@@ -245,6 +245,7 @@
     <Content Include="App\Directive\currencyDirective.js" />
     <Content Include="App\Directive\fileDirective.js" />
     <Content Include="App\Directive\percentajeFilter.js" />
+    <Content Include="App\Directive\validateImporte.js" />
     <Content Include="App\Services\simulacionService.js" />
     <Content Include="App\Services\uploadServices.js" />
     <Content Include="Content\bootstrap-theme.css" />

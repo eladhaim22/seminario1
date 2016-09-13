@@ -84,6 +84,14 @@ app.factory('SimulacionService', ['$http', function ($http) {
 			}).error(function (error) {
 				alert(error);
 			});
+		},
+
+		fillLip: function () {
+			return $http.get("/api/Simulacion/GetRemainingLip").success(function (lip) {
+				return lip;
+			}).error(function (error) {
+				alert(error);
+			});
 		}
 	}
 }]);

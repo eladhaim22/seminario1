@@ -22,6 +22,15 @@ app.directive("percent", function ($filter) {
 					ele.val(ele.val() + '%');
 			});
 
+			ele.bind('input', function () {
+				if (isNaN(ele.val()) || ele.val() === "" || ele.val() < 0 || ele.val() > 100) {
+					ctrl.$setValidity('validPercent', false);
+					scope.$apply();
+				}
+				else
+					ctrl.$setValidity('validPercent', true);
+			});
+
 			ele.bind('focus', function () {
 				ele.val(ele.val().replace('%', ''));
 			});

@@ -27,7 +27,7 @@
                     <div class="form-group">
                         <div class="col-lg-6">
                             <span>Tasa IIBB</span>
-                            <input type="text" class="form-control" id="tasaIIBB" ng-model="simulacion.TasaIIBB" ng-disabled="!editable" percent required>
+                            <input type="text" class="form-control" id="tasaIIBB" ng-model="simulacion.TasaIIBB" name="tasaIIBB" ng-disabled="!editable" percent required>
                             <p style="color:red" ng-style="{'visibility': (simulacionForm.tasaIIBB.$invalid && !simulacionForm.tasaIIBB.$pristine) ? 'visible':'hidden'}">El IIBB debe ser entre 0-100</p>
 						</div>
                         <div class="col-lg-6">
@@ -56,7 +56,7 @@
                     </div>
                     <div class="form-group">
                         <div class="col-lg-6">
-                            <span>TNAV (pacatada)</span>
+                            <span>TNAV (Pactada)</span>
                             <input type="text" class="form-control" name="TNAV" ng-model="simulacion.TNAV" percent required ng-disabled="!editable">
                             <p style="color:red" ng-style="{'visibility': (simulacionForm.TNAV.$invalid && !simulacionForm.TNAV.$pristine) ? 'visible':'hidden'}">El TNAV debe ser entre 0-100</p>
 
@@ -70,7 +70,7 @@
                          </div>
                     </div>
                     <div class="col-lg-12">
-                        <button type="button" ng-click="addCheque()" class="btn btn-primary" ng-disabled="!editable" style="width:100%">Agregar Cheque</button>
+                        <button type="button" ng-click="addCheque()" class="btn btn-primary" ng-disabled="!editable" style="widdiv:100%">Agregar Cheque</button>
                     </div>
                     </div>
             </div>
@@ -135,7 +135,7 @@
         </div>
         </form>
     <form name="ChequesForm" novalidate>
-        <table class="table">
+		        <table class="table">
             <thead>
                 <tr>
                     <th>N° Che.</th>
@@ -173,7 +173,7 @@
                         <input type="text" class="form-control" ng-model="cheque.Nombre" placeholder="Nombre" ng-disabled="!editable" required>
                     </td>
                     <td>
-                        <input class="form-control" blur-to-currency amount="cheque.Importe" placeholder="Importe" ng-disabled="!editable" required>
+                        <input class="form-control" blur-to-currency amount="cheque.Importe" name="importe" ng-model="cheque.Importe" validate-importe placeholder="Importe" ng-disabled="!editable" required>
                     </td>
                     <td class="col-lg-1">
                         <input type="number" class="form-control" ng-model="cheque.Plazo" placeholder="Plazo" ng-disabled="!editable" readonly required>
@@ -184,6 +184,9 @@
                     <td>
                         <input type="text" class="form-control" ng-model="cheque.Nosis" placeholder="Nosis" readonly ng-disabled="!editable">
                     </td>
+					<td>
+                       {{cheque.TT}}
+                    </td>
                     <td>
                         <button type="button" ng-click="deleteCheque($index)" class="btn btn-danger" ng-disabled="!editable">Borrar</button>
                     </td>
@@ -192,6 +195,7 @@
                     <td colspan="10">
                         <button type="button" id="btn-nosis" class="btn btn-danger btn-lg btn-block pull-right" style="width:20%" ng-click="consultarNosis()" ng-disabled="!editable">Consultar NOSIS</button>
                     </td>
+
                 </tr>
             </tbody>
 
@@ -209,34 +213,26 @@
                                 <h4>Estado: <span id="estadoSimulacion" >{{GetSimulacionEstado(simulacion.Estado)}}</span></h4>
                             </div>
                             <div class="col-lg-2">
-                                <h4>LIP Disponible: 2047</h4>
+                                <h4>LIP Disponible: <span id="lipTotal" >{{lip | currency:"$":2}}</span></h4>
                             </div>
 
-                            <div ng-if="editable || role !== 'Jefe'" class="col-lg-2">
+                            <div ng-if="editable && ready" class="col-lg-2">
                                 <button type="button" class="btn btn-success btn-lg btn-block"
                                         ng-click="createSimulacion()">
                                     Crear Simulacion
                                 </button>
                             </div>
 
-                            <div ng-if="!editable && role=== 'Jefe' && !finalState" class="col-lg-2">
+                            <div ng-if="!editable && role === 'Jefe' && !finalState && ready" class="col-lg-2">
                                 <button type="button" class="btn btn-success btn-lg btn-block"
                                         ng-click="updateSimulacion(0)">
                                     Aceptar Simulacion
                                 </button>
                             </div>
 
-							<div ng-if="!editable && role=== 'Jefe'" class="col-lg-2">
-                                <button type="button" class="btn btn-success btn-lg btn-block"
-                                        ng-click="updateSimulacion(1)">
-                                    Save Simulacion
-                                </button>
-                            </div>
-
-
-                            <div ng-if="!editable && role=== 'Jefe' && !finalState" class="col-lg-2">
+                            <div ng-if="!editable && role === 'Jefe' && !finalState && ready" class="col-lg-2">
                                 <button type="button" class="btn btn-danger btn-lg btn-block"
-                                        ng-click="updateSimulacion(2)">
+                                        ng-click="updateSimulacion(1)">
                                     Rechazar Simulacion
                                 </button>
                             </div>

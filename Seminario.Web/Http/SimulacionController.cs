@@ -30,7 +30,7 @@ namespace Seminario.Web.Http
 		{
 			if (isBancoCentralProduct(data))
 			{
-				var bancoCentralCreditLeft = checkForLimiteBancoCentral(data);
+				var bancoCentralCreditLeft = checkForLimiteBancoCentral(data.FechaDescuento);
 				if (bancoCentralCreditLeft - data.ValorNominal < 0)
 				{
 					string msg = "La opreacion del producto de banco central que se puede realizar son de" + bancoCentralCreditLeft;
@@ -43,31 +43,25 @@ namespace Seminario.Web.Http
 		}
 
 		[HttpPost]
+		[Authorize(Roles = "Jefe")]
 		public HttpResponseMessage UpadateSimulacion(SimulacionToUpdate simulacionToUpdate)
 		{
-			if (simulacionToUpdate.State == 0 || simulacionToUpdate.State == 2)
+			if (simulacionToUpdate.State == 0)
 			{
-				if (User.IsInRole("Jefe"))
+				if (isBancoCentralProduct(simulacionToUpdate.Simulacion))
 				{
-					if (simulacionToUpdate.State == 0)
+					var bancoCentralCreditLeft = checkForLimiteBancoCentral(simulacionToUpdate.Simulacion.FechaDescuento);
+					if (bancoCentralCreditLeft - simulacionToUpdate.Simulacion.ValorNominal < 0)
 					{
-						if (isBancoCentralProduct(simulacionToUpdate.Simulacion))
-						{
-							var bancoCentralCreditLeft = checkForLimiteBancoCentral(simulacionToUpdate.Simulacion);
-							if (bancoCentralCreditLeft - simulacionToUpdate.Simulacion.ValorNominal < 0)
-							{
-								string msg = "La opreacion del producto de banco central que se puede realizar son de" + bancoCentralCreditLeft;
-								return ControllerContext.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, new ServiceException(msg));
-							}
-						}
-						simulacionToUpdate.Simulacion.Estado = TipoEstadoDto.Aceptado;
+						string msg = "La opreacion del producto de banco central que se puede realizar son de" + bancoCentralCreditLeft;
+						return ControllerContext.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, new ServiceException(msg));
 					}
-					else
-						simulacionToUpdate.Simulacion.Estado = TipoEstadoDto.Rechazado;
 				}
-				else
-					return ControllerContext.Request.CreateErrorResponse(HttpStatusCode.Forbidden, new ServiceException("no tenes permisos para ejecutar esta operacion"));
+				simulacionToUpdate.Simulacion.Estado = TipoEstadoDto.Aceptado;
 			}
+			else
+				simulacionToUpdate.Simulacion.Estado = TipoEstadoDto.Rechazado;
+
 			SimulacionService.Update(simulacionToUpdate.Simulacion);
 			var response = ControllerContext.Request.CreateResponse(HttpStatusCode.OK);
 			return response;
@@ -102,6 +96,12 @@ namespace Seminario.Web.Http
 			return response;
 		}
 
+		[HttpGet]
+		public HttpResponseMessage GetRemainingLip()
+		{
+			return ControllerContext.Request.CreateResponse(HttpStatusCode.OK, checkForLimiteBancoCentral(DateTime.Now));
+		}
+
 		public class SimulacionToUpdate
 		{
 			public SimulacionDto Simulacion { get; set; }
@@ -111,17 +111,17 @@ namespace Seminario.Web.Http
 		private bool isBancoCentralProduct(SimulacionDto simulacion)
 		{
 			var producto = ProductoService.GetById(simulacion.CodProd);
-			if (producto.CodigoProducto == 510)
+			if (producto.CodigoProducto == 530)
 				return true;
 			else
 				return false;
 		}
 
-		private float checkForLimiteBancoCentral(SimulacionDto simulacion)
+		private float checkForLimiteBancoCentral(DateTime simulacionDate)
 		{
 			var bancoCentralActualMonth = this.SimulacionService.GetMany(x =>
-				x.Estado == TipoEstado.Aceptado && x.Producto.Id == simulacion.CodProd && x.FechaDescuento.Month == simulacion.FechaDescuento.Month &&
-				 x.FechaDescuento.Year == simulacion.FechaDescuento.Year).ToList();
+				x.Estado == TipoEstado.Aceptado && x.Producto.CodigoProducto == 530 && x.FechaDescuento.Month == simulacionDate.Month &&
+				 x.FechaDescuento.Year == simulacionDate.Year).ToList();
 			return BancoCentralLimit - bancoCentralActualMonth.Sum(x => x.ValorNominal);
 		}
 	}
