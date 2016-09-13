@@ -6,7 +6,7 @@ app.factory('SimulacionService', ['$http', function ($http) {
 			return $http.get("/api/Validationes/GetTorState/" + cuit).success(function (data) {
 				return data;
 			}).error(function (error) {
-				alert(error);
+				return(error);
 			});
 		},
 
@@ -14,7 +14,7 @@ app.factory('SimulacionService', ['$http', function ($http) {
 			return $http.post("/api/Validationes/GetNosisState/", { "rows": data }).success(function (data) {
 				return data;
 			}).error(function (error) {
-				alert(error);
+				return(error);
 			});
 		},
 

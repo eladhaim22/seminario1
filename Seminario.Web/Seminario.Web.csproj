@@ -235,7 +235,7 @@
     <Compile Include="Http\SimulacionController.cs" />
     <Compile Include="Http\SettingController.cs" />
     <Compile Include="Http\UploadController.cs" />
-    <Compile Include="Http\Validationes.cs" />
+    <Compile Include="Http\ValidationesController.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

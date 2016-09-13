@@ -97,9 +97,14 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 	}
 
 	$scope.consultarTor = function (cuit) {
-		SimulacionService.consultarTor(cuit).then(function (response) {
-			$scope.simulacion.TorCliente = response.data + "%";
-		});
+	    SimulacionService.consultarTor(cuit).success(function (response) {
+	        $scope.simulacion.TorCliente = response.data.Points;
+	        $scope.razonSocial = response.data.RazonSocial;
+	    }).error(function (error) {
+	        $scope.simulacion.CuitCliente = "";
+	        $scope.razonSocial = "";
+	        alert(error);
+	    });
 	}
 	$scope.setNosisInitialState = function ($index) {
 		$scope.simulacion.Cheques[$index].nosis = nosisState[0];

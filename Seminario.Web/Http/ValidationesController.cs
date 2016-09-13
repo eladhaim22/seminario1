@@ -53,10 +53,11 @@ namespace Seminario.Web.Http
 			{
 				for (var i = 0; i < data.rows.Count; i++)
 				{
-					if (data.rows[i] == null || !ValidarCuit(data.rows[i]))
+                    var cliente = Clients.FirstOrDefault(x => x.Id == data.rows[i]);
+					if (data.rows[i] == null || cliente == null)
 						datos[i] = 0;
 					else
-						datos[i] = new Random().Next(100) > 20 ? 1 : 2;
+						datos[i] = cliente.State;
 				}
 			}
 			return Request.CreateResponse(HttpStatusCode.OK, datos);
@@ -71,18 +72,18 @@ namespace Seminario.Web.Http
 			}
 			try
 			{
-				var cliente = Clients.First(x=> x.Id == id);
+				var cliente = Clients.FirstOrDefault(x=> x.Id == id);
 				if (cliente != null)
 				{
-					return Request.CreateResponse(HttpStatusCode.OK,  });
+					return Request.CreateResponse(HttpStatusCode.OK, new { RazonSocial = cliente.RazonSocial, Points = cliente.Points });
 				}
 				else
-					return Request.CreateResponse(HttpStatusCode.InternalServerError, "El cuit is invalido");
+					return Request.CreateResponse(HttpStatusCode.InternalServerError, "El cuit no se encuentra en el sistema");
 			}
 
-			catch (Exception)
+			catch (Exception ex)
 			{
-				return Request.CreateResponse(HttpStatusCode.InternalServerError, "El cuit is invalido");
+				return Request.CreateResponse(HttpStatusCode.InternalServerError,ex);
 			}
 		}
 
