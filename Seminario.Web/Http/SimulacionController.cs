@@ -28,7 +28,7 @@ namespace Seminario.Web.Http
 		[HttpPost]
 		public HttpResponseMessage CreateSimulacion(SimulacionDto data)
 		{
-			if (isBancoCentralProduct(data))
+			if (isBancoCentralProduct(data) && data.ValorNominal != null )
 			{
 				var bancoCentralCreditLeft = checkForLimiteBancoCentral(data.FechaDescuento);
 				if (bancoCentralCreditLeft - data.ValorNominal < 0)
@@ -110,11 +110,18 @@ namespace Seminario.Web.Http
 
 		private bool isBancoCentralProduct(SimulacionDto simulacion)
 		{
-			var producto = ProductoService.GetById(simulacion.CodProd);
-			if (producto.CodigoProducto == 530)
-				return true;
-			else
-				return false;
+            try
+            {
+                var producto = ProductoService.GetById(simulacion.CodProd);
+                if (producto.CodigoProducto == 530)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
 		}
 
 		private float checkForLimiteBancoCentral(DateTime simulacionDate)

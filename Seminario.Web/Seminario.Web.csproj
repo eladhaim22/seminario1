@@ -254,7 +254,6 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\logo.chico.jpg" />
     <Content Include="Content\Images\logo.chico.png" />
-    <Content Include="Content\metisMenu.css" />
     <Content Include="Content\sb-admin-2.css" />
     <Content Include="Content\timeline.css" />
     <Content Include="Content\ui-bootstrap-csp.css" />
@@ -1081,7 +1080,6 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
-    <Content Include="Scripts\planilla.js" />
     <Content Include="App\app.js" />
     <Content Include="App\Controllers\simulacionController.js" />
     <Content Include="Scripts\ui-grid.js" />
