@@ -25,6 +25,7 @@ namespace Seminario.Web.Http
 
 	public class BankClientes
 	{
+
 		public string Id { get; set; }
 		public string Points { get; set; }
 		public int State { get; set; }
