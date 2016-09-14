@@ -43,7 +43,6 @@ namespace Seminario.Web
 				"~/Content/bootstrap.css",
 				"~/Content/ui-bootstrap-csp.css",
 				"~/Content/font-awesome.css",
-				"~/Content/metisMenu.css",
 				"~/Content/sb-admin-2.css",
 				"~/Content/timeline.css",
 				"~/Content/DataTables/css/buttons.dataTables.css",
