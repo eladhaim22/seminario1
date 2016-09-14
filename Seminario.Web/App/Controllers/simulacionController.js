@@ -49,7 +49,7 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 			$scope.ready = true;
 			//set simulacion
 			$scope.simulacion = {
-				CuitCliente: "",
+				CuitCliente: undefined,
 				TorCliente: undefined,
 				FechaDescuento: new Date(),
 				ComisionAdministrativa: undefined,
@@ -97,21 +97,26 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 	}
 
 	$scope.consultarTor = function (cuit) {
-	    SimulacionService.consultarTor(cuit).success(function (response) {
-	        $scope.simulacion.TorCliente = response.data.Points;
-	        $scope.razonSocial = response.data.RazonSocial;
-	    }).error(function (error) {
-	        $scope.simulacion.CuitCliente = "";
-	        $scope.razonSocial = "";
-	        alert(error);
-	    });
+		cuit = cuit == "" ? undefined : cuit;
+		SimulacionService.consultarTor(cuit).success(function (response) {
+			$scope.simulacion.TorCliente = response.data.Points;
+			$scope.razonSocial = response.data.RazonSocial;
+		}).error(function (error) {
+			$scope.simulacion.CuitCliente = undefined;
+			$scope.razonSocial = undefined;
+			alert(error);
+		});
 	}
 	$scope.setNosisInitialState = function ($index) {
 		$scope.simulacion.Cheques[$index].nosis = nosisState[0];
 	}
 
 	$scope.consultarNosis = function () {
-		SimulacionService.consularNosis(_.map($scope.simulacion.Cheques, 'Documento').toString().split(',')).then(function (response) {
+		var rows = []
+		angular.forEach($scope.simulacion.Cheques, function (value, key) {
+			rows.push({ "Documento": value.Documento, "RazonSocial": value.Nombre });
+		});
+		SimulacionService.consularNosis(rows).then(function (response) {
 			angular.forEach(response.data, function (value, index) {
 				$scope.simulacion.Cheques[index].Nosis = nosisState[value];
 			});
