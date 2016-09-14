@@ -1,14 +1,14 @@
 ﻿@model System.Data.DataTable
 @using System.Data;
 
-<h2>Upload File</h2>
+<h2>Cargar CSV</h2>
 
 <div class="form-group">
     <input type="file" class="form-control" file-model="myFile" />
 
 </div>
 
-<button class="btn btn-danger btn-lg" ng-click="uploadFile()">upload me</button>
+<button class="btn btn-danger btn-lg" ng-click="uploadFile()">Cargar!</button>
 
 <div class="well" style="background-color:#5cb85c;color:white" ng-if="successMessage">
 	<span>{{successMessage}}</span>

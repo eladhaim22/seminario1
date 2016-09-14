@@ -1,4 +1,13 @@
 ﻿ <div id="page-wrapper" style="margin-top:20px">
+    <div class="col-lg-12">
+        <ul class="list-group" ng-if="errorMsg">
+            <li class="list-group-item list-group-item-danger">No se pudo ejecutar la acción debido a los siguentes errores:</li>
+            <li class="list-group-item" ng-repeat="error in errorMsg">{{error}}</li>
+        </ul>
+        <div class="well" style="background-color:#5cb85c;color:white" ng-if="successMsg">
+            <span>{{successMsg}}</span>
+        </div>
+    </div>
 	 <form name="simulacionForm" novalidate">
 		 <div class="col-lg-6">
             <div class="panel panel-default">
@@ -237,14 +246,6 @@
                         </div>
                     </div>
                 </div>
-
-				<ul class="list-group"  ng-if="errorMsg">
-					<li class="list-group-item list-group-item-danger">No se pudo ejecutar la accion debido a los siguentes errors:</li>
-					<li class="list-group-item" ng-repeat="error in errorMsg">{{error}}</li>
-				</ul>
-				<div class="well" style="background-color:#5cb85c;color:white" ng-if="successMsg">
-					<span>{{successMsg}}</span>
-				</div>
             </div>
             <!-- /.col-lg-12 -->
         </div>

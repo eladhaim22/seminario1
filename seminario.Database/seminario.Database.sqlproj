@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Seminario.Database.publish.xml" />
+    <None Include="DeployAgus.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Cheque.sql" />

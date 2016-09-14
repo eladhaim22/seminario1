@@ -1,6 +1,6 @@
 ﻿Insert Into Producto (nombre,codigo)
-Select 'Linea Banco Central',530 Union all
-select 'Linea Normal',510
+Select '530 - LIP',530 Union all
+select '510 - Linea Normal',510
 go
 
 Insert Into dbo.Provincia (nombre,sellado)
