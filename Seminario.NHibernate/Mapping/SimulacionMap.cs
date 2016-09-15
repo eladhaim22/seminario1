@@ -37,6 +37,7 @@ namespace Seminario.NHibernate.Mapping
 			Map(x => x.Estado, "estado").CustomType<int>();
 			Map(x => x.FechaCreacion, "fechaCreacion");
 			Map(x => x.FechaUltimaModificacion, "fechaUltimaModificacion");
+            Map(x => x.Comision, "comision");
 			References(x => x.Empleado, "legajo");
 			References(x => x.Provincia, "idProvincia");
 			HasMany(x => x.Cheques).KeyColumn("idSimulacion")

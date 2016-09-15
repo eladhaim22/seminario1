@@ -213,7 +213,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-2">
-                                <h4>Spread: <span id="spreadPromedio">{{simulacion.SpreadTotal | number:2}}</span></h4>
+                                <h4>Spread: <span id="spreadPromedio">{{simulacion.SpreadTotal *100 | number:2}} %</span></h4>
                             </div>
                             <div class="col-lg-2">
                                 <h4>Estado: <span id="estadoSimulacion" >{{GetSimulacionEstado(simulacion.Estado)}}</span></h4>
@@ -228,6 +228,16 @@
                                     Crear Simulacion
                                 </button>
                             </div>
+
+
+                            <div ng-if="!editable && role !== 'Jefe' && !finalState && ready && !waitingAnswer" class="col-lg-2">
+                                <button type="button" class="btn btn-success btn-lg btn-block"
+                                        ng-click="confirmarSimulacion()">
+                                    Confirmar Simulacion
+                                </button>
+                            </div>
+                            
+
 
                             <div ng-if="!editable && role === 'Jefe' && !finalState && ready" class="col-lg-2">
                                 <button type="button" class="btn btn-success btn-lg btn-block"

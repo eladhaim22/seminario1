@@ -29,6 +29,7 @@ namespace Seminario.Model
 		public virtual float TasaIIBB { get; set; }
 		public virtual float TasaIva { get; set; }
 		public virtual float TasaSellado { get; set; }
+        public virtual float Comision { get; set; }
 		public virtual TipoEstado Estado { get; set; }
 		public virtual DateTime FechaCreacion { get; set; }
 		public virtual DateTime FechaUltimaModificacion { get; set; }

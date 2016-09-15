@@ -10,6 +10,8 @@
 
 [importeTotal] FLOAT(15) NULL,
 
+[comision] FLOAT(15) NULL,
+
 [interesTotal] FLOAT(15) NULL,
 
 [comisionTotal] FLOAT(10) NULL,

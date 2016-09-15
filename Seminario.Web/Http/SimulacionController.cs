@@ -67,6 +67,26 @@ namespace Seminario.Web.Http
 			return response;
 		}
 
+        
+		[HttpPost]
+        [Authorize(Roles = "Oficial")]
+        public HttpResponseMessage ConfirmarSimulacion(SimulacionDto simulacion)
+        {
+            if (isBancoCentralProduct(simulacion))
+            {
+                var bancoCentralCreditLeft = checkForLimiteBancoCentral(simulacion.FechaDescuento);
+                if (bancoCentralCreditLeft - simulacion.ValorNominal < 0)
+                {
+                    string msg = "La opreación del producto de banco central que se puede realizar son de" + bancoCentralCreditLeft;
+                    return ControllerContext.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, new ServiceException(msg));
+                }
+            }
+            simulacion.Estado = TipoEstadoDto.Confirmada;
+            SimulacionService.Update(simulacion);
+            var response = ControllerContext.Request.CreateResponse(HttpStatusCode.OK);
+            return response;
+        }
+
 		[HttpGet]
 		public HttpResponseMessage GetSimulacionById(string id)
 		{

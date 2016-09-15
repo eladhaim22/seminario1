@@ -3,7 +3,7 @@
 app.controller('viewSimulacionController', ['$scope', '$location', 'SimulacionService', '$rootScope', '$q',
     function ($scope, $location, SimulacionService, $rootScope, $q) {
     	var simulaciones = [];
-    	var estado = ["Aceptado", "Rechazado", "A Revisar"];
+    	var estado = ["Aceptada", "Rechazada", "Pendiente","Confirmada"];
     	$scope.gridOptions = {
     		enableSorting: true,
     		enableCellEditOnFocus: true,

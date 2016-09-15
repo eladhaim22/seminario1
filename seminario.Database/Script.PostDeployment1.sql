@@ -43,8 +43,8 @@ SELECT 2,GETDATE(),NULL,1,NULL,0,'AEd4YANdu64caW0NJytmlRbkfzuRvhfrjqUxOFQqkUctEE
 go
 
 Insert Into Empleado 
-Select 1,'Elad','legajoJefeProducto' Union all
-select 2,'Elad1','legajoOficial'
+Select 1,'JP 1','jefeproducto' Union all
+select 2,'Oficial 1','oficial'
 
 go
  

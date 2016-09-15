@@ -3,7 +3,7 @@
 app.controller('simulacionController', ['$scope', '$timeout', 'SimulacionService', '$routeParams', '$rootScope', '$location',
 function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $location) {
 	var nosisState;
-	var estado = ["Aceptado", "Rechazado", "A Revisar"];
+	var estado = ["Aceptada", "Rechazada", "Pendiente","Confirmada"];
 	$scope.setup = function () {
 		$timeout(function () {
 			$scope.torCliente.$setPristine();
@@ -41,7 +41,8 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 				$scope.ready = true;
 				$scope.simulacion = response.data;
 				$scope.editable = false;
-				$scope.finalState = $scope.simulacion.Estado === 0 || $scope.simulacion.Estado === 1 ? true : false;
+				$scope.finalState = $scope.simulacion.Estado === 1 || $scope.simulacion.Estado === 3 ? true : false;
+				$scope.waitingAnswer = $scope.simulacion.Estado === 2 ? true : false;
 				activeWatch();
 			});
 		}
@@ -52,7 +53,7 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 				CuitCliente: undefined,
 				TorCliente: undefined,
 				FechaDescuento: new Date(),
-				ComisionAdministrativa: 0.02,
+				ComisionAdministrativa: 0.002,
 				ValorNominal: 0, //ImporteTotal
 				Intereses: 0, //interesTotal
 				Comision: 0, //ComisionTotal
@@ -98,12 +99,13 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 
 	$scope.consultarTor = function (cuit) {
 		cuit = cuit == "" ? undefined : cuit;
-		SimulacionService.consultarTor(cuit).success(function (response) {
-			$scope.simulacion.TorCliente = response.data.Points;
-			$scope.razonSocial = response.data.RazonSocial;
+		SimulacionService.consultarTor(cuit).success(function (data) {
+			$scope.simulacion.TorCliente = data.Points;
+			$scope.razonSocial = data.RazonSocial;
 		}).error(function (error) {
 			$scope.simulacion.CuitCliente = undefined;
 			$scope.razonSocial = undefined;
+			$scope.simulacion.TorCliente = undefined;
 			alert(error);
 		});
 	}
@@ -260,35 +262,35 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 
 					if ($scope.simulacionForm.$valid && $scope.ChequesForm.$valid && !$scope.ChequesForm.$pristine && $scope.simulacion.Cheques.length > 0) {
 						angular.forEach($scope.simulacion.Cheques, function (cheque, index) {
-							$scope.simulacion.ValorNominal += parseInt(cheque.Importe);
+							$scope.simulacion.ValorNominal += parseFloat(cheque.Importe);
 							cheque.Ponderado = cheque.Importe * cheque.Plazo;
 							$scope.simulacion.ImportePonderadoTotal += cheque.Ponderado;
 						});
 						$scope.simulacion.FechaVencimientoPond = ($scope.simulacion.ImportePonderadoTotal / $scope.simulacion.ValorNominal).toFixed(0);
-						var TTtemporal = _.filter(_.filter($scope.productos, function (producto) { return producto.Id == $scope.simulacion.CodProd })[0].DatosTT, function (datoTT) {
-							return datoTT.plazo == $scope.simulacion.FechaVencimientoPond
-						})[0]
-						var TT = TTtemporal ? TTtemporal.TasaVigente : _.last(_.filter($scope.productos, function (producto) { return producto.Id == $scope.simulacion.CodProd })[0].DatosTT).TasaVigente;
-						angular.forEach($scope.simulacion.Cheques, function (cheque, index) {
-							cheque.DiasOps = cheque.OtrosDias ? cheque.Plazo + cheque.OtrosDias : cheque.Plazo;
+						angular.forEach($scope.simulacion.Cheques, function (cheque, index) {   
+                            cheque.DiasOps = cheque.OtrosDias ? cheque.Plazo + cheque.OtrosDias : cheque.Plazo;
+						    var TTtemporal = _.filter(_.filter($scope.productos, function (producto) { return producto.Id == $scope.simulacion.CodProd })[0].DatosTT, function (datoTT) {
+						        return datoTT.Plazo == cheque.DiasOps
+						    })[0]
+						    cheque.TT = TTtemporal ? TTtemporal.TasaVigente : _.last(_.filter($scope.productos, function (producto) { return producto.Id == $scope.simulacion.CodProd })[0].DatosTT).TasaVigente;
+
 							cheque.TEOps = $scope.simulacion.TNAV / 365 * cheque.DiasOps;
 							cheque.TEAdelantada = cheque.TEOps / (1 + cheque.TEOps);
 							cheque.TNAA = cheque.TEAdelantada * 365 / cheque.DiasOps;
-							cheque.Intereses = cheque.Importe - (1 - cheque.TEAdelantada) * cheque.Importe;
-							cheque.Comision = cheque.Importe * $scope.simulacion.ComisionAdministrativa;
-							cheque.Sellado = _.filter($scope.provincias, function (o) { return o.Id === $scope.simulacion.IdProvincia })[0].Sellado * cheque.Importe / 365 * cheque.Plazo;
-							cheque.Iva = (cheque.Intereses + cheque.Comision) * (_.filter($scope.estadoFiscal, function (o) { return o.id === $scope.simulacion.TipoCateg })[0].value);
-							var GastoTotal = cheque.Intereses + cheque.Comision + cheque.Sellado + cheque.Iva;
-							cheque.NetoLiquidar = cheque.Importe - cheque.Intereses + cheque.Comision + cheque.Sellado + cheque.Iva;
-							cheque.TT = TT;
-							cheque.Spread = ((cheque.Intereses + cheque.Comision) / cheque.Importe / cheque.DiasOps * 365) - cheque.TT;
+							cheque.Intereses = parseFloat((cheque.Importe - (1 - cheque.TEAdelantada) * cheque.Importe).toFixed(5));
+							cheque.Comision = parseFloat((cheque.Importe * $scope.simulacion.ComisionAdministrativa).toFixed(5));
+							cheque.Sellado = _.filter($scope.provincias, function (o) { return o.Id === $scope.simulacion.IdProvincia })[0].Sellado * cheque.Importe / 365 * cheque.DiasOps;
+							cheque.Iva = parseFloat(((cheque.Intereses + cheque.Comision) * (_.filter($scope.estadoFiscal, function (o) { return o.id === $scope.simulacion.TipoCateg })[0].value)).toFixed(2));
+							var GastoTotal = parseFloat((cheque.Intereses + cheque.Comision + cheque.Sellado + cheque.Iva).toFixed(5));
+							cheque.NetoLiquidar = cheque.Importe - GastoTotal;
+							cheque.Spread = (((cheque.Intereses + cheque.Comision) / cheque.Importe) / (cheque.DiasOps * 365)) - cheque.TT;
 							cheque.Cft = (Math.pow((1 + GastoTotal / cheque.Importe), (365 / cheque.DiasOps)) - 1);
 							cheque.CftMes = Math.pow(1 + cheque.Cft, 0.0821917808219178) - 1;
 							cheque.TETT = cheque.TT / 365 * cheque.DiasOps;
 							cheque.TEATT = cheque.TETT / (1 + cheque.TETT);
-							cheque.IIBB = $scope.simulacion.TasaIIBB * (cheque.Intereses + cheque.Comision);
-							cheque.Costo = cheque.Importe - (1 - cheque.TEATT) * cheque.Importe;
-							cheque.Neto = cheque.Intereses + cheque.Comision - cheque.IIBB - cheque.Costo;
+							cheque.IIBB = parseFloat(($scope.simulacion.TasaIIBB * (cheque.Intereses + cheque.Comision)).toFixed(5));
+							cheque.Costo = parseFloat((cheque.Importe - (1 - cheque.TEATT) * cheque.Importe).toFixed(2));
+							cheque.Neto = parseFloat((cheque.Intereses + cheque.Comision - cheque.IIBB - cheque.Costo).toFixed(5));
 							$scope.simulacion.Intereses += cheque.Intereses;
 							$scope.simulacion.Comision += cheque.Comision;
 							$scope.simulacion.Sellado += cheque.Sellado;
@@ -299,8 +301,8 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 						$scope.simulacion.NetoLiquidar = $scope.simulacion.ValorNominal - $scope.simulacion.GastoTotal;
 						$scope.simulacion.SpreadTotal = $scope.simulacion.NetoTotal / $scope.simulacion.ValorNominal / $scope.simulacion.FechaVencimientoPond * 365;
 						if ($routeParams != undefined) {
-							if ($scope.simulacion.SpreadTotal > 3 || $rootScope.role === "Jefe")
-								$scope.simulacion.Estado = 0;
+							if ($scope.simulacion.SpreadTotal > 0.035 || $rootScope.role === "Jefe")
+								$scope.simulacion.Estado = 3;
 							else
 								$scope.simulacion.Estado = 2;
 						}
@@ -332,5 +334,16 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 		}).error(function (error) {
 			$rootScope.errorMsg = _.uniq(error.ExceptionMessage.split("\n"));
 		});
+	}
+
+	$scope.confirmarSimulacion = function () {
+	    SimulacionService.ConfirmarSimulacion($scope.simulacion).success(function (response) {
+	        $rootScope.errorMsg = undefined;
+	        $rootScope.successMsg = "la simulacion ha sida confirmada";
+	        $location.path('/ViewSimulaciones')
+	        $timeout(function () { $rootScope.successMsg = undefined; }, 5000);
+	    }).error(function (error) {
+	        $rootScope.errorMsg = _.uniq(error.ExceptionMessage.split("\n"));
+	    });
 	}
 }]);

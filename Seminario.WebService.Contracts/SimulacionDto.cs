@@ -14,6 +14,7 @@ namespace Seminario.WebServices.Contracts
 		public float ValorNominal { get; set; }
 		public float Intereses { get; set; }
 		public float ComisionAdministrativa { get; set; }
+        public float Comision { get; set; }
 		public float Sellado { get; set; }
 		public float Iva { get; set; }
 		public float GastoTotal { get; set; }
