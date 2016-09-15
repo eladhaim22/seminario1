@@ -52,7 +52,7 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 				CuitCliente: undefined,
 				TorCliente: undefined,
 				FechaDescuento: new Date(),
-				ComisionAdministrativa: undefined,
+				ComisionAdministrativa: 0.02,
 				ValorNominal: 0, //ImporteTotal
 				Intereses: 0, //interesTotal
 				Comision: 0, //ComisionTotal
@@ -60,7 +60,7 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 				Iva: 0, //IvaTotal
 				GastoTotal: 0,
 				TT: 0,
-				TNAV: undefined,
+				TNAV: 0.415,
 				NetoLiquidar: 0, //NetoLiquidarTotal
 				ImportePonderadoTotal: 0,
 				TipoCateg: "", //condicion Iva
@@ -69,7 +69,7 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 				FechaVencimientoPond: 0,
 				SpreadTotal: 0,
 				NetoTotal: 0,
-				TasaIIBB: undefined,
+				TasaIIBB: 0.069,
 				TasaIva: 0,
 				TasaSellado: 0,
 				Estado: 0,
