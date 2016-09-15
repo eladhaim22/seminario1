@@ -34,7 +34,7 @@
                                 <div class="form-group">
                                     @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Contraseña", @name = "password", @type = "password" })
                                 </div>
-                                <div class="checkbox">
+                                <div class="checkbox" style="display:none;">
 									<label>
 										@Html.CheckBoxFor(m => m.RememberMe)Remember me?
 									</label>
@@ -43,7 +43,7 @@
                                 <input type="submit" class="btn btn-lg btn-danger btn-block" value="Ingresar" />
                             </fieldset>
                         }
-						@Html.ActionLink("Register", "Register","Account",null, new {type = "button",@class="btn btn-lg btn-danger btn-block" })
+						<!-- @Html.ActionLink("Register", "Register","Account",null, new {type = "button",@class="btn btn-lg btn-danger btn-block" })-->
 
                     </div>
                 </div>

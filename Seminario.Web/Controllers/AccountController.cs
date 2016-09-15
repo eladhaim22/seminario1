@@ -50,7 +50,7 @@ namespace Seminario.Web.Controllers
 			}
 
 			// If we got this far, something failed, redisplay form
-			ModelState.AddModelError("", "The user name or password provided is incorrect.");
+			ModelState.AddModelError("", "Usuario o password incorrecto, ingrese nuevamente.");
 			return View(model);
 		}
 
