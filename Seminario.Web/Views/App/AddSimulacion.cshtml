@@ -171,8 +171,7 @@
                         </div>
                     </td>
                     <td>
-                        <select class="form-control" name="banco" ng-model="cheque.Banco" ng-disabled="!editable">
-                            <option ng-repeat="banco in bancos" value="{{banco.value}}">{{banco.label}}</option>
+                        <select class="form-control" name="banco" ng-model="cheque.Banco" ng-options="banco.id as banco.nombre for banco in bancos" ng-disabled="!editable">
                         </select>
                     </td>
                     <td>

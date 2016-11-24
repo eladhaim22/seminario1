@@ -31,11 +31,12 @@ namespace Seminario.Web.Http
 			if (isBancoCentralProduct(data) && data.ValorNominal != null )
 			{
 				var bancoCentralCreditLeft = checkForLimiteBancoCentral(data.FechaDescuento);
-				if (bancoCentralCreditLeft - data.ValorNominal < 0)
-				{
-					string msg = "La opreacion del producto de banco central que se puede realizar son de" + bancoCentralCreditLeft;
-					return ControllerContext.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, new ServiceException(msg));
-				}
+                //sacado por agustin, esta valicación no es necesaria, se muestran cantidades pero no se valida nada.
+				//if (bancoCentralCreditLeft - data.ValorNominal < 0)
+				//{
+				//	string msg = "La opreacion del producto de banco central que se puede realizar son de " + bancoCentralCreditLeft;
+				//	return ControllerContext.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, new ServiceException(msg));
+				//}
 			}
 			SimulacionService.Create(data);
 			var response = ControllerContext.Request.CreateResponse(HttpStatusCode.OK, data);

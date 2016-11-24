@@ -15,18 +15,18 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 		$scope.editable = true;
 		$scope.role = $rootScope.role;
 		$scope.bancos = [
-				{ label: "", value: null },
-				{ label: "Banco ICBC", value: "Banco ICBC" },
-				{ label: "Banco Galicia", value: "Banco Galicia" },
-				{ label: "Banco Frances", value: "Banco Frances" },
-				{ label: "Banco Comafi", value: "Banco Comafi" },
-				{ label: "Banco Piano", value: "Banco Piano" },
-				{ label: "Banco Credicoop", value: "Banco Credicoop" },
-				{ label: "Banco Macro", value: "Banco Macro" },
-				{ label: "Banco Nacion", value: "Banco Nacion" },
-				{ label: "Banco Ciudad", value: "Banco Ciudad" },
-				{ label: "Banco Provincia", value: "Banco Provincia" },
-				{ label: "Banco HSBC", value: "Banco HSBC" }
+				{ id: 0, nombre: "Elije un Banco"},
+				{ id: 1, nombre: "Banco ICBC"},
+				{ id: 2, nombre: "Banco Galicia"},
+				{ id: 3, nombre: "Banco Frances"},
+				{ id: 4, nombre: "Banco Comafi"},
+				{ id: 5, nombre: "Banco Piano"},
+				{ id: 6, nombre: "Banco Credicoop"},
+				{ id: 7, nombre: "Banco Macro"},
+				{ id: 8, nombre: "Banco Nacion"},
+				{ id: 9, nombre: "Banco Ciudad" },
+				{ id: 10, nombre: "Banco Provincia"},
+				{ id: 11, nombre: "Banco HSBC"}
 		];
 
 		$scope.estadoFiscal = [
@@ -133,7 +133,7 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 	$scope.addCheque = function () {
 		var cheque = {
 			FechaAcreditacion: "",
-			Banco: "",
+			Banco: 0,
 			Documento: "",
 			Nombre: "",
 			Importe: null,

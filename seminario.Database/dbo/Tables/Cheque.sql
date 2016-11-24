@@ -51,7 +51,7 @@
 [idSimulacion] int NULL,
 
 [otrosDias] INT NULL, 
-    [banco] NCHAR(40) NULL, 
+    [banco] INT NULL, 
     CONSTRAINT [PK__cheque] PRIMARY KEY CLUSTERED
 
 ([idCheque] ASC),

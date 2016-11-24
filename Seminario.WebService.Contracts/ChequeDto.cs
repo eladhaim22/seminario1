@@ -10,7 +10,7 @@ namespace Seminario.WebServices.Contracts
     {       
  
         public int OtrosDias {get; set;}
-        public string Banco { get; set; }
+        public TipoBancoDto Banco { get; set; }
         public DateTime FechaAcreditacion { get; set; }
         public float Importe { get; set; }
         public int Plazo { get; set; }

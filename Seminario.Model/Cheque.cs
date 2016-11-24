@@ -8,7 +8,7 @@ namespace Seminario.Model
     public class Cheque : Entity
     {
         public virtual int OtrosDias { get; set; }
-        public virtual string Banco { get; set; }
+        public virtual TipoBanco Banco { get; set; }
         public virtual DateTime FechaAcreditacion { get; set; }
         public virtual float Importe { get; set; }
         public virtual int Plazo { get; set; }

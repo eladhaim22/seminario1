@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChequeDto.cs" />
+    <Compile Include="TipoBancoDto.cs" />
     <Compile Include="TipoEstadoDto.cs" />
     <Compile Include="DatosTTDto.cs" />
     <Compile Include="EmpleadoDto.cs" />

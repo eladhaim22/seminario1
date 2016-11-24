@@ -14,7 +14,7 @@ namespace Seminario.NHibernate.Mapping
 		{
 			Id(x => x.Id, "idCheque");
 			Map(x => x.OtrosDias, "otrosDias");
-			Map(x => x.Banco, "banco");
+            Map(x => x.Banco, "banco").CustomType<int>();
 			Map(x => x.CFT, "cft");
 			Map(x => x.CFTMes, "cftMes");
 			Map(x => x.Comision, "comision");
