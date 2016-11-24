@@ -64,7 +64,7 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 				TNAV: 0.415,
 				NetoLiquidar: 0, //NetoLiquidarTotal
 				ImportePonderadoTotal: 0,
-				TipoCateg: "", //condicion Iva
+				//TipoCateg: "", //condicion Iva
 				CantidadCheques: 0, //cantidad a comprar
 				CodProd: "",
 				FechaVencimientoPond: 0,
@@ -76,6 +76,7 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 				Estado: 0,
 				Legajo: $rootScope.legajo,
 				IdProvincia: "",
+                TipoIva:"",
 				Cheques: []
 			};
 			activeWatch();
@@ -280,7 +281,7 @@ function ($scope, $timeout, SimulacionService, $routeParams, $rootScope, $locati
 							cheque.Intereses = parseFloat((cheque.Importe - (1 - cheque.TEAdelantada) * cheque.Importe).toFixed(5));
 							cheque.Comision = parseFloat((cheque.Importe * $scope.simulacion.ComisionAdministrativa).toFixed(5));
 							cheque.Sellado = _.filter($scope.provincias, function (o) { return o.Id === $scope.simulacion.IdProvincia })[0].Sellado * cheque.Importe / 365 * cheque.DiasOps;
-							cheque.Iva = parseFloat(((cheque.Intereses + cheque.Comision) * (_.filter($scope.estadoFiscal, function (o) { return o.id === $scope.simulacion.TipoCateg })[0].value)).toFixed(2));
+							cheque.Iva = parseFloat(((cheque.Intereses + cheque.Comision) * (_.filter($scope.estadoFiscal, function (o) { return o.id === $scope.simulacion.TipoIva })[0].value)).toFixed(2));
 							var GastoTotal = parseFloat((cheque.Intereses + cheque.Comision + cheque.Sellado + cheque.Iva).toFixed(5));
 							cheque.NetoLiquidar = cheque.Importe - GastoTotal;
 							cheque.Spread = (((cheque.Intereses + cheque.Comision) / cheque.Importe) / (cheque.DiasOps * 365)) - cheque.TT;

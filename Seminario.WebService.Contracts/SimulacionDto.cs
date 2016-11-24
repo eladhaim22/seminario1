@@ -33,6 +33,7 @@ namespace Seminario.WebServices.Contracts
 		public float TasaSellado { get; set; }
 		public TipoEstadoDto Estado { get; set; }
 		public string Legajo { get; set; }
+        public TipoIvaDto TipoIva { get; set; }
 		public int IdProvincia { get; set; }
 		public DateTime FechaCreacion { get; set; }
 		public DateTime FechaUltimaModificacion { get; set; }

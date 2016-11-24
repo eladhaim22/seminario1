@@ -26,7 +26,6 @@ namespace Seminario.NHibernate.Mapping
 			Map(x => x.TNAV, "TNAV");
 			Map(x => x.NetoLiquidarTotal, "netoLiquidarTotal");
 			Map(x => x.ImportePonderadoTotal, "importePonderadoTotal");
-			Map(x => x.TipoCategoria, "tipoCategoria");
 			References(x => x.Producto, "idProducto");
 			Map(x => x.FechaVencimientoPond, "fechaVencimientoPond");
 			Map(x => x.SpreadTotal, "spreadTotal");
@@ -38,6 +37,7 @@ namespace Seminario.NHibernate.Mapping
 			Map(x => x.FechaCreacion, "fechaCreacion");
 			Map(x => x.FechaUltimaModificacion, "fechaUltimaModificacion");
             Map(x => x.Comision, "comision");
+            Map(x => x.TipoIva, "tipoIva").CustomType<int>();
 			References(x => x.Empleado, "legajo");
 			References(x => x.Provincia, "idProvincia");
 			HasMany(x => x.Cheques).KeyColumn("idSimulacion")

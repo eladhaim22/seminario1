@@ -149,7 +149,9 @@ namespace Seminario.Web.Http
 			var bancoCentralActualMonth = this.SimulacionService.GetMany(x =>
 				x.Estado == TipoEstado.Aceptado && x.Producto.CodigoProducto == 530 && x.FechaDescuento.Month == simulacionDate.Month &&
 				 x.FechaDescuento.Year == simulacionDate.Year).ToList();
-			return BancoCentralLimit - bancoCentralActualMonth.Sum(x => x.ValorNominal);
+           
+			var remainingLip = BancoCentralLimit - bancoCentralActualMonth.Sum(x => x.ValorNominal);
+            return remainingLip != null ? remainingLip : 0;
 		}
 	}
 }

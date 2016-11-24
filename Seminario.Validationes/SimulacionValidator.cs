@@ -26,7 +26,7 @@ namespace Seminario.Validationes
 			RuleFor(x => x.TNAV).GreaterThanOrEqualTo(0).LessThanOrEqualTo(100).WithLocalizedMessage(() => "La TNAv debe ser entre 0 y 100");
 			RuleFor(x => x.Provincia).NotNull().NotEmpty().WithLocalizedMessage(() => "Debe elegir sellado de provincia de la lista.");
 			RuleFor(x => x.Producto).NotNull().NotEmpty().WithLocalizedMessage(() => "Debe elegir producto de la lista.");
-			RuleFor(x => x.TipoCategoria).NotNull().NotEmpty().WithLocalizedMessage(() => "Debe elegir opción de iva de la lista.");
+			RuleFor(x => x.TipoIva).NotNull().NotEmpty().WithLocalizedMessage(() => "Debe elegir opción de iva de la lista.");
 			RuleFor(x => x.Cheques.Count).GreaterThan(0).WithLocalizedMessage(() => "Debe haber al menos un cheque.");
 			RuleFor(x => x.Provincia.Id).NotEqual(0).WithLocalizedMessage(() => "Debe elegir una provincia de la lista.");
 			RuleFor(x => x.Producto.Id).NotEqual(0).WithLocalizedMessage(() => "Debe elegir un producto de la lista.");

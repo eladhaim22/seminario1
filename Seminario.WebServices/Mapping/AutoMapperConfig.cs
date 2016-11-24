@@ -32,40 +32,38 @@ namespace Seminario.MapperProject
 					.ForMember(dto => dto.Sellado, model => model.MapFrom(m => m.SelladoTotal))
 					.ForMember(dto => dto.Iva, model => model.MapFrom(m => m.IvaTotal))
 					.ForMember(dto => dto.NetoLiquidar, model => model.MapFrom(m => m.NetoLiquidarTotal))
-					.ForMember(dto => dto.TipoCateg, model => model.MapFrom(m => m.TipoCategoria))
 					.ForMember(dto => dto.CodProd, model => model.MapFrom(m => m.Producto.Id))
 					.ForMember(dto => dto.Legajo, model => model.MapFrom(m => m.Empleado.Legajo))
 					.ForMember(dto => dto.IdProvincia, model => model.MapFrom(m => m.Provincia.Id));
 
-				cfg.CreateMap<SimulacionDto, Simulacion>()
-					.ForMember(model => model.Provincia, dto => dto.ResolveUsing(src =>
-					{
-						var temp = new Provincia();
-						temp = _unitOfWork.Repository<Provincia>().GetById(src.IdProvincia);
-						return temp != null ? temp : new Provincia();
-					}))
+                cfg.CreateMap<SimulacionDto, Simulacion>()
+                    .ForMember(model => model.Provincia, dto => dto.ResolveUsing(src =>
+                    {
+                        var temp = new Provincia();
+                        temp = _unitOfWork.Repository<Provincia>().GetById(src.IdProvincia);
+                        return temp != null ? temp : new Provincia();
+                    }))
 
-					.ForMember(model => model.Empleado, dto => dto.ResolveUsing(src =>
-					{
-						var temp = new Empleado();
-						temp = _unitOfWork.Repository<Empleado>().Where(s => s.Legajo == src.Legajo).FirstOrDefault();
-						return temp != null ? temp : new Empleado();
-					}))
+                    .ForMember(model => model.Empleado, dto => dto.ResolveUsing(src =>
+                    {
+                        var temp = new Empleado();
+                        temp = _unitOfWork.Repository<Empleado>().Where(s => s.Legajo == src.Legajo).FirstOrDefault();
+                        return temp != null ? temp : new Empleado();
+                    }))
 
-					.ForMember(model => model.Producto, dto => dto.ResolveUsing(src =>
-					{
-						var temp = new Producto();
-						temp = _unitOfWork.Repository<Producto>().GetById(src.CodProd);
-						return temp != null ? temp : new Producto();
-					}))
+                    .ForMember(model => model.Producto, dto => dto.ResolveUsing(src =>
+                    {
+                        var temp = new Producto();
+                        temp = _unitOfWork.Repository<Producto>().GetById(src.CodProd);
+                        return temp != null ? temp : new Producto();
+                    }))
 
-					.ForMember(m => m.ImporteTotal, model => model.MapFrom(dto => dto.ValorNominal))
-					.ForMember(m => m.InteresTotal, model => model.MapFrom(dto => dto.Intereses))
-					.ForMember(m => m.ComisionTotal, model => model.MapFrom(dto => dto.ComisionAdministrativa))
-					.ForMember(m => m.SelladoTotal, model => model.MapFrom(dto => dto.Sellado))
-					.ForMember(m => m.IvaTotal, model => model.MapFrom(dto => dto.Iva))
-					.ForMember(m => m.NetoLiquidarTotal, model => model.MapFrom(dto => dto.NetoLiquidar))
-					.ForMember(m => m.TipoCategoria, model => model.MapFrom(dto => dto.TipoCateg));
+                    .ForMember(m => m.ImporteTotal, model => model.MapFrom(dto => dto.ValorNominal))
+                    .ForMember(m => m.InteresTotal, model => model.MapFrom(dto => dto.Intereses))
+                    .ForMember(m => m.ComisionTotal, model => model.MapFrom(dto => dto.ComisionAdministrativa))
+                    .ForMember(m => m.SelladoTotal, model => model.MapFrom(dto => dto.Sellado))
+                    .ForMember(m => m.IvaTotal, model => model.MapFrom(dto => dto.Iva))
+                    .ForMember(m => m.NetoLiquidarTotal, model => model.MapFrom(dto => dto.NetoLiquidar));
 
 				cfg.CreateMap<Cheque, ChequeDto>()
 					.ForMember(dto => dto.Documento, model => model.MapFrom(m => m.CuitEmisor))

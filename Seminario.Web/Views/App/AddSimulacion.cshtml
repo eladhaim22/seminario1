@@ -56,7 +56,7 @@
                         </div>
                         <div class="col-lg-6">
                             <span>IVA</span>
-                            <select ng-model="simulacion.TipoCateg" class="form-control" name="tipoFiscalSelect" id="tipoFiscalSelect" ng-options="iva.id as iva.nombre for iva in estadoFiscal" required ng-disabled="!editable">
+                            <select ng-model="simulacion.TipoIva" class="form-control" name="tipoFiscalSelect" id="tipoFiscalSelect" ng-options="iva.id as iva.nombre for iva in estadoFiscal" required ng-disabled="!editable">
                                 <option value="">-- Elige IVA --</option>
                             </select>
                             <p style="color:red" ng-style="{'visibility': (simulacionForm.tipoFiscalSelect.$invalid && !simulacionForm.tipoFiscalSelect.$pristine) ? 'visible':'hidden'}">debe eligir un valor de la lista</p>
@@ -171,15 +171,15 @@
                         </div>
                     </td>
                     <td>
-                        <select class="form-control" name="banco" ng-model="cheque.Banco" required ng-disabled="!editable">
+                        <select class="form-control" name="banco" ng-model="cheque.Banco" ng-disabled="!editable">
                             <option ng-repeat="banco in bancos" value="{{banco.value}}">{{banco.label}}</option>
                         </select>
                     </td>
                     <td>
-                        <input type="text" class="form-control" ng-model="cheque.Documento" placeholder="Documento" required ng-change="setNosisInitialState($index)" ng-disabled="!editable">
+                        <input type="text" class="form-control" ng-model="cheque.Documento" placeholder="Documento" ng-change="setNosisInitialState($index)" ng-disabled="!editable">
                     </td>
                     <td>
-                        <input type="text" class="form-control" ng-model="cheque.Nombre" placeholder="Nombre" ng-disabled="!editable" required>
+                        <input type="text" class="form-control" ng-model="cheque.Nombre" placeholder="Nombre" ng-disabled="!editable">
                     </td>
                     <td>
                         <input class="form-control" blur-to-currency amount="cheque.Importe" name="importe" ng-model="cheque.Importe" validate-importe placeholder="Importe" ng-disabled="!editable" required>

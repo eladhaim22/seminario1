@@ -47,6 +47,8 @@
 
 [estado] INT NOT NULL,
 
+[tipoIva] INT NOT NULL,
+
 [legajo] INT NULL,
 
 [idProvincia] int NULL, 
